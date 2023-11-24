@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--メイン画面-->
+    <dimen name="main_container_margin_horizontal">48dp</dimen>
+    <dimen name="main_container_margin_bottom">96dp</dimen>
+    <dimen name="main_layout_padding_horizontal">8dp</dimen>
+</resources>
