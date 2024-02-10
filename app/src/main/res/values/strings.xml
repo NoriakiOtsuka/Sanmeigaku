@@ -11,4 +11,8 @@
     <string name="divine_button">鑑定</string>
     <string name="save_button">保存</string>
     <string name="registant_button">登録者リスト</string>
+
+    <!--ダイアログ-->
+    <string name="dialog_caution_title">注意</string>
+    <string name="dialog_db_setup_failed_message">データベースの作成、更新に失敗しました。</string>
 </resources>
