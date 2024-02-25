@@ -1,12 +1,16 @@
 package com.example.sanmeigaku.DB
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import java.io.IOException
 
 class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     private val TAG: String = "AppDBHelpler"
+    private val mContext: Context
 
     companion object {
         /**
@@ -88,6 +92,10 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         var dbState: Int = DB_DEFAULT
     }
 
+    init {
+        mContext = context
+    }
+
     /**
      * Create a database for the app when the app is launched for the first time
      */
@@ -113,5 +121,45 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         isDBUpdated = true
         dbState = DB_UPDATED
         Log.i(TAG, "onUpgrade: DB updated to version $newVersion")
+    }
+
+    /**
+     * Set the range of dates that can be selected in the date picker dialog
+     */
+    @SuppressLint("Range")
+    fun setDateRange(activity: Activity) {
+        val dbHelper = AppDBHelpler(mContext)
+        val db: SQLiteDatabase = dbHelper.writableDatabase
+        var startDate = 0
+        var endDate = 0
+
+        try {
+            var sql = "SELECT date FROM kanshi LIMIT 1"
+            var cursor = db.rawQuery(sql, null)
+            cursor.use { c ->
+                while (c.moveToNext()) {
+                    startDate = c.getInt(c.getColumnIndex("date"))
+                }
+            }
+
+            sql = "SELECT date FROM kanshi ORDER BY date DESC LIMIT 1"
+            cursor = db.rawQuery(sql, null)
+            cursor.use { c ->
+                while (c.moveToNext()) {
+                    endDate = c.getInt(c.getColumnIndex("date")) -1
+                }
+            }
+        } catch (e: IOException) {
+            throw Error("Unable to read database ${e.printStackTrace()}")
+        }
+
+        val sharedPref = activity.getSharedPreferences("app_database", Context.MODE_PRIVATE)
+        with (sharedPref.edit()) {
+            putInt("start_date", startDate)
+            putInt("end_date", endDate)
+            apply()
+        }
+
+        db.close()
     }
 }

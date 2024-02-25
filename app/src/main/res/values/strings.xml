@@ -14,5 +14,8 @@
 
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>
-    <string name="dialog_db_setup_failed_message">データベースの作成、更新に失敗しました。</string>
+    <string name="dialog_failed_db_setup_message">データベースの作成、更新に失敗しました。</string>
+    <string name="dialog_failed_set_date_range_message">日付選択範囲の取得に失敗しました。\n日付の選択はできません。</string>
+    <string name="dialog_failed_input_date_formant_message">入力形式が正しくありません</string>
+    <string name="dialog_failed_input_date_range_message">生年月日は下記の範囲内で入力してください</string>
 </resources>

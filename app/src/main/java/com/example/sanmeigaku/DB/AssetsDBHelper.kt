@@ -67,7 +67,7 @@ class AssetsDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 }
             }
         } catch (e: SQLiteException) {
-            throw Error("Error copying database  ${e.printStackTrace()}")
+            throw Error("Error copying database ${e.printStackTrace()}")
         } finally {
             mContext.deleteDatabase(DATABASE_NAME)
         }
@@ -138,7 +138,7 @@ class AssetsDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 }
             }
         } catch (e: IOException) {
-            throw Error("Unable to read database  ${e.printStackTrace()}")
+            throw Error("Unable to read database ${e.printStackTrace()}")
         }
     }
 }
