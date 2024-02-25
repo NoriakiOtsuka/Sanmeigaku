@@ -21,11 +21,17 @@ class MainActivity : AppCompatActivity() {
     private val TAG: String = "MainActivity"
     private lateinit var binding: ActivityMainBinding
 
+    /** variable of name */
+    private var mName: String = ""
+
     /** variable of birthday */
     private var mYear: Int? = null
     private var mMonth: Int? = null
     private var mDay: Int? = null
     private var mDateFormat: Boolean = false
+
+    /** variable of gender */
+    private var mGender: Int = 0
 
     companion object {
         /**
@@ -50,6 +56,11 @@ class MainActivity : AppCompatActivity() {
             binding.birthdayEdit.isEnabled = false
             binding.birthdayButton.isEnabled = false
             alertSetDateRange()
+        }
+
+        binding.nameEdit.doAfterTextChanged { name ->
+            mName = name.toString()
+            Log.i(TAG, "onCreate: The name input in the edit text is ${mName}")
         }
 
         binding.birthdayEdit.doAfterTextChanged { date ->
@@ -100,6 +111,14 @@ class MainActivity : AppCompatActivity() {
                 mDateFormat = true
             }.show(supportFragmentManager, "date_dialog")
             Log.i(TAG, "onCreate: The birthday selected in date picker dialog is ${mYear}/${mMonth}/${mDay}")
+        }
+
+        binding.genderButtonGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.genderMaleButton -> mGender = 1
+                R.id.genderFemaleButton -> mGender = 2
+            }
+            Log.i(TAG, "onCreate: The gender selected from radio button group is ${mGender}")
         }
     }
 
