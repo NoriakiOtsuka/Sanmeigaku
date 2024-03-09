@@ -97,7 +97,7 @@ class AssetsDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     @SuppressLint("Range")
     private fun addTable() {
         val appDbHelper = AppDBHelpler(mContext)
-        val db: SQLiteDatabase = appDbHelper.writableDatabase
+        val appDb: SQLiteDatabase = appDbHelper.writableDatabase
         val assetsDbHelper = AssetsDBHelper(mContext)
         val assetsDb: SQLiteDatabase = assetsDbHelper.readableDatabase
 
@@ -108,17 +108,17 @@ class AssetsDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 while (c.moveToNext()) {
                     val id = c.getInt(c.getColumnIndex("_id")).toString()
                     val date = c.getInt(c.getColumnIndex("date")).toString()
-                    val yearKanShi = c.getInt(c.getColumnIndex("yearKanShi")).toString()
-                    val monthKanShi = c.getInt(c.getColumnIndex("monthKanShi")).toString()
-                    val firstDayKanShi = c.getInt(c.getColumnIndex("firstDayKanShi")).toString()
+                    val yearKanShi = c.getInt(c.getColumnIndex("year_kanshi")).toString()
+                    val monthKanShi = c.getInt(c.getColumnIndex("month_kanshi")).toString()
+                    val dateKanShi = c.getInt(c.getColumnIndex("date_kanshi")).toString()
 
                     val values = ContentValues()
                     values.put("_id", id)
                     values.put("date", date)
-                    values.put("yearKanShi", yearKanShi)
-                    values.put("monthKanShi", monthKanShi)
-                    values.put("firstDayKanShi", firstDayKanShi)
-                    db.insert("kanshi", null, values)
+                    values.put("year_kanshi", yearKanShi)
+                    values.put("month_kanshi", monthKanShi)
+                    values.put("date_kanshi", dateKanShi)
+                    appDb.insert("kanshi", null, values)
                 }
             }
 
@@ -134,7 +134,7 @@ class AssetsDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     values.put("_id", id)
                     values.put("name", name)
                     values.put("detail", detail)
-                    db.insert("hoshi", null, values)
+                    appDb.insert("hoshi", null, values)
                 }
             }
         } catch (e: IOException) {

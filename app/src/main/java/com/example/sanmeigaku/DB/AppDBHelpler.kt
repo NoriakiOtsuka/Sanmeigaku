@@ -37,9 +37,9 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
          */
         private const val TABLE_KANSHI = "kanshi"
         private const val COLUMN_DATE = "date"
-        private const val COLUMN_YEAR_KANSHI = "yearKanShi"
-        private const val COLUMN_MONTH_KANSHI = "monthKanShi"
-        private const val COLUMN_FIRST_DAY_KANSHI = "firstDayKanShi"
+        private const val COLUMN_YEAR_KANSHI = "year_kanshi"
+        private const val COLUMN_MONTH_KANSHI = "month_kanshi"
+        private const val COLUMN_DATE_KANSHI = "date_kanshi"
 
         /**
          * Table name of hoshi and its columns
@@ -64,7 +64,7 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
                 COLUMN_DATE + " INTEGER NOT NULL, " +
                 COLUMN_YEAR_KANSHI + " INTEGER NOT NULL, " +
                 COLUMN_MONTH_KANSHI + " INTEGER NOT NULL, " +
-                COLUMN_FIRST_DAY_KANSHI + " INTEGER NOT NULL)"
+                COLUMN_DATE_KANSHI + " INTEGER NOT NULL)"
 
         /**
          * Entry name to create hoshi table
@@ -129,7 +129,7 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
     @SuppressLint("Range")
     fun setDateRange(activity: Activity) {
         val dbHelper = AppDBHelpler(mContext)
-        val db: SQLiteDatabase = dbHelper.writableDatabase
+        val db = dbHelper.writableDatabase
         var startDate = 0
         var endDate = 0
 
