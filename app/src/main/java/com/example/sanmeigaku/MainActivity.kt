@@ -1,6 +1,7 @@
 package com.example.sanmeigaku
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -34,9 +35,7 @@ class MainActivity : AppCompatActivity() {
     private var mGender: Int = 0
 
     companion object {
-        /**
-         * Variable of select range of date
-         */
+        /** Variable of select range of date */
         var startDate = 0
         var endDate = 0
     }
@@ -119,6 +118,18 @@ class MainActivity : AppCompatActivity() {
                 R.id.genderFemaleButton -> mGender = 2
             }
             Log.i(TAG, "onCreate: The gender selected from radio button group is ${mGender}")
+        }
+
+        binding.divineButton.setOnClickListener {
+            if (mDateFormat && (mGender > 0)) {
+                val intent = Intent(this, AssessmentActivity::class.java)
+                intent.putExtra("name", mName)
+                intent.putExtra("year", mYear)
+                intent.putExtra("month", mMonth)
+                intent.putExtra("day", mDay)
+                intent.putExtra("gender", mGender)
+                startActivity(intent)
+            }
         }
     }
 
