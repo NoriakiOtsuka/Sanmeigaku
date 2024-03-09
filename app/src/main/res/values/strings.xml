@@ -12,6 +12,9 @@
     <string name="save_button">保存</string>
     <string name="registant_button">登録者リスト</string>
 
+    <!--タブ-->
+    <string name="tab_meishiki">命式</string>
+
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>
     <string name="dialog_failed_db_setup_message">データベースの作成、更新に失敗しました。</string>
