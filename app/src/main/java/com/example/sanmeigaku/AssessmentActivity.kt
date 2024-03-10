@@ -9,6 +9,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.sanmeigaku.databinding.ActivityAssessmentBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import java.time.LocalDate
+import java.time.Period
 
 class AssessmentActivity : AppCompatActivity() {
     private val TAG: String = "AssessmentActivity"
@@ -23,6 +25,7 @@ class AssessmentActivity : AppCompatActivity() {
         var mMonth: Int = 0
         var mDay: Int = 0
         var mGender: Int = 0
+        var mAge: Int = 0
     }
 
     /**
@@ -32,6 +35,7 @@ class AssessmentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAssessmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.i(TAG, "onCreate: create assessment activity")
 
         pagerAdapter = PagerAdapter(this)
         viewPager = binding.viewPager
@@ -50,6 +54,25 @@ class AssessmentActivity : AppCompatActivity() {
         mMonth = intent.getIntExtra("month", 0)
         mDay = intent.getIntExtra("day", 0)
         mGender = intent.getIntExtra("gender", 0)
+        mAge = setAge()
+    }
+
+    /**
+     * Destroy assessment activity
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG, "onDestroy: destroy assessment activity")
+    }
+
+    /**
+     * Calculate and set the age from the birthday
+     */
+    private fun setAge(): Int {
+        val birthday = "%04d".format(mYear) + "-" +  "%02d".format(mMonth) + "-"  + "%02d".format(mDay)
+        val today = LocalDate.now()
+
+        return Period.between(LocalDate.parse(birthday), today).years
     }
 }
 

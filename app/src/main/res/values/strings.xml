@@ -15,6 +15,14 @@
     <!--タブ-->
     <string name="tab_meishiki">命式</string>
 
+    <!--命式画面-->
+    <string name="meishiki_save_button">保存</string>
+    <string name="meishiki_registant_button">登録者リスト</string>
+    <string name="meishiki_birthday_text">%1$d年%2$d月%3$d日</string>
+    <string name="meishiki_age_text">%1$d歳</string>
+    <string name="meishiki_gender_male_text">男性</string>
+    <string name="meishiki_gender_female_text">女性</string>
+
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>
     <string name="dialog_failed_db_setup_message">データベースの作成、更新に失敗しました。</string>
