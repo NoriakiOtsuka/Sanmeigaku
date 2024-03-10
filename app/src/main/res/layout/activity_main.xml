@@ -13,7 +13,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/orange"
-        android:text="@string/registant_button"
+        android:text="@string/main_registant_button"
         android:textSize="24sp"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/layoutContainer"
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="@string/name_title_text"
+                android:text="@string/main_name_title_text"
                 android:textSize="20sp" />
 
             <EditText
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="@string/birthday_title_text"
+                android:text="@string/main_birthday_title_text"
                 android:textSize="20sp" />
 
             <LinearLayout
@@ -97,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/orange"
-                    android:text="@string/birthday_button"
+                    android:text="@string/main_birthday_button"
                     android:textSize="18sp"
                     app:cornerRadius="10dp" />
             </LinearLayout>
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="@string/gender_title_text"
+                android:text="@string/main_gender_title_text"
                 android:textSize="20sp" />
 
             <RadioGroup
@@ -134,7 +134,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/gender_button_male"
+                    android:text="@string/main_gender_male_text"
                     android:textSize="16sp" />
 
                 <RadioButton
@@ -142,7 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/gender_button_female"
+                    android:text="@string/main_gender_female_text"
                     android:textSize="16sp" />
             </RadioGroup>
         </LinearLayout>
@@ -153,7 +153,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/orange"
-        android:text="@string/divine_button"
+        android:text="@string/main_divine_button"
         android:textSize="24sp"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/saveButton"
@@ -166,7 +166,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/orange"
-        android:text="@string/save_button"
+        android:text="@string/main_save_button"
         android:textSize="24sp"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"

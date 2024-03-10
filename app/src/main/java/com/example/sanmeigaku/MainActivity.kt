@@ -47,9 +47,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.i(TAG, "onCreate: create main activity")
 
         checkDatabaseExist()
-        Log.i(TAG, "onCreate: main activity started")
 
         if (!setDateSelectRange()) {
             binding.birthdayEdit.isEnabled = false

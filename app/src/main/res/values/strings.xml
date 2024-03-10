@@ -2,15 +2,15 @@
     <string name="app_name">Sanmeigaku</string>
 
     <!--メイン画面-->
-    <string name="name_title_text">"名前　　："</string>
-    <string name="birthday_title_text">"生年月日："</string>
-    <string name="birthday_button">選択</string>
-    <string name="gender_title_text">"性別　　："</string>
-    <string name="gender_button_male">男性</string>
-    <string name="gender_button_female">女性</string>
-    <string name="divine_button">鑑定</string>
-    <string name="save_button">保存</string>
-    <string name="registant_button">登録者リスト</string>
+    <string name="main_name_title_text">"名前　　："</string>
+    <string name="main_birthday_title_text">"生年月日："</string>
+    <string name="main_birthday_button">選択</string>
+    <string name="main_gender_title_text">"性別　　："</string>
+    <string name="main_gender_male_text">男性</string>
+    <string name="main_gender_female_text">女性</string>
+    <string name="main_divine_button">鑑定</string>
+    <string name="main_save_button">保存</string>
+    <string name="main_registant_button">登録者リスト</string>
 
     <!--タブ-->
     <string name="tab_meishiki">命式</string>
