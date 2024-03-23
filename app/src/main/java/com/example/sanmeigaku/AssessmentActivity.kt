@@ -7,16 +7,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.example.sanmeigaku.DB.AppDBHelpler
 import com.example.sanmeigaku.databinding.ActivityAssessmentBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import java.time.LocalDate
 import java.time.Period
+import java.time.temporal.ChronoUnit
 
 class AssessmentActivity : AppCompatActivity() {
     private val TAG: String = "AssessmentActivity"
     private lateinit var binding: ActivityAssessmentBinding
     private lateinit var pagerAdapter: PagerAdapter
     private lateinit var viewPager: ViewPager2
+
+    /** Variables related to the first day of the month in 24 Solar Terms */
+    private var mFirstDay: Int = 0
+    private var mFirstDayKanShiNo: Int = 0
 
     companion object {
         /** Variables of user info received from the main activity */
@@ -26,6 +32,20 @@ class AssessmentActivity : AppCompatActivity() {
         var mDay: Int = 0
         var mGender: Int = 0
         var mAge: Int = 0
+
+        /** Variables of kan-shi number */
+        var mYearKanShiNo: Int = 0
+        var mMonthKanShiNo: Int = 0
+        var mDayKanShiNo: Int = 0
+        var mYearKanNo: Int = 0
+        var mYearShiNo: Int = 0
+        var mMonthKanNo: Int = 0
+        var mMonthShiNo: Int = 0
+        var mDayKanNo: Int = 0
+        var mDayShiNo: Int = 0
+
+        /** Variable of the difference from the beginning of the month to the birthday */
+        var mDiffFirstDay: Int = 0
     }
 
     /**
@@ -55,6 +75,24 @@ class AssessmentActivity : AppCompatActivity() {
         mDay = intent.getIntExtra("day", 0)
         mGender = intent.getIntExtra("gender", 0)
         mAge = setAge()
+
+        val appDBHelper = AppDBHelpler(this)
+        appDBHelper.writableDatabase
+        val kanshiData = appDBHelper.readKanshiTable(mYear, mMonth, mDay)
+        mFirstDay = kanshiData.date
+        mYearKanShiNo = kanshiData.yearKanShi
+        mMonthKanShiNo = kanshiData.monthKanShi
+        mFirstDayKanShiNo = kanshiData.dateKanShi
+
+        mDiffFirstDay = setDiffFirstDay()
+        mDayKanShiNo = mFirstDayKanShiNo.plus(mDiffFirstDay - 1).rem(60) + 1
+
+        mYearKanNo = mYearKanShiNo.minus(1).rem(10) + 1
+        mYearShiNo = mYearKanShiNo.minus(1).rem(12) + 1
+        mMonthKanNo = mMonthKanShiNo.minus(1).rem(10) + 1
+        mMonthShiNo = mMonthKanShiNo.minus(1).rem(12) + 1
+        mDayKanNo = mDayKanShiNo.minus(1).rem(10) + 1
+        mDayShiNo = mDayKanShiNo.minus(1).rem(12) + 1
     }
 
     /**
@@ -73,6 +111,16 @@ class AssessmentActivity : AppCompatActivity() {
         val today = LocalDate.now()
 
         return Period.between(LocalDate.parse(birthday), today).years
+    }
+
+    /**
+     * Calculate and set the difference from the beginning of the month to the birthday
+     */
+    private fun setDiffFirstDay(): Int {
+        val birthday = LocalDate.of(mYear, mMonth, mDay)
+        val startDay = LocalDate.of(mFirstDay.div(10000), mFirstDay.mod(10000).div(100), mFirstDay.mod(100))
+
+        return ChronoUnit.DAYS.between(startDay, birthday).toInt()
     }
 }
 

@@ -22,6 +22,7 @@
     <string name="meishiki_age_text">%1$d歳</string>
     <string name="meishiki_gender_male_text">男性</string>
     <string name="meishiki_gender_female_text">女性</string>
+    <string name="meishiki_zoukan_flag">*</string>
 
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>

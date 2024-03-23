@@ -12,6 +12,16 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
     private val TAG: String = "AppDBHelpler"
     private val mContext: Context
 
+    /**
+     * Data class of kan-shi table
+     */
+    data class KanshiTable(
+        var date: Int,
+        var yearKanShi: Int,
+        var monthKanShi: Int,
+        var dateKanShi: Int
+        )
+
     companion object {
         /**
          * Information of database
@@ -161,5 +171,40 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         }
 
         db.close()
+    }
+
+    /**
+     * Get values from the kan-shi table
+     */
+    @SuppressLint("Range")
+    fun readKanshiTable(year: Int, month: Int, day: Int): KanshiTable {
+        val dbHelper = AppDBHelpler(mContext)
+        val db = dbHelper.writableDatabase
+        val birthday = "%04d".format(year) + "%02d".format(month) + "%02d".format(day)
+        var id = 0
+        var date = 0
+        var yearKanShi = 0
+        var monthKanShi = 0
+        var dateKanShi = 0
+
+        try {
+            val sql = "SELECT * FROM kanshi WHERE date <= $birthday ORDER BY date DESC LIMIT 1"
+            val cursor = db.rawQuery(sql, null)
+            cursor.use { c ->
+                while (c.moveToNext()) {
+                    id = c.getInt(c.getColumnIndex("_id"))
+                    date = c.getInt(c.getColumnIndex("date"))
+                    yearKanShi = c.getInt(c.getColumnIndex("year_kanshi"))
+                    monthKanShi = c.getInt(c.getColumnIndex("month_kanshi"))
+                    dateKanShi = c.getInt(c.getColumnIndex("date_kanshi"))
+                }
+            }
+        } catch (e: IOException) {
+            throw Error("Unable to read database")
+        }
+
+        db.close()
+
+        return KanshiTable(date, yearKanShi, monthKanShi, dateKanShi)
     }
 }

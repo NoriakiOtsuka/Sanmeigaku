@@ -4,4 +4,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#FFCCCCCC</color>
     <color name="orange">#FF8F00</color>
+    <color name="magenta">#FF00FF</color>
+
+    <!--五行-->
+    <color name="gogyou_moku">#008000</color>
+    <color name="gogyou_ka">#FF0000</color>
+    <color name="gogyou_do">#A52A2A</color>
+    <color name="gogyou_gon">#FFD700</color>
+    <color name="gogyou_sui">#0000FF</color>
 </resources>
