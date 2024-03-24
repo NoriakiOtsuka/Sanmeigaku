@@ -91,6 +91,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             tools:ignore="NestedWeights" />
+
+        <include
+            layout="@layout/meishiki_seizu_table"
+            android:id="@+id/seizuTable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:ignore="NestedWeights" />
     </LinearLayout>
 
     <LinearLayout

@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.sanmeigaku.Enum.KanShi
+import com.example.sanmeigaku.Enum.MainStar
+import com.example.sanmeigaku.Enum.SecondStar
 import com.example.sanmeigaku.Enum.ZouKan
 import com.example.sanmeigaku.Util.Utility
 import com.example.sanmeigaku.databinding.FragmentMeishikiBinding
@@ -18,6 +20,7 @@ class MeishikiFragment : Fragment() {
     private var _binding: FragmentMeishikiBinding? = null
     private val binding get() = _binding!!
     private val activity: AssessmentActivity.Companion = AssessmentActivity
+    private val mUtil: Utility = Utility()
 
     /** Variables of user info received from the assessment activity */
     private val mName: String = activity.mName
@@ -41,6 +44,9 @@ class MeishikiFragment : Fragment() {
     private val mDiffFirstDay: Int = activity.mDiffFirstDay
 
     /** Variables of zou-kan number */
+    private var mYearZouKanNo: Int = 0
+    private var mMonthZouKanNo: Int = 0
+    private var mDayZouKanNo: Int = 0
     private var mYearZouKanShoNo: Int = 0
     private var mYearZouKanChuNo: Int = 0
     private var mYearZouKanHonNo: Int = 0
@@ -91,6 +97,7 @@ class MeishikiFragment : Fragment() {
 
         setZoukanNo()
         setMeishikiTable()
+        setSeizuTable()
     }
 
     /**
@@ -106,6 +113,9 @@ class MeishikiFragment : Fragment() {
      * Set zou-kan number
      */
     private fun setZoukanNo() {
+        mYearZouKanNo = mUtil.getZonKanNo(mYearShiNo, mDiffFirstDay)
+        mMonthZouKanNo = mUtil.getZonKanNo(mMonthShiNo, mDiffFirstDay)
+        mDayZouKanNo = mUtil.getZonKanNo(mDayShiNo, mDiffFirstDay)
         mYearZouKanShoNo = ZouKan.valueOf("ZouKan$mYearShiNo").shoNo
         mYearZouKanChuNo = ZouKan.valueOf("ZouKan$mYearShiNo").chuNo
         mYearZouKanHonNo = ZouKan.valueOf("ZouKan$mYearShiNo").honNo
@@ -172,10 +182,9 @@ class MeishikiFragment : Fragment() {
         binding.meishikiTable.dayZouKanChuText.setTextColor(getKanColor(mDayZouKanChuNo))
         binding.meishikiTable.dayZouKanHonText.setTextColor(getKanColor(mDayZouKanHonNo))
 
-        val util = Utility()
-        val yearZouKanType = util.getZonKanType(mYearShiNo, mDiffFirstDay)
-        val monthZouKanType = util.getZonKanType(mMonthShiNo, mDiffFirstDay)
-        val dayZouKanType = util.getZonKanType(mDayShiNo, mDiffFirstDay)
+        val yearZouKanType = mUtil.getZonKanType(mYearShiNo, mDiffFirstDay)
+        val monthZouKanType = mUtil.getZonKanType(mMonthShiNo, mDiffFirstDay)
+        val dayZouKanType = mUtil.getZonKanType(mDayShiNo, mDiffFirstDay)
 
         when (yearZouKanType) {
             1 -> binding.meishikiTable.yearZouKanShoFlag.visibility = View.VISIBLE
@@ -202,6 +211,31 @@ class MeishikiFragment : Fragment() {
         binding.meishikiTable.shouraiTenChuSatsu2.text = shouraiTenChuSatsu2
         binding.meishikiTable.tenChuSatsuFromYear1.text = tenChuSatsuFromYear1
         binding.meishikiTable.tenChuSatsuFromYear2.text = tenChuSatsuFromYear2
+    }
+
+    /**
+     * Set seizu table
+     */
+    private fun setSeizuTable() {
+        val mainStar = MainStar.valueOf("Main" + mUtil.getMainStarNo(mDayKanNo, mMonthZouKanNo)).value
+        val mainStar1 = MainStar.valueOf("Main" + mUtil.getMainStarNo(mDayKanNo, mDayZouKanNo)).value
+        val mainStar2 = MainStar.valueOf("Main" + mUtil.getMainStarNo(mDayKanNo, mMonthKanNo)).value
+        val mainStar3 = MainStar.valueOf("Main" + mUtil.getMainStarNo(mDayKanNo, mYearZouKanNo)).value
+        val mainStar4 = MainStar.valueOf("Main" + mUtil.getMainStarNo(mDayKanNo, mYearKanNo)).value
+
+        binding.seizuTable.mainStarText.text = mainStar
+        binding.seizuTable.mainStar1Text.text = mainStar1
+        binding.seizuTable.mainStar2Text.text = mainStar2
+        binding.seizuTable.mainStar3Text.text = mainStar3
+        binding.seizuTable.mainStar4Text.text = mainStar4
+
+        val secondStar1 = SecondStar.valueOf("Second" + mUtil.getSecondStarNo(mDayKanNo, mDayShiNo)).value
+        val secondStar2 = SecondStar.valueOf("Second" + mUtil.getSecondStarNo(mDayKanNo, mMonthShiNo)).value
+        val secondStar3 = SecondStar.valueOf("Second" + mUtil.getSecondStarNo(mDayKanNo, mYearShiNo)).value
+
+        binding.seizuTable.secondStar1Text.text = secondStar1
+        binding.seizuTable.secondStar2Text.text = secondStar2
+        binding.seizuTable.secondStar3Text.text = secondStar3
     }
 
     /**
