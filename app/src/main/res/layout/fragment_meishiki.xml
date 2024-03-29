@@ -80,7 +80,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal" >
 
@@ -103,7 +103,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal" />
+        android:orientation="horizontal" >
+
+        <com.example.sanmeigaku.View.MeishikiChart
+            android:id="@+id/meishikiChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="InnerclassSeparator" />
+    </LinearLayout>
 </LinearLayout>

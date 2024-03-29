@@ -12,4 +12,8 @@
     <color name="gogyou_do">#A52A2A</color>
     <color name="gogyou_gon">#FFD700</color>
     <color name="gogyou_sui">#0000FF</color>
+
+    <!--命式画面-->
+    <color name="meishiki_chart_main_line">#228B22</color>
+    <color name="meishiki_chart_reference_line">#A9A9A9</color>
 </resources>
