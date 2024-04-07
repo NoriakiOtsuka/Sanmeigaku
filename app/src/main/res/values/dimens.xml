@@ -11,4 +11,5 @@
     <!--命式画面-->
     <dimen name="meishiki_meishiki_font_size">20sp</dimen>
     <dimen name="meishiki_seizu_font_size">24sp</dimen>
+    <dimen name="meishiki_taiun_list_font_size">14sp</dimen>
 </resources>

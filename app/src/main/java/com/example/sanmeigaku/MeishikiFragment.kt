@@ -8,12 +8,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sanmeigaku.Adapter.TaiunListAdapter
 import com.example.sanmeigaku.Enum.KanShi
 import com.example.sanmeigaku.Enum.MainStar
 import com.example.sanmeigaku.Enum.SecondStar
 import com.example.sanmeigaku.Enum.ZouKan
 import com.example.sanmeigaku.Util.Utility
 import com.example.sanmeigaku.databinding.FragmentMeishikiBinding
+import kotlin.math.abs
 
 class MeishikiFragment : Fragment() {
     private val TAG: String = "MeishikiFragment"
@@ -42,6 +45,10 @@ class MeishikiFragment : Fragment() {
 
     /** Variable of the difference from the beginning of the month to the birthday received from the assessment activity */
     private val mDiffFirstDay: Int = activity.mDiffFirstDay
+    private val mFatalOrder: Int = activity.mFatalOrder
+    private val mTaiStartAge: Int = activity.mTaiStartAge
+    private val mTaiKanNo: Int = activity.mTaiKanNo
+    private val mTaiShiNo: Int = activity.mTaiShiNo
 
     /** Variables of zou-kan number */
     private var mYearZouKanNo: Int = 0
@@ -56,6 +63,11 @@ class MeishikiFragment : Fragment() {
     private var mDayZouKanShoNo: Int = 0
     private var mDayZouKanChuNo: Int = 0
     private var mDayZouKanHonNo: Int = 0
+
+    companion object {
+        /** Array of each taiun cycle text */
+        var mTaiunCycleArray: Array<String> = Array(9) {""}
+    }
 
     /**
      * Create meishiki fragment
@@ -98,6 +110,7 @@ class MeishikiFragment : Fragment() {
         setZoukanNo()
         setMeishikiTable()
         setSeizuTable()
+        setTaiunList()
     }
 
     /**
@@ -236,6 +249,34 @@ class MeishikiFragment : Fragment() {
         binding.seizuTable.secondStar1Text.text = secondStar1
         binding.seizuTable.secondStar2Text.text = secondStar2
         binding.seizuTable.secondStar3Text.text = secondStar3
+    }
+
+    /**
+     * Set taiun list
+     */
+    private fun setTaiunList() {
+        if ((mFatalOrder == 0) || (mTaiStartAge == -1))
+            return
+
+        val cycleArray = resources.getStringArray(R.array.meishiki_taiun_cycle_array)
+        for ((index, cycle) in cycleArray.withIndex()) {
+            mTaiunCycleArray[index] = cycle
+        }
+
+        val taiunList = Array(cycleArray.size) {IntArray(5)}
+        for (i in taiunList.indices) {
+            taiunList[i][0] = mTaiStartAge + i * 10
+            taiunList[i][1] = abs(mTaiKanNo + (1 - mFatalOrder) * 10 + mFatalOrder * i - 1).rem(10) + 1
+            taiunList[i][2] = abs(mTaiShiNo + (1 - mFatalOrder) * 12 + mFatalOrder * i - 1).rem(12) + 1
+            taiunList[i][3] = mTaiStartAge + i * 10
+            taiunList[i][4] = mTaiStartAge + i * 10
+        }
+
+        binding.taiunList.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            adapter = TaiunListAdapter(taiunList)
+        }
     }
 
     /**

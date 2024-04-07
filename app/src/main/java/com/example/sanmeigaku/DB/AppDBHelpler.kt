@@ -207,4 +207,30 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
         return KanshiTable(date, yearKanShi, monthKanShi, dateKanShi)
     }
+
+    /**
+     * Get the first day of the month after the birthday
+     */
+    @SuppressLint("Range")
+    fun getNextFirstDay(year: Int, month: Int, day: Int): String {
+        val dbHelper = AppDBHelpler(mContext)
+        val db = dbHelper.writableDatabase
+        var date: String = ""
+        val birthday = "%04d".format(year) + "%02d".format(month) + "%02d".format(day)
+
+        try {
+            val sql = "SELECT * FROM kanshi WHERE date >= $birthday LIMIT 1"
+            val cursor = db.rawQuery(sql, null)
+            cursor.use { c ->
+                while (c.moveToNext()) {
+                    date = c.getInt(c.getColumnIndex("date")).toString()
+                }
+            }
+        } catch (e: IOException) {
+            throw Error("Unable to read database")
+        }
+        db.close()
+
+        return date
+    }
 }

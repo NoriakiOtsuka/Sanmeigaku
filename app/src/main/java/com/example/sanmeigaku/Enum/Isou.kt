@@ -1,0 +1,42 @@
+package com.example.sanmeigaku.Enum
+
+/**
+ * Constant list of Gouhou and Sanhou together
+ */
+enum class GouSan(val value: String) {
+    Isou0(""),
+    Isou11("三合会局(木)"),
+    Isou12("三合会局(火)"),
+    Isou13("三合会局(金)"),
+    Isou14("三合会局(水)"),
+    Isou15("半会(木)"),
+    Isou16("半会(火)"),
+    Isou17("半会(金)"),
+    Isou18("半会(水)"),
+    Isou21("支合(木)"),
+    Isou22("支合(火)"),
+    Isou23("支合(土)"),
+    Isou24("支合(金)"),
+    Isou25("支合(水)"),
+    Isou31("方三位(木)"),
+    Isou32("方三位(火)"),
+    Isou33("方三位(金)"),
+    Isou34("方三位(水)"),
+    Isou41("対冲(四正)"),
+    Isou42("対冲(四勢)"),
+    Isou43("対冲(四庫)"),
+    Isou51("自刑"),
+    Isou52("旺気刑"),
+    Isou53("生貴刑"),
+    Isou54("庫気刑"),
+    Isou61("破"),
+    Isou71("害"),
+    Isou2123("支合(木・土)"),
+    Isou2161("支合(木)\n破"),
+    Isou2423("支合(金・土)"),
+    Isou245361("支合(金)\n生貴刑\n破"),
+    Isou5342("生貴刑\n対冲(四勢)"),
+    Isou5371("生貴刑\n害"),
+    Isou5443("庫気刑\n対冲(四庫)"),
+    Isou5461("庫気刑\n破"),
+}

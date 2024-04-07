@@ -23,6 +23,17 @@
     <string name="meishiki_gender_male_text">男性</string>
     <string name="meishiki_gender_female_text">女性</string>
     <string name="meishiki_zoukan_flag">*</string>
+    <string-array name="meishiki_taiun_cycle_array">
+        <item>初旬</item>
+        <item>二旬</item>
+        <item>三旬</item>
+        <item>四旬</item>
+        <item>五旬</item>
+        <item>六旬</item>
+        <item>七旬</item>
+        <item>八旬</item>
+        <item>九旬</item>
+    </string-array>
 
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>

@@ -13,16 +13,22 @@ import com.google.android.material.tabs.TabLayoutMediator
 import java.time.LocalDate
 import java.time.Period
 import java.time.temporal.ChronoUnit
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 class AssessmentActivity : AppCompatActivity() {
     private val TAG: String = "AssessmentActivity"
     private lateinit var binding: ActivityAssessmentBinding
     private lateinit var pagerAdapter: PagerAdapter
     private lateinit var viewPager: ViewPager2
+    private lateinit var mAppDBHelper: AppDBHelpler
 
     /** Variables related to the first day of the month in 24 Solar Terms */
     private var mFirstDay: Int = 0
     private var mFirstDayKanShiNo: Int = 0
+
+    /** Variable of the difference from the end of the month to the birthday */
+    var mDiffLastDay: Int = -1
 
     companion object {
         /** Variables of user info received from the main activity */
@@ -46,6 +52,10 @@ class AssessmentActivity : AppCompatActivity() {
 
         /** Variable of the difference from the beginning of the month to the birthday */
         var mDiffFirstDay: Int = 0
+        var mFatalOrder: Int = 0
+        var mTaiStartAge: Int = -1
+        var mTaiKanNo: Int = 0
+        var mTaiShiNo: Int = 0
     }
 
     /**
@@ -76,9 +86,10 @@ class AssessmentActivity : AppCompatActivity() {
         mGender = intent.getIntExtra("gender", 0)
         mAge = setAge()
 
-        val appDBHelper = AppDBHelpler(this)
-        appDBHelper.writableDatabase
-        val kanshiData = appDBHelper.readKanshiTable(mYear, mMonth, mDay)
+        mAppDBHelper = AppDBHelpler(this)
+        mAppDBHelper.writableDatabase
+
+        val kanshiData = mAppDBHelper.readKanshiTable(mYear, mMonth, mDay)
         mFirstDay = kanshiData.date
         mYearKanShiNo = kanshiData.yearKanShi
         mMonthKanShiNo = kanshiData.monthKanShi
@@ -93,6 +104,28 @@ class AssessmentActivity : AppCompatActivity() {
         mMonthShiNo = mMonthKanShiNo.minus(1).rem(12) + 1
         mDayKanNo = mDayKanShiNo.minus(1).rem(10) + 1
         mDayShiNo = mDayKanShiNo.minus(1).rem(12) + 1
+
+        mFatalOrder = when ((mGender + mYearKanShiNo) % 2) {
+            0 -> 1
+            1 -> -1
+            else -> {
+                Log.e(TAG, "onCreate: The variable mFatalOrder must be set to a value other than $mFatalOrder.")
+            }
+        }
+
+        if (mFatalOrder == 1)
+            mDiffLastDay = setDiffLastDay()
+
+        mTaiStartAge = when (mFatalOrder) {
+            1 -> (mDiffLastDay.toFloat() / 3).roundToInt()
+            -1 -> (mDiffFirstDay.toFloat() / 3).roundToInt()
+            else -> {
+                Log.e(TAG, "onCreate: The variable mTaiStartAge must be set to a value other than $mTaiStartAge.")
+            }
+        }
+
+        mTaiKanNo = (abs(mMonthKanNo + (1 - mFatalOrder) * 10 + mFatalOrder - 1)).rem(10) + 1
+        mTaiShiNo = (abs(mMonthShiNo + (1 - mFatalOrder) * 12 + mFatalOrder - 1)).rem(12) + 1
     }
 
     /**
@@ -121,6 +154,17 @@ class AssessmentActivity : AppCompatActivity() {
         val startDay = LocalDate.of(mFirstDay.div(10000), mFirstDay.mod(10000).div(100), mFirstDay.mod(100))
 
         return ChronoUnit.DAYS.between(startDay, birthday).toInt()
+    }
+
+    /**
+     * Calculate and set the difference from the end of the month to the birthday
+     */
+    private fun setDiffLastDay(): Int {
+        val birthday = LocalDate.of(mYear, mMonth, mDay)
+        val nextStartDay = mAppDBHelper.getNextFirstDay(mYear, mMonth, mDay).toInt()
+        val lastDay = LocalDate.of(nextStartDay.div(10000), nextStartDay.mod(10000).div(100), nextStartDay.mod(100))
+
+        return ChronoUnit.DAYS.between(birthday, lastDay).toInt()
     }
 }
 
