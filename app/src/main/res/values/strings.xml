@@ -59,6 +59,23 @@
     <string name="isouhou_housani_nan_text">南方三位</string>
     <string name="isouhou_housani_sei_text">西方三位</string>
     <string name="isouhou_housani_hoku_text">北方三位</string>
+    <string name="isouhou_taichu_text">対冲</string>
+    <string name="isouhou_taichu_shisei_text">四正</string>
+    <string name="isouhou_taichu_shise_text">四勢</string>
+    <string name="isouhou_taichu_shiko_text">四庫</string>
+    <string name="isouhou_kei_text">刑</string>
+    <string name="isouhou_kei_ji_text">自刑</string>
+    <string name="isouhou_kei_ouki_text">旺気刑</string>
+    <string name="isouhou_kei_seiki_text">生貴刑</string>
+    <string name="isouhou_kei_koki_text">庫気刑</string>
+    <string name="isouhou_ha_text">破</string>
+    <string name="isouhou_gai_text">害</string>
+    <string name="isouhou_gai_hoku_text">北方害</string>
+    <string name="isouhou_gai_nan_text">南方害</string>
+    <string name="isouhou_gai_tou_text">東方害</string>
+    <string name="isouhou_gai_chu_text">中央害</string>
+    <string name="isouhou_gai_sei_text">西方害</string>
+    <string name="isouhou_gai_ten_text">天軸害</string>
 
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>

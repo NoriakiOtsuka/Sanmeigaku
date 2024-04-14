@@ -15,6 +15,7 @@ class IsouhouFragment : Fragment() {
     private var _binding: FragmentIsouhouBinding? = null
     private val binding get() = _binding!!
     private val activity: AssessmentActivity.Companion = AssessmentActivity
+    private val mIsouUtil = Isouhou()
     private lateinit var mContext: Context
 
     /** Variables of kan-shi number received from the assessment activity */
@@ -55,6 +56,7 @@ class IsouhouFragment : Fragment() {
         Log.i(TAG, "onViewCreated: isouhou fragment view created")
 
         setGouhouList()
+        setSanhouList()
     }
 
     /**
@@ -70,10 +72,19 @@ class IsouhouFragment : Fragment() {
      * Set gouhou list
      */
     private fun setGouhouList() {
-        val isouUtil = Isouhou()
-        binding.gouhouList.sangoukaikyokuText.text = isouUtil.getSangouKaikyoku(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
-        binding.gouhouList.hankaiText.text = isouUtil.getHankai(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
-        binding.gouhouList.shigouText.text = isouUtil.getShigou(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
-        binding.gouhouList.housaniText.text = isouUtil.getHousani(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
+        binding.gouhouList.sangoukaikyokuText.text = mIsouUtil.getSangouKaikyoku(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
+        binding.gouhouList.hankaiText.text = mIsouUtil.getHankai(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
+        binding.gouhouList.shigouText.text = mIsouUtil.getShigou(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
+        binding.gouhouList.housaniText.text = mIsouUtil.getHousani(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
+    }
+
+    /**
+     * Set sanhou list
+     */
+    private fun setSanhouList() {
+        binding.sanhouList.taichuText.text = mIsouUtil.getTaichu(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
+        binding.sanhouList.keiText.text = mIsouUtil.getKei(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
+        binding.sanhouList.haText.text = mIsouUtil.getHa(mYearShiNo, mMonthShiNo, mDayShiNo)
+        binding.sanhouList.gaiText.text = mIsouUtil.getGai(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
     }
 }
