@@ -14,6 +14,7 @@
 
     <!--タブ-->
     <string name="tab_meishiki">命式</string>
+    <string name="tab_isouhou">位相法</string>
 
     <!--命式画面-->
     <string name="meishiki_save_button">保存</string>
@@ -34,6 +35,30 @@
         <item>八旬</item>
         <item>九旬</item>
     </string-array>
+
+    <!--位相法画面-->
+    <string name="isouhou_sangoukaikyoku_text">三合会局</string>
+    <string name="isouhou_sangoukaikyoku_moku_text">三合木局</string>
+    <string name="isouhou_sangoukaikyoku_ka_text">三合火局</string>
+    <string name="isouhou_sangoukaikyoku_gon_text">三合金局</string>
+    <string name="isouhou_sangoukaikyoku_sui_text">三合水局</string>
+    <string name="isouhou_hankai_text">半会</string>
+    <string name="isouhou_hankai_moku_text">木性</string>
+    <string name="isouhou_hankai_ka_text">火性</string>
+    <string name="isouhou_hankai_gon_text">金性</string>
+    <string name="isouhou_hankai_sui_text">水性</string>
+    <string name="isouhou_shigou_text">支合</string>
+    <string name="isouhou_shigou_hoku_text">北方支合 水性</string>
+    <string name="isouhou_shigou_tou_text">東方支合 木性</string>
+    <string name="isouhou_shigou_chu_text">中央支合 木性・土性</string>
+    <string name="isouhou_shigou_ten_text">天軸支合 金性・土性</string>
+    <string name="isouhou_shigou_sei_text">西方支合 金性</string>
+    <string name="isouhou_shigou_nan_text">南方支合 火性</string>
+    <string name="isouhou_housani_text">方三位</string>
+    <string name="isouhou_housani_tou_text">東方三位</string>
+    <string name="isouhou_housani_nan_text">南方三位</string>
+    <string name="isouhou_housani_sei_text">西方三位</string>
+    <string name="isouhou_housani_hoku_text">北方三位</string>
 
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>
