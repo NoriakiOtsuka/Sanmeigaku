@@ -57,6 +57,7 @@ class IsouhouFragment : Fragment() {
 
         setGouhouList()
         setSanhouList()
+        setComprehensiveList()
     }
 
     /**
@@ -86,5 +87,11 @@ class IsouhouFragment : Fragment() {
         binding.sanhouList.keiText.text = mIsouUtil.getKei(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
         binding.sanhouList.haText.text = mIsouUtil.getHa(mYearShiNo, mMonthShiNo, mDayShiNo)
         binding.sanhouList.gaiText.text = mIsouUtil.getGai(mContext, mYearShiNo, mMonthShiNo, mDayShiNo)
+    }
+
+    /**
+     * Set comprehensive list
+     */
+    private fun setComprehensiveList() {
     }
 }

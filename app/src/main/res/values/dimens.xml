@@ -16,4 +16,5 @@
     <!--位相法画面-->
     <dimen name="isouhou_gouhou_font_size">14sp</dimen>
     <dimen name="isouhou_sanhou_font_size">14sp</dimen>
+    <dimen name="isouhou_comprehensive_font_size">14sp</dimen>
 </resources>

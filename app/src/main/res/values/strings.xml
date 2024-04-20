@@ -76,6 +76,11 @@
     <string name="isouhou_gai_chu_text">中央害</string>
     <string name="isouhou_gai_sei_text">西方害</string>
     <string name="isouhou_gai_ten_text">天軸害</string>
+    <string name="isouhou_kakuhou_text">格法</string>
+    <string name="isouhou_kyokuhou_text">局法</string>
+    <string name="isouhou_tenchusatsu_text">天中殺</string>
+    <string name="isouhou_ijokanshi_text">異常干支</string>
+    <string name="isouhou_syugoshin_text">守護神</string>
 
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>
