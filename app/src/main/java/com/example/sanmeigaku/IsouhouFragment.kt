@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.sanmeigaku.Enum.IjoKanShi
 import com.example.sanmeigaku.Enum.TenChuSatsu
 import com.example.sanmeigaku.Util.Isouhou
 import com.example.sanmeigaku.Util.Utility
@@ -100,6 +101,7 @@ class IsouhouFragment : Fragment() {
      */
     private fun setComprehensiveList() {
         binding.comprehensiveList.tenchusatsuText.text = setTenchusatsuItem()
+        binding.comprehensiveList.ijoKanshiText.text = setIjokanshiItem()
     }
 
     /**
@@ -114,5 +116,36 @@ class IsouhouFragment : Fragment() {
         }
 
         return result.dropLast(2)
+    }
+
+    /**
+     * Set shukumei ijo-kan-shi items
+     */
+    private fun setIjokanshiItem(): String {
+        val dayNo = mUtil.getIjokanshiNo(mDayKanShiNo)
+        val monthNo = mUtil.getIjokanshiNo(mMonthKanShiNo)
+        val yearNo = mUtil.getIjokanshiNo(mYearKanShiNo)
+        var result = ""
+        var rate = 0
+
+        if (dayNo != 0) {
+            result += IjoKanShi.valueOf("Ijo$dayNo").value + "(日), "
+            rate += 50
+        }
+        if (monthNo != 0) {
+            result += IjoKanShi.valueOf("Ijo$monthNo").value + "(月), "
+            rate += 25
+        }
+        if (yearNo != 0) {
+            result += IjoKanShi.valueOf("Ijo$yearNo").value + "(年), "
+            rate += 25
+        }
+
+        if (rate > 0) {
+            result = result.dropLast(2)
+            result += " → $rate%"
+        }
+
+        return result
     }
 }

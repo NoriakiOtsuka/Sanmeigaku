@@ -630,4 +630,29 @@ class Utility {
 
         return boolArray
     }
+
+    /**
+     * Get ijo kan-shi number
+     */
+    fun getIjokanshiNo(no: Int): Int {
+        val num = when (no) {
+            11, 12, 37, 48, 54 ->  1
+            18, 19, 24, 25, 30, 36 ->  2
+            1, 41 ->  3
+            22, 42 ->  4
+            53 ->  5
+            14, 44 ->  6
+            5 ->  7
+            6, 46 ->  8
+            17, 47 ->  9
+            8, 38 ->  10
+            29, 49 ->  11
+            10, 60 ->  12
+            23 ->  13
+            35 ->  14
+            else -> 0
+        }
+
+        return num
+    }
 }
