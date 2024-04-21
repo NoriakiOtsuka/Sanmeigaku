@@ -655,4 +655,175 @@ class Utility {
 
         return num
     }
+
+    /**
+     * Get shugoshin numbers array
+     */
+    fun getShugoshinNoArray(dayKanNo: Int, monthShiNo: Int): IntArray {
+        var intArray = intArrayOf()
+        when (dayKanNo) {
+            1 -> {
+                when (monthShiNo) {
+                    1 -> intArray = intArrayOf(4, 3, 7)
+                    2 -> intArray = intArrayOf(4, 3, 7)
+                    3 -> intArray = intArrayOf(3, 10)
+                    4 -> intArray = intArrayOf(7, 3, 4, 5, 6)
+                    5 -> intArray = intArrayOf(7, 4, 9)
+                    6 -> intArray = intArrayOf(10, 4, 7)
+                    7 -> intArray = intArrayOf(10, 4, 7)
+                    8 -> intArray = intArrayOf(10, 7, 4)
+                    9 -> intArray = intArrayOf(4, 7, 9)
+                    10 -> intArray = intArrayOf(4, 7, 3)
+                    11 -> intArray = intArrayOf(4, 1, 7, 9, 10)
+                    12 -> intArray = intArrayOf(7, 4, 3, 5)
+                }
+            }
+            2 -> {
+                when (monthShiNo) {
+                    1 -> intArray = intArrayOf(3)
+                    2 -> intArray = intArrayOf(3)
+                    3 -> intArray = intArrayOf(3, 10)
+                    4 -> intArray = intArrayOf(3, 10)
+                    5 -> intArray = intArrayOf(10, 3, 5)
+                    6 -> intArray = intArrayOf(10)
+                    7 -> intArray = intArrayOf(10, 3)
+                    8 -> intArray = intArrayOf(10, 3)
+                    9 -> intArray = intArrayOf(3, 10, 6)
+                    10 -> intArray = intArrayOf(10, 3, 4)
+                    11 -> intArray = intArrayOf(10, 8)
+                    12 -> intArray = intArrayOf(3, 5)
+                }
+            }
+            3 -> {
+                when (monthShiNo) {
+                    1 -> intArray = intArrayOf(9, 5, 6)
+                    2 -> intArray = intArrayOf(9, 1)
+                    3 -> intArray = intArrayOf(9, 7)
+                    4 -> intArray = intArrayOf(9, 7)
+                    5 -> intArray = intArrayOf(9, 1)
+                    6 -> intArray = intArrayOf(9, 7, 10)
+                    7 -> intArray = intArrayOf(9, 7)
+                    8 -> intArray = intArrayOf(9, 7)
+                    9 -> intArray = intArrayOf(9, 5)
+                    10 -> intArray = intArrayOf(9, 10)
+                    11 -> intArray = intArrayOf(1, 9)
+                    12 -> intArray = intArrayOf(1, 5, 7, 9)
+                }
+            }
+            4 -> {
+                when (monthShiNo) {
+                    1 -> intArray = intArrayOf(1, 7)
+                    2 -> intArray = intArrayOf(1, 7)
+                    3 -> intArray = intArrayOf(1, 7)
+                    4 -> intArray = intArrayOf(7, 1)
+                    5 -> intArray = intArrayOf(1, 7)
+                    6 -> intArray = intArrayOf(1, 7, 9)
+                    7 -> intArray = intArrayOf(9, 7, 10)
+                    8 -> intArray = intArrayOf(1, 7, 9)
+                    9 -> intArray = intArrayOf(1, 7, 3, 5)
+                    10 -> intArray = intArrayOf(1, 3, 5, 7)
+                    11 -> intArray = intArrayOf(1, 5, 7)
+                    12 -> intArray = intArrayOf(1, 7)
+                }
+            }
+            5 -> {
+                when (monthShiNo) {
+                    1 -> intArray = intArrayOf(3, 1)
+                    2 -> intArray = intArrayOf(3, 1)
+                    3 -> intArray = intArrayOf(3, 1, 10)
+                    4 -> intArray = intArrayOf(3, 1, 10)
+                    5 -> intArray = intArrayOf(1, 3, 10)
+                    6 -> intArray = intArrayOf(10, 1, 3)
+                    7 -> intArray = intArrayOf(9, 1, 3)
+                    8 -> intArray = intArrayOf(10, 1, 3)
+                    9 -> intArray = intArrayOf(3, 1, 10)
+                    10 -> intArray = intArrayOf(3, 10)
+                    11 -> intArray = intArrayOf(1, 3, 10)
+                    12 -> intArray = intArrayOf(1, 3)
+                }
+            }
+            6 -> {
+                when (monthShiNo) {
+                    1 -> intArray = intArrayOf(3, 1, 5)
+                    2 -> intArray = intArrayOf(3, 1, 5)
+                    3 -> intArray = intArrayOf(3, 1, 7)
+                    4 -> intArray = intArrayOf(1, 10, 3)
+                    5 -> intArray = intArrayOf(3, 1, 10)
+                    6 -> intArray = intArrayOf(10, 3, 8)
+                    7 -> intArray = intArrayOf(9, 3, 8)
+                    8 -> intArray = intArrayOf(10, 3)
+                    9 -> intArray = intArrayOf(3, 10)
+                    10 -> intArray = intArrayOf(3, 10)
+                    11 -> intArray = intArrayOf(1, 3, 10)
+                    12 -> intArray = intArrayOf(3, 1, 5)
+                }
+            }
+            7 -> {
+                when (monthShiNo) {
+                    1 -> intArray = intArrayOf(4, 1, 3)
+                    2 -> intArray = intArrayOf(3, 4, 1)
+                    3 -> intArray = intArrayOf(3, 1, 9, 4, 5)
+                    4 -> intArray = intArrayOf(4, 1, 3, 7)
+                    5 -> intArray = intArrayOf(1, 4, 9, 10)
+                    6 -> intArray = intArrayOf(9, 3, 5, 4)
+                    7 -> intArray = intArrayOf(9, 10)
+                    8 -> intArray = intArrayOf(4, 1)
+                    9 -> intArray = intArrayOf(4, 1)
+                    10 -> intArray = intArrayOf(4, 1, 3)
+                    11 -> intArray = intArrayOf(1, 9)
+                    12 -> intArray = intArrayOf(3, 4, 1)
+                }
+            }
+            8 -> {
+                when (monthShiNo) {
+                    1 -> intArray = intArrayOf(3, 9, 1, 5)
+                    2 -> intArray = intArrayOf(3, 9, 5, 10)
+                    3 -> intArray = intArrayOf(6, 9, 7)
+                    4 -> intArray = intArrayOf(9, 1)
+                    5 -> intArray = intArrayOf(9, 1)
+                    6 -> intArray = intArrayOf(9, 10, 7)
+                    7 -> intArray = intArrayOf(9, 6, 10)
+                    8 -> intArray = intArrayOf(9, 1, 7)
+                    9 -> intArray = intArrayOf(9, 1, 5)
+                    10 -> intArray = intArrayOf(9, 1)
+                    11 -> intArray = intArrayOf(9, 1)
+                    12 -> intArray = intArrayOf(9, 1, 3)
+                }
+            }
+            9 -> {
+                when (monthShiNo) {
+                    1 -> intArray = intArrayOf(5, 3)
+                    2 -> intArray = intArrayOf(3, 1, 4)
+                    3 -> intArray = intArrayOf(5, 7, 3)
+                    4 -> intArray = intArrayOf(5, 7, 8)
+                    5 -> intArray = intArrayOf(1, 7)
+                    6 -> intArray = intArrayOf(9, 7, 10, 8)
+                    7 -> intArray = intArrayOf(10, 7, 8)
+                    8 -> intArray = intArrayOf(7, 1, 10, 8)
+                    9 -> intArray = intArrayOf(5, 4)
+                    10 -> intArray = intArrayOf(1, 7)
+                    11 -> intArray = intArrayOf(1, 3)
+                    12 -> intArray = intArrayOf(5, 3, 7)
+                }
+            }
+            10 -> {
+                when (monthShiNo) {
+                    1 -> intArray = intArrayOf(3, 8)
+                    2 -> intArray = intArrayOf(3, 4)
+                    3 -> intArray = intArrayOf(8, 3)
+                    4 -> intArray = intArrayOf(7, 8)
+                    5 -> intArray = intArrayOf(8, 3, 1)
+                    6 -> intArray = intArrayOf(8)
+                    7 -> intArray = intArrayOf(7, 8, 9, 10)
+                    8 -> intArray = intArrayOf(7, 8, 9, 10)
+                    9 -> intArray = intArrayOf(4)
+                    10 -> intArray = intArrayOf(8, 3)
+                    11 -> intArray = intArrayOf(8, 1, 9, 10)
+                    12 -> intArray = intArrayOf(7, 8, 4, 5)
+                }
+            }
+        }
+
+        return intArray
+    }
 }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.sanmeigaku.Enum.IjoKanShi
+import com.example.sanmeigaku.Enum.KanShi
 import com.example.sanmeigaku.Enum.TenChuSatsu
 import com.example.sanmeigaku.Util.Isouhou
 import com.example.sanmeigaku.Util.Utility
@@ -23,6 +24,7 @@ class IsouhouFragment : Fragment() {
     private lateinit var mContext: Context
 
     /** Variables of kan-shi number received from the assessment activity */
+    private val mDayKanNo: Int = activity.mDayKanNo
     private val mYearKanShiNo: Int = activity.mYearKanShiNo
     private val mMonthKanShiNo: Int = activity.mMonthKanShiNo
     private val mDayKanShiNo: Int = activity.mDayKanShiNo
@@ -102,6 +104,7 @@ class IsouhouFragment : Fragment() {
     private fun setComprehensiveList() {
         binding.comprehensiveList.tenchusatsuText.text = setTenchusatsuItem()
         binding.comprehensiveList.ijoKanshiText.text = setIjokanshiItem()
+        binding.comprehensiveList.shugoshinText.text = setShugoshinItem()
     }
 
     /**
@@ -147,5 +150,18 @@ class IsouhouFragment : Fragment() {
         }
 
         return result
+    }
+
+    /**
+     * Set shugoshin items
+     */
+    private fun setShugoshinItem(): String {
+        val array = mUtil.getShugoshinNoArray(mDayKanNo, mDayShiNo)
+        var result = ""
+        for ((index, i) in array.withIndex()) {
+            result += KanShi.valueOf("Kan${index + 1}").value + ", "
+        }
+
+        return result.dropLast(2)
     }
 }

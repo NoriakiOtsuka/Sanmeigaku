@@ -112,12 +112,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:text="@string/isouhou_syugoshin_text"
+            android:text="@string/isouhou_shugoshin_text"
             android:textSize="@dimen/isouhou_comprehensive_font_size"
             tools:ignore="NestedWeights" />
 
         <TextView
-            android:id="@+id/syugoshinText"
+            android:id="@+id/shugoshinText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
