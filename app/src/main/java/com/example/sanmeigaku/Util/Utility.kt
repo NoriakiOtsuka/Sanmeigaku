@@ -167,7 +167,7 @@ class Utility {
      * Get main star number
      */
     fun getMainStarNo(dayKanNo: Int, kanNo: Int): Int {
-        var num: Int = 0
+        var num = 0
         when (dayKanNo) {
             1 -> {
                 when (kanNo) {
@@ -318,7 +318,7 @@ class Utility {
      * Get second star number
      */
     fun getSecondStarNo(dayKanNo: Int, shiNo: Int): Int {
-        var num: Int = 0
+        var num = 0
         when (dayKanNo) {
             1 -> {
                 when (shiNo) {
@@ -483,5 +483,151 @@ class Utility {
         }
 
         return num;
+    }
+
+    /**
+     * Get shukumei tenchusatsu items array
+     */
+    fun getTenchusatsuArray(yearNo: Int, monthNo: Int, dayNo: Int): BooleanArray {
+        val param1 = when (dayNo) {
+            in 1..10 -> 6
+            in 11..20 -> 5
+            in 21..30 -> 4
+            in 31..40 -> 3
+            in 41..50 -> 2
+            in 51..60 -> 1
+            else -> 0
+        }
+        val param2 = when (yearNo) {
+            in 1..10 -> 6
+            in 11..20 -> 5
+            in 21..30 -> 4
+            in 31..40 -> 3
+            in 41..50 -> 2
+            in 51..60 -> 1
+            else -> 0
+        }
+
+        val yearShiNo = yearNo.minus(1).rem(12) + 1
+        val monthShiNo = monthNo.minus(1).rem(12) + 1
+        val dayShiNo = dayNo.minus(1).rem(12) + 1
+        val boolArray = booleanArrayOf(false, false, false, false, false, false, false, false)
+
+        /** 生年・生月天中殺 */
+        when (param1) {
+            1 -> {
+                when (yearShiNo) {
+                    1, 2 -> boolArray[0] = true
+                }
+                when (monthShiNo) {
+                    1, 2 -> boolArray[1] = true
+                }
+            }
+            2 -> {
+                when (yearShiNo) {
+                    3, 4 -> boolArray[0] = true
+                }
+                when (monthShiNo) {
+                    3, 4 -> boolArray[1] = true
+                }
+            }
+            3 -> {
+                when (yearShiNo) {
+                    5, 6 -> boolArray[0] = true
+                }
+                when (monthShiNo) {
+                    5, 6 -> boolArray[1] = true
+                }
+            }
+            4 -> {
+                when (yearShiNo) {
+                    7, 8 -> boolArray[0] = true
+                }
+                when (monthShiNo) {
+                    7, 8 -> boolArray[1] = true
+                }
+            }
+            5 -> {
+                when (yearShiNo) {
+                    9, 10 -> boolArray[0] = true
+                }
+                when (monthShiNo) {
+                    9, 10 -> boolArray[1] = true
+                }
+            }
+            6 -> {
+                when (yearShiNo) {
+                    11, 12 -> boolArray[0] = true
+                }
+                when (monthShiNo) {
+                    11, 12 -> boolArray[1] = true
+                }
+            }
+        }
+
+        /** 生日中殺 */
+        when (param2) {
+            1 -> {
+                when (dayShiNo) {
+                    1, 2 -> boolArray[2] = true
+                }
+            }
+            2 -> {
+                when (dayShiNo) {
+                    3, 4 -> boolArray[2] = true
+                }
+            }
+            3 -> {
+                when (dayShiNo) {
+                    5, 6 -> boolArray[2] = true
+                }
+            }
+            4 -> {
+                when (dayShiNo) {
+                    7, 8 -> boolArray[2] = true
+                }
+            }
+            5 -> {
+                when (dayShiNo) {
+                    9, 10 -> boolArray[2] = true
+                }
+            }
+            6 -> {
+                when (dayShiNo) {
+                    11, 12 -> boolArray[2] = true
+                }
+            }
+        }
+
+        /** 日座天中殺 */
+        if ((dayNo == 11) || (dayNo == 12))
+            boolArray[3] = true
+
+        /** 宿命二中殺 */
+        if (boolArray[0] && boolArray[1]) {
+            boolArray[0] = false
+            boolArray[1] = false
+            boolArray[4] = true
+        }
+
+        /** 全天中殺 */
+        if (boolArray[3] && boolArray[4]) {
+            boolArray[3] = false
+            boolArray[4] = false
+            boolArray[5] = true
+        }
+
+        /** 互換天中殺 */
+        if (boolArray[0] && boolArray[2]) {
+            boolArray[0] = false
+            boolArray[2] = false
+            boolArray[6] = true
+        }
+
+        /** 日居天中殺 */
+        if ((dayNo == 41) || (dayNo == 42))
+            boolArray[7] = true
+
+        return boolArray
     }
 }

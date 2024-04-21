@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.sanmeigaku.Enum.TenChuSatsu
 import com.example.sanmeigaku.Util.Isouhou
+import com.example.sanmeigaku.Util.Utility
 import com.example.sanmeigaku.databinding.FragmentIsouhouBinding
 
 class IsouhouFragment : Fragment() {
@@ -15,10 +17,14 @@ class IsouhouFragment : Fragment() {
     private var _binding: FragmentIsouhouBinding? = null
     private val binding get() = _binding!!
     private val activity: AssessmentActivity.Companion = AssessmentActivity
+    private val mUtil: Utility = Utility()
     private val mIsouUtil = Isouhou()
     private lateinit var mContext: Context
 
     /** Variables of kan-shi number received from the assessment activity */
+    private val mYearKanShiNo: Int = activity.mYearKanShiNo
+    private val mMonthKanShiNo: Int = activity.mMonthKanShiNo
+    private val mDayKanShiNo: Int = activity.mDayKanShiNo
     private val mYearShiNo: Int = activity.mYearShiNo
     private val mMonthShiNo: Int = activity.mMonthShiNo
     private val mDayShiNo: Int = activity.mDayShiNo
@@ -93,5 +99,20 @@ class IsouhouFragment : Fragment() {
      * Set comprehensive list
      */
     private fun setComprehensiveList() {
+        binding.comprehensiveList.tenchusatsuText.text = setTenchusatsuItem()
+    }
+
+    /**
+     * Set shukumei tenchusatsu items
+     */
+    private fun setTenchusatsuItem(): String {
+        val array = mUtil.getTenchusatsuArray(mYearKanShiNo, mMonthKanShiNo, mDayKanShiNo)
+        var result = ""
+        for ((index, i) in array.withIndex()) {
+            if (i)
+                result += TenChuSatsu.valueOf("Ten${index + 1}").value + ", "
+        }
+
+        return result.dropLast(2)
     }
 }
