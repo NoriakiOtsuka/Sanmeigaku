@@ -50,10 +50,14 @@ class MeishikiFragment : Fragment() {
     private val mTaiKanNo: Int = activity.mTaiKanNo
     private val mTaiShiNo: Int = activity.mTaiShiNo
 
+    /** Variables of main star number received from the assessment activity */
+    private val mMainStarNo: Int = activity.mMainStarNo
+    private val mMainStar1No: Int = activity.mMainStar1No
+    private val mMainStar2No: Int = activity.mMainStar2No
+    private val mMainStar3No: Int = activity.mMainStar3No
+    private val mMainStar4No: Int = activity.mMainStar4No
+
     /** Variables of zou-kan number */
-    private var mYearZouKanNo: Int = 0
-    private var mMonthZouKanNo: Int = 0
-    private var mDayZouKanNo: Int = 0
     private var mYearZouKanShoNo: Int = 0
     private var mYearZouKanChuNo: Int = 0
     private var mYearZouKanHonNo: Int = 0
@@ -126,9 +130,6 @@ class MeishikiFragment : Fragment() {
      * Set zou-kan number
      */
     private fun setZoukanNo() {
-        mYearZouKanNo = mUtil.getZonKanNo(mYearShiNo, mDiffFirstDay)
-        mMonthZouKanNo = mUtil.getZonKanNo(mMonthShiNo, mDiffFirstDay)
-        mDayZouKanNo = mUtil.getZonKanNo(mDayShiNo, mDiffFirstDay)
         mYearZouKanShoNo = ZouKan.valueOf("ZouKan$mYearShiNo").shoNo
         mYearZouKanChuNo = ZouKan.valueOf("ZouKan$mYearShiNo").chuNo
         mYearZouKanHonNo = ZouKan.valueOf("ZouKan$mYearShiNo").honNo
@@ -150,7 +151,6 @@ class MeishikiFragment : Fragment() {
         val monthShi = KanShi.valueOf("Shi$mMonthShiNo").value
         val dayKan = KanShi.valueOf("Kan$mDayKanNo").value
         val dayShi = KanShi.valueOf("Shi$mDayShiNo").value
-
         binding.meishikiTable.yearKanText.text = yearKan
         binding.meishikiTable.yearShiText.text = yearShi
         binding.meishikiTable.monthKanText.text = monthKan
@@ -174,7 +174,6 @@ class MeishikiFragment : Fragment() {
         val dayZouKanSho = ZouKan.valueOf("ZouKan$mDayShiNo").shogen
         val dayZouKanChu = ZouKan.valueOf("ZouKan$mDayShiNo").chugen
         val dayZouKanHon = ZouKan.valueOf("ZouKan$mDayShiNo").hongen
-
         binding.meishikiTable.yearZouKanShoText.text = yearZouKanSho
         binding.meishikiTable.yearZouKanChuText.text = yearZouKanChu
         binding.meishikiTable.yearZouKanHonText.text = yearZouKanHon
@@ -219,7 +218,6 @@ class MeishikiFragment : Fragment() {
         val shouraiTenChuSatsu2 = KanShi.valueOf("Shi${getTenChuSatsu(mDayKanShiNo).second}").value
         val tenChuSatsuFromYear1 = KanShi.valueOf("Shi${getTenChuSatsu(mYearKanShiNo).first}").value
         val tenChuSatsuFromYear2 = KanShi.valueOf("Shi${getTenChuSatsu(mYearKanShiNo).second}").value
-
         binding.meishikiTable.shouraiTenChuSatsu1.text = shouraiTenChuSatsu1
         binding.meishikiTable.shouraiTenChuSatsu2.text = shouraiTenChuSatsu2
         binding.meishikiTable.tenChuSatsuFromYear1.text = tenChuSatsuFromYear1
@@ -230,22 +228,20 @@ class MeishikiFragment : Fragment() {
      * Set seizu table
      */
     private fun setSeizuTable() {
-        val mainStar = MainStar.valueOf("Main" + mUtil.getMainStarNo(mDayKanNo, mMonthZouKanNo)).value
-        val mainStar1 = MainStar.valueOf("Main" + mUtil.getMainStarNo(mDayKanNo, mDayZouKanNo)).value
-        val mainStar2 = MainStar.valueOf("Main" + mUtil.getMainStarNo(mDayKanNo, mMonthKanNo)).value
-        val mainStar3 = MainStar.valueOf("Main" + mUtil.getMainStarNo(mDayKanNo, mYearZouKanNo)).value
-        val mainStar4 = MainStar.valueOf("Main" + mUtil.getMainStarNo(mDayKanNo, mYearKanNo)).value
-
+        val mainStar = MainStar.valueOf("Main$mMainStarNo").value
+        val mainStar1 = MainStar.valueOf("Main$mMainStar1No").value
+        val mainStar2 = MainStar.valueOf("Main$mMainStar2No").value
+        val mainStar3 = MainStar.valueOf("Main$mMainStar3No").value
+        val mainStar4 = MainStar.valueOf("Main$mMainStar4No").value
         binding.seizuTable.mainStarText.text = mainStar
         binding.seizuTable.mainStar1Text.text = mainStar1
         binding.seizuTable.mainStar2Text.text = mainStar2
         binding.seizuTable.mainStar3Text.text = mainStar3
         binding.seizuTable.mainStar4Text.text = mainStar4
 
-        val secondStar1 = SecondStar.valueOf("Second" + mUtil.getSecondStarNo(mDayKanNo, mDayShiNo)).value
-        val secondStar2 = SecondStar.valueOf("Second" + mUtil.getSecondStarNo(mDayKanNo, mMonthShiNo)).value
-        val secondStar3 = SecondStar.valueOf("Second" + mUtil.getSecondStarNo(mDayKanNo, mYearShiNo)).value
-
+        val secondStar1 = SecondStar.valueOf("Second${mUtil.getSecondStarNo(mDayKanNo, mDayShiNo)}").value
+        val secondStar2 = SecondStar.valueOf("Second${mUtil.getSecondStarNo(mDayKanNo, mMonthShiNo)}").value
+        val secondStar3 = SecondStar.valueOf("Second${mUtil.getSecondStarNo(mDayKanNo, mYearShiNo)}").value
         binding.seizuTable.secondStar1Text.text = secondStar1
         binding.seizuTable.secondStar2Text.text = secondStar2
         binding.seizuTable.secondStar3Text.text = secondStar3

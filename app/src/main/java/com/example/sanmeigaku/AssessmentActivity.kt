@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.sanmeigaku.DB.AppDBHelpler
+import com.example.sanmeigaku.Util.Utility
 import com.example.sanmeigaku.databinding.ActivityAssessmentBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import java.time.LocalDate
@@ -22,6 +23,7 @@ class AssessmentActivity : AppCompatActivity() {
     private lateinit var pagerAdapter: PagerAdapter
     private lateinit var viewPager: ViewPager2
     private lateinit var mAppDBHelper: AppDBHelpler
+    private val mUtil: Utility = Utility()
 
     /** Variables related to the first day of the month in 24 Solar Terms */
     private var mFirstDay: Int = 0
@@ -29,6 +31,11 @@ class AssessmentActivity : AppCompatActivity() {
 
     /** Variable of the difference from the end of the month to the birthday */
     var mDiffLastDay: Int = -1
+
+    /** Variables of zou-kan number */
+    var mYearZouKanNo: Int = 0
+    var mMonthZouKanNo: Int = 0
+    var mDayZouKanNo: Int = 0
 
     companion object {
         /** Variables of user info received from the main activity */
@@ -49,6 +56,13 @@ class AssessmentActivity : AppCompatActivity() {
         var mMonthShiNo: Int = 0
         var mDayKanNo: Int = 0
         var mDayShiNo: Int = 0
+
+        /** Variables of main star number */
+        var mMainStarNo: Int = 0
+        var mMainStar1No: Int = 0
+        var mMainStar2No: Int = 0
+        var mMainStar3No: Int = 0
+        var mMainStar4No: Int = 0
 
         /** Variable of the difference from the beginning of the month to the birthday */
         var mDiffFirstDay: Int = 0
@@ -116,6 +130,15 @@ class AssessmentActivity : AppCompatActivity() {
 
         if (mFatalOrder == 1)
             mDiffLastDay = setDiffLastDay()
+
+        mYearZouKanNo = mUtil.getZonKanNo(mYearShiNo, mDiffFirstDay)
+        mMonthZouKanNo = mUtil.getZonKanNo(mMonthShiNo, mDiffFirstDay)
+        mDayZouKanNo = mUtil.getZonKanNo(mDayShiNo, mDiffFirstDay)
+        mMainStarNo = mUtil.getMainStarNo(mDayKanNo, mMonthZouKanNo)
+        mMainStar1No = mUtil.getMainStarNo(mDayKanNo, mDayZouKanNo)
+        mMainStar2No = mUtil.getMainStarNo(mDayKanNo, mMonthKanNo)
+        mMainStar3No = mUtil.getMainStarNo(mDayKanNo, mYearZouKanNo)
+        mMainStar4No = mUtil.getMainStarNo(mDayKanNo, mYearKanNo)
 
         mTaiStartAge = when (mFatalOrder) {
             1 -> (mDiffLastDay.toFloat() / 3).roundToInt()
