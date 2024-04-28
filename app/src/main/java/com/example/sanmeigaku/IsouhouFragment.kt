@@ -11,6 +11,7 @@ import com.example.sanmeigaku.Enum.IjoKanShi
 import com.example.sanmeigaku.Enum.KanShi
 import com.example.sanmeigaku.Enum.TenChuSatsu
 import com.example.sanmeigaku.Util.Isouhou
+import com.example.sanmeigaku.Util.Kakuhou
 import com.example.sanmeigaku.Util.Kyokuhou
 import com.example.sanmeigaku.Util.Utility
 import com.example.sanmeigaku.databinding.FragmentIsouhouBinding
@@ -103,7 +104,9 @@ class IsouhouFragment : Fragment() {
      * Set comprehensive list
      */
     private fun setComprehensiveList() {
+        val kakuhou = Kakuhou()
         val kyokuhou = Kyokuhou()
+        binding.comprehensiveList.kakuhouText.text = kakuhou.setKakuhou()
         binding.comprehensiveList.kyokuhouText.text = kyokuhou.setKyokuhou()
         binding.comprehensiveList.tenchusatsuText.text = setTenchusatsuItem()
         binding.comprehensiveList.ijoKanshiText.text = setIjokanshiItem()
