@@ -489,119 +489,22 @@ class Utility {
      * Get shukumei tenchusatsu items array
      */
     fun getTenchusatsuArray(yearNo: Int, monthNo: Int, dayNo: Int): BooleanArray {
-        val param1 = when (dayNo) {
-            in 1..10 -> 6
-            in 11..20 -> 5
-            in 21..30 -> 4
-            in 31..40 -> 3
-            in 41..50 -> 2
-            in 51..60 -> 1
-            else -> 0
-        }
-        val param2 = when (yearNo) {
-            in 1..10 -> 6
-            in 11..20 -> 5
-            in 21..30 -> 4
-            in 31..40 -> 3
-            in 41..50 -> 2
-            in 51..60 -> 1
-            else -> 0
-        }
-
         val yearShiNo = yearNo.minus(1).rem(12) + 1
         val monthShiNo = monthNo.minus(1).rem(12) + 1
         val dayShiNo = dayNo.minus(1).rem(12) + 1
         val boolArray = booleanArrayOf(false, false, false, false, false, false, false, false)
 
-        /** 生年・生月天中殺 */
-        when (param1) {
-            1 -> {
-                when (yearShiNo) {
-                    1, 2 -> boolArray[0] = true
-                }
-                when (monthShiNo) {
-                    1, 2 -> boolArray[1] = true
-                }
-            }
-            2 -> {
-                when (yearShiNo) {
-                    3, 4 -> boolArray[0] = true
-                }
-                when (monthShiNo) {
-                    3, 4 -> boolArray[1] = true
-                }
-            }
-            3 -> {
-                when (yearShiNo) {
-                    5, 6 -> boolArray[0] = true
-                }
-                when (monthShiNo) {
-                    5, 6 -> boolArray[1] = true
-                }
-            }
-            4 -> {
-                when (yearShiNo) {
-                    7, 8 -> boolArray[0] = true
-                }
-                when (monthShiNo) {
-                    7, 8 -> boolArray[1] = true
-                }
-            }
-            5 -> {
-                when (yearShiNo) {
-                    9, 10 -> boolArray[0] = true
-                }
-                when (monthShiNo) {
-                    9, 10 -> boolArray[1] = true
-                }
-            }
-            6 -> {
-                when (yearShiNo) {
-                    11, 12 -> boolArray[0] = true
-                }
-                when (monthShiNo) {
-                    11, 12 -> boolArray[1] = true
-                }
-            }
-        }
+        /** 生年天中殺 */
+        boolArray[0] = isSeinenTenchusatsu(dayNo, yearShiNo)
+
+        /** 生月天中殺 */
+        boolArray[1] = isSeigetsuTenchusatsu(dayNo, monthShiNo)
 
         /** 生日中殺 */
-        when (param2) {
-            1 -> {
-                when (dayShiNo) {
-                    1, 2 -> boolArray[2] = true
-                }
-            }
-            2 -> {
-                when (dayShiNo) {
-                    3, 4 -> boolArray[2] = true
-                }
-            }
-            3 -> {
-                when (dayShiNo) {
-                    5, 6 -> boolArray[2] = true
-                }
-            }
-            4 -> {
-                when (dayShiNo) {
-                    7, 8 -> boolArray[2] = true
-                }
-            }
-            5 -> {
-                when (dayShiNo) {
-                    9, 10 -> boolArray[2] = true
-                }
-            }
-            6 -> {
-                when (dayShiNo) {
-                    11, 12 -> boolArray[2] = true
-                }
-            }
-        }
+        boolArray[0] = isSeijitsuTenchusatsu(yearNo, dayShiNo)
 
         /** 日座天中殺 */
-        if ((dayNo == 11) || (dayNo == 12))
-            boolArray[3] = true
+        boolArray[3] = isNichizaTenchusatsu(dayNo)
 
         /** 宿命二中殺 */
         if (boolArray[0] && boolArray[1]) {
@@ -625,10 +528,104 @@ class Utility {
         }
 
         /** 日居天中殺 */
-        if ((dayNo == 41) || (dayNo == 42))
-            boolArray[7] = true
+        boolArray[7] = isNichiiTenchusatsu(dayNo)
 
         return boolArray
+    }
+
+    /**
+     * Determine if seinen-tenchusatsu is present
+     */
+    fun isSeinenTenchusatsu(dayNo: Int, yearShiNo: Int): Boolean {
+        val param = when (dayNo) {
+            in 1..10 -> 6
+            in 11..20 -> 5
+            in 21..30 -> 4
+            in 31..40 -> 3
+            in 41..50 -> 2
+            in 51..60 -> 1
+            else -> 0
+        }
+
+        when (param) {
+            in 1..6 -> {
+                if (yearShiNo == param.times(2).minus(1) ||
+                    yearShiNo == param.times(2))
+                    return true
+            }
+        }
+
+        return false
+    }
+
+    /**
+     * Determine if seigetsu-tenchusatsu is present
+     */
+    fun isSeigetsuTenchusatsu(dayNo: Int, monthShiNo: Int): Boolean {
+        val param = when (dayNo) {
+            in 1..10 -> 6
+            in 11..20 -> 5
+            in 21..30 -> 4
+            in 31..40 -> 3
+            in 41..50 -> 2
+            in 51..60 -> 1
+            else -> 0
+        }
+
+        when (param) {
+            in 1..6 -> {
+                if (monthShiNo == param.times(2).minus(1) ||
+                    monthShiNo == param.times(2))
+                    return true
+            }
+        }
+
+        return false
+    }
+
+    /**
+     * Determine if seijitsu-tenchusatsu is present
+     */
+    fun isSeijitsuTenchusatsu(yearNo: Int, dayShiNo: Int): Boolean {
+        val param = when (yearNo) {
+            in 1..10 -> 6
+            in 11..20 -> 5
+            in 21..30 -> 4
+            in 31..40 -> 3
+            in 41..50 -> 2
+            in 51..60 -> 1
+            else -> 0
+        }
+
+        when (param) {
+            in 1..6 -> {
+                if (dayShiNo == param.times(2).minus(1) ||
+                    dayShiNo == param.times(2))
+                    return true
+            }
+        }
+
+        return false
+    }
+
+    /**
+     * Determine if nichiza-tenchusatsu is present
+     */
+    fun isNichizaTenchusatsu(dayNo: Int): Boolean {
+        if ((dayNo == 11) || (dayNo == 12))
+            return true
+
+        return false
+    }
+
+    /**
+     * Determine if nichii-tenchusatsu is present
+     */
+    fun isNichiiTenchusatsu(dayNo: Int): Boolean {
+        if ((dayNo == 41) || (dayNo == 42))
+            return true
+
+        return false
     }
 
     /**
