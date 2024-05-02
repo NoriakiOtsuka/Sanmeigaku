@@ -486,6 +486,68 @@ class Utility {
     }
 
     /**
+     * Get kangou parameter number
+     */
+    fun getKangouNo(kanNo1: Int, kanNo2: Int): Int {
+        var num = 0
+
+        when (kanNo1) {
+            1 -> when (kanNo2) {
+                6 -> {
+                    num = 5
+                }
+            }
+            2 -> when (kanNo2) {
+                7 -> {
+                    num = 8
+                }
+            }
+            3 -> when (kanNo2) {
+                8 -> {
+                    num = 9
+                }
+            }
+            4 -> when (kanNo2) {
+                9 -> {
+                    num = 2
+                }
+            }
+            5 -> when (kanNo2) {
+                10 -> {
+                    num = 3
+                }
+            }
+            6 -> when (kanNo2) {
+                1 -> {
+                    num = 6
+                }
+            }
+            7 -> when (kanNo2) {
+                2 -> {
+                    num = 7
+                }
+            }
+            8 -> when (kanNo2) {
+                3 -> {
+                    num = 10
+                }
+            }
+            9 -> when (kanNo2) {
+                4 -> {
+                    num = 1
+                }
+            }
+            10 -> when (kanNo2) {
+                5 -> {
+                    num = 4
+                }
+            }
+        }
+
+        return num
+    }
+
+    /**
      * Get shukumei tenchusatsu items array
      */
     fun getTenchusatsuArray(yearNo: Int, monthNo: Int, dayNo: Int): BooleanArray {
