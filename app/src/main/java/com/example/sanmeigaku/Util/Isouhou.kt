@@ -232,192 +232,208 @@ class Isouhou {
         if (hasSangouKaikyoku)
             return ""
 
-        val arrayNo = intArrayOf(yearShiNo, monthShiNo, dayShiNo)
-        val mokuArray = IntArray(3)
-        val kaArray = IntArray(3)
-        val gonArray = IntArray(3)
-        val suiArray = IntArray(3)
-
-        for ((index, i) in arrayNo.withIndex()) {
-            when (i) {
-                1, 5, 9 -> suiArray[index] = i
-                2, 6, 10 -> gonArray[index] = i
-                3, 7, 11 -> kaArray[index] = i
-                4, 8, 12 -> mokuArray[index] = i
-            }
-        }
-
+        val year_month = getHankaiNo(yearShiNo, monthShiNo)
+        val month_day = getHankaiNo(monthShiNo, dayShiNo)
+        val day_year = getHankaiNo(dayShiNo, yearShiNo)
         var yearShi = "＿"
         var monthShi = "＿"
         var dayShi = "＿"
+
+        when (year_month) {
+            1, 2, 4, 5 -> {
+                yearShi = KanShi.valueOf("Shi$yearShiNo").value
+                monthShi = KanShi.valueOf("Shi$monthShiNo").value
+            }
+        }
+        when (month_day) {
+            1, 2, 4, 5 -> {
+                monthShi = KanShi.valueOf("Shi$monthShiNo").value
+                dayShi = KanShi.valueOf("Shi$dayShiNo").value
+            }
+        }
+        when (day_year) {
+            1, 2, 4, 5 -> {
+                dayShi = KanShi.valueOf("Shi$dayShiNo").value
+                yearShi = KanShi.valueOf("Shi$yearShiNo").value
+            }
+        }
+
+        val intArray = intArrayOf(year_month, month_day, day_year)
         val mokuHankai = context.getString(R.string.isouhou_hankai_moku_text)
         val kaHankai = context.getString(R.string.isouhou_hankai_ka_text)
         val gonHankai = context.getString(R.string.isouhou_hankai_gon_text)
         val suiHankai = context.getString(R.string.isouhou_hankai_sui_text)
         var result = ""
 
-        if (mokuArray.count { it == 0 } < 2) {
-            val mokuMaxNo = mokuArray.maxBy { it }
-            val mokuMinNo = mokuArray.filter { it > 0 }.minBy { it }
-            if (mokuMaxNo != mokuMinNo) {
-                if (mokuArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (mokuArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (mokuArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $mokuHankai"
-            }
-        } else if (kaArray.count { it == 0 } < 2) {
-            val kaMaxNo = kaArray.maxBy { it }
-            val kaMinNo = kaArray.filter { it > 0 }.minBy { it }
-            if (kaMaxNo != kaMinNo) {
-                if (kaArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (kaArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (kaArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $kaHankai"
-            }
-        } else if (gonArray.count { it == 0 } < 2) {
-            val gonMaxNo = gonArray.maxBy { it }
-            val gonMinNo = gonArray.filter { it > 0 }.minBy { it }
-            if (gonMaxNo != gonMinNo) {
-                if (gonArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (gonArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (gonArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $gonHankai"
-            }
-        } else if (suiArray.count { it == 0 } < 2) {
-            val suiMaxNo = suiArray.maxBy { it }
-            val suiMinNo = suiArray.filter { it > 0 }.minBy { it }
-            if (suiMaxNo != suiMinNo) {
-                if (suiArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (suiArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (suiArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $suiHankai"
-            }
+        if (intArray.contains(1)) {
+            result = "$dayShi-$monthShi-$yearShi  $mokuHankai"
+        } else if (intArray.contains(2)) {
+            result = "$dayShi-$monthShi-$yearShi  $kaHankai"
+        } else if (intArray.contains(4)) {
+            result = "$dayShi-$monthShi-$yearShi  $gonHankai"
+        } else if (intArray.contains(5)) {
+            result = "$dayShi-$monthShi-$yearShi  $suiHankai"
         }
 
         return result
     }
 
     /**
-     * Get Shigou assessment result
+     * Get Hankai parameter number
+     * @return 1:木性, 2:火性, 4:金性, 5:水性
      */
-    fun getShigou(context: Context, yearShiNo: Int, monthShiNo: Int, dayShiNo: Int): String {
-        val arrayNo = intArrayOf(yearShiNo, monthShiNo, dayShiNo)
-        val hoppouArray = IntArray(3)
-        val touhouArray = IntArray(3)
-        val chuouArray = IntArray(3)
-        val tenjikuArray = IntArray(3)
-        val seihouArray = IntArray(3)
-        val nanpouArray = IntArray(3)
+    fun getHankaiNo(shiNo1: Int, shiNo2: Int): Int {
+        val arrayNo = intArrayOf(shiNo1, shiNo2)
+        val mokuArray = booleanArrayOf(false, false, false)
+        val kaArray = booleanArrayOf(false, false, false)
+        val gonArray = booleanArrayOf(false, false, false)
+        val suiArray = booleanArrayOf(false, false, false)
 
-        for ((index, i) in arrayNo.withIndex()) {
+        for (i in arrayNo) {
             when (i) {
-                1, 2 -> hoppouArray[index] = i
-                3, 12 -> touhouArray[index] = i
-                4, 11 -> chuouArray[index] = i
-                5, 10 -> tenjikuArray[index] = i
-                6, 9 -> seihouArray[index] = i
-                7, 8 -> nanpouArray[index] = i
+                1 -> suiArray[0] = true
+                2 -> gonArray[0] = true
+                3 -> kaArray[0] = true
+                4 -> mokuArray[0] = true
+                5 -> suiArray[1] = true
+                6 -> gonArray[1] = true
+                7 -> kaArray[1] = true
+                8 -> mokuArray[1] = true
+                9 -> suiArray[2] = true
+                10 -> gonArray[2] = true
+                11 -> kaArray[2] = true
+                12 -> mokuArray[2] = true
             }
         }
 
+        val mokuCount = mokuArray.count { it }
+        val kaCount = kaArray.count { it }
+        val gonCount = gonArray.count { it }
+        val suiCount = suiArray.count { it }
+        var num = 0
+
+        if (mokuCount == 2) {
+            num = 1
+        } else if (kaCount == 2) {
+            num = 2
+        } else if (gonCount == 2) {
+            num = 4
+        } else if (suiCount == 2) {
+            num = 5
+        }
+
+        return num
+    }
+
+    /**
+     * Get Shigou assessment result
+     */
+    fun getShigou(context: Context, yearShiNo: Int, monthShiNo: Int, dayShiNo: Int): String {
+        val year_month = getShigouNo(yearShiNo, monthShiNo)
+        val month_day = getShigouNo(monthShiNo, dayShiNo)
+        val day_year = getShigouNo(dayShiNo, yearShiNo)
+        var yearShi = "＿"
+        var monthShi = "＿"
+        var dayShi = "＿"
+
+        when (year_month) {
+            in 1..6 -> {
+                yearShi = KanShi.valueOf("Shi$yearShiNo").value
+                monthShi = KanShi.valueOf("Shi$monthShiNo").value
+            }
+        }
+        when (month_day) {
+            in 1..6 -> {
+                monthShi = KanShi.valueOf("Shi$monthShiNo").value
+                dayShi = KanShi.valueOf("Shi$dayShiNo").value
+            }
+        }
+        when (day_year) {
+            in 1..6 -> {
+                dayShi = KanShi.valueOf("Shi$dayShiNo").value
+                yearShi = KanShi.valueOf("Shi$yearShiNo").value
+            }
+        }
+
+        val intArray = intArrayOf(year_month, month_day, day_year)
         val hoppouShigou = context.getString(R.string.isouhou_shigou_hoku_text)
         val touhouShigou = context.getString(R.string.isouhou_shigou_tou_text)
         val chuouShigou = context.getString(R.string.isouhou_shigou_chu_text)
         val tenjikuShigou = context.getString(R.string.isouhou_shigou_ten_text)
         val seihouShigou = context.getString(R.string.isouhou_shigou_sei_text)
         val nanpouShigou = context.getString(R.string.isouhou_shigou_nan_text)
-        var yearShi = "＿"
-        var monthShi = "＿"
-        var dayShi = "＿"
         var result = ""
 
-        if (hoppouArray.count { it == 0 } < 2) {
-            val hoppouMaxNo = hoppouArray.maxBy { it }
-            val hoppouMinNo = hoppouArray.filter { it > 0 }.minBy { it }
-            if (hoppouMaxNo != hoppouMinNo) {
-                if (hoppouArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (hoppouArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (hoppouArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $hoppouShigou"
-            }
-        } else if (touhouArray.count { it == 0 } < 2) {
-            val touhouMaxNo = touhouArray.maxBy { it }
-            val touhouMinNo = touhouArray.filter { it > 0 }.minBy { it }
-            if (touhouMaxNo != touhouMinNo) {
-                if (touhouArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (touhouArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (touhouArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $touhouShigou"
-            }
-        } else if (chuouArray.count { it == 0 } < 2) {
-            val chuouMaxNo = chuouArray.maxBy { it }
-            val chuouMinNo = chuouArray.filter { it > 0 }.minBy { it }
-            if (chuouMaxNo != chuouMinNo) {
-                if (chuouArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (chuouArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (chuouArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $chuouShigou"
-            }
-        } else if (tenjikuArray.count { it == 0 } < 2) {
-            val tenjikuMaxNo = tenjikuArray.maxBy { it }
-            val tenjikuMinNo = tenjikuArray.filter { it > 0 }.minBy { it }
-            if (tenjikuMaxNo != tenjikuMinNo) {
-                if (tenjikuArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (tenjikuArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (tenjikuArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $tenjikuShigou"
-            }
-        } else if (seihouArray.count { it == 0 } < 2) {
-            val seihouMaxNo = seihouArray.maxBy { it }
-            val seihouMinNo = seihouArray.filter { it > 0 }.minBy { it }
-            if (seihouMaxNo != seihouMinNo) {
-                if (seihouArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (seihouArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (seihouArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $seihouShigou"
-            }
-        } else if (nanpouArray.count { it == 0 } < 2) {
-            val nanpouMaxNo = nanpouArray.maxBy { it }
-            val nanpouMinNo = nanpouArray.filter { it > 0 }.minBy { it }
-            if (nanpouMaxNo != nanpouMinNo) {
-                if (nanpouArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (nanpouArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (nanpouArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $nanpouShigou"
-            }
+        if (intArray.contains(1)) {
+            result = "$dayShi-$monthShi-$yearShi  $hoppouShigou"
+        } else if (intArray.contains(2)) {
+            result = "$dayShi-$monthShi-$yearShi  $touhouShigou"
+        } else if (intArray.contains(3)) {
+            result = "$dayShi-$monthShi-$yearShi  $chuouShigou"
+        } else if (intArray.contains(4)) {
+            result = "$dayShi-$monthShi-$yearShi  $tenjikuShigou"
+        } else if (intArray.contains(5)) {
+            result = "$dayShi-$monthShi-$yearShi  $seihouShigou"
+        } else if (intArray.contains(6)) {
+            result = "$dayShi-$monthShi-$yearShi  $nanpouShigou"
         }
 
         return result
+    }
+
+    /**
+     * Get Shigou parameter number
+     * @return 1:北方支合, 2:東方支合, 3:中央支合, 4:天軸支合, 5:西方支合, 6:南方支合
+     */
+    fun getShigouNo(shiNo1: Int, shiNo2: Int): Int {
+        val arrayNo = intArrayOf(shiNo1, shiNo2)
+        val hoppouArray = booleanArrayOf(false, false)
+        val touhouArray = booleanArrayOf(false, false)
+        val chuouArray = booleanArrayOf(false, false)
+        val tenjikuArray = booleanArrayOf(false, false)
+        val seihouArray = booleanArrayOf(false, false)
+        val nanpouArray = booleanArrayOf(false, false)
+
+        for (i in arrayNo) {
+            when (i) {
+                1 -> hoppouArray[0] = true
+                2 -> hoppouArray[1] = true
+                3 -> touhouArray[0] = true
+                4 -> chuouArray[0] = true
+                5 -> tenjikuArray[0] = true
+                6 -> seihouArray[0] = true
+                7 -> nanpouArray[0] = true
+                8 -> nanpouArray[1] = true
+                9 -> seihouArray[1] = true
+                10 -> tenjikuArray[1] = true
+                11 -> chuouArray[1] = true
+                12 -> touhouArray[1] = true
+            }
+        }
+
+        val hoppouCount = hoppouArray.count { it }
+        val touhouCount = touhouArray.count { it }
+        val chuouCount = chuouArray.count { it }
+        val tenjikuCount = tenjikuArray.count { it }
+        val seihouCount = seihouArray.count { it }
+        val nanpouCount = nanpouArray.count { it }
+        var num = 0
+
+        if (hoppouCount == 2) {
+            num = 1
+        } else if (touhouCount == 2) {
+            num = 2
+        } else if (chuouCount == 2) {
+            num = 3
+        } else if (tenjikuCount == 2) {
+            num = 4
+        } else if (seihouCount == 2) {
+            num = 5
+        } else if (nanpouCount == 2) {
+            num = 6
+        }
+
+        return num
     }
 
     /**
@@ -473,430 +489,394 @@ class Isouhou {
      * Get Taichu assessment result
      */
     fun getTaichu(context: Context, yearShiNo: Int, monthShiNo: Int, dayShiNo: Int): String {
-        val arrayNo = intArrayOf(yearShiNo, monthShiNo, dayShiNo)
-        val shisei1Array = IntArray(3)
-        val shisei2Array = IntArray(3)
-        val shise1Array = IntArray(3)
-        val shise2Array = IntArray(3)
-        val shiko1Array = IntArray(3)
-        val shiko2Array = IntArray(3)
-
-        for ((index, i) in arrayNo.withIndex()) {
-            when (i) {
-                1, 7 -> shisei1Array[index] = i
-                2, 8 -> shiko1Array[index] = i
-                3, 9 -> shise1Array[index] = i
-                4, 10 -> shisei2Array[index] = i
-                5, 11 -> shiko2Array[index] = i
-                6, 12 -> shise2Array[index] = i
-            }
-        }
-
+        val year_month = getTaichuNo(yearShiNo, monthShiNo)
+        val month_day = getTaichuNo(monthShiNo, dayShiNo)
+        val day_year = getTaichuNo(dayShiNo, yearShiNo)
         var yearShi = "＿"
         var monthShi = "＿"
         var dayShi = "＿"
+
+        when (year_month) {
+            in 1..3 -> {
+                yearShi = KanShi.valueOf("Shi$yearShiNo").value
+                monthShi = KanShi.valueOf("Shi$monthShiNo").value
+            }
+        }
+        when (month_day) {
+            in 1..3 -> {
+                monthShi = KanShi.valueOf("Shi$monthShiNo").value
+                dayShi = KanShi.valueOf("Shi$dayShiNo").value
+            }
+        }
+        when (day_year) {
+            in 1..3 -> {
+                dayShi = KanShi.valueOf("Shi$dayShiNo").value
+                yearShi = KanShi.valueOf("Shi$yearShiNo").value
+            }
+        }
+
+        val intArray = intArrayOf(year_month, month_day, day_year)
         val shiseiTaichu = context.getString(R.string.isouhou_taichu_shisei_text)
         val shiseTaichu = context.getString(R.string.isouhou_taichu_shise_text)
         val shikoTaichu = context.getString(R.string.isouhou_taichu_shiko_text)
         var result = ""
 
-        if (shisei1Array.count { it == 0 } < 2) {
-            val shisei1MaxNo = shisei1Array.maxBy { it }
-            val shisei1MinNo = shisei1Array.filter { it > 0 }.minBy { it }
-            if (shisei1MaxNo != shisei1MinNo) {
-                if (shisei1Array[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (shisei1Array[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (shisei1Array[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $shiseiTaichu"
-            }
-        } else if (shisei2Array.count { it == 0 } < 2) {
-            val shisei2MaxNo = shisei2Array.maxBy { it }
-            val shisei2MinNo = shisei2Array.filter { it > 0 }.minBy { it }
-            if (shisei2MaxNo != shisei2MinNo) {
-                if (shisei2Array[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (shisei2Array[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (shisei2Array[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $shiseiTaichu"
-            }
-        } else if (shise1Array.count { it == 0 } < 2) {
-            val shise1MaxNo = shise1Array.maxBy { it }
-            val shise1MinNo = shise1Array.filter { it > 0 }.minBy { it }
-            if (shise1MaxNo != shise1MinNo) {
-                if (shise1Array[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (shise1Array[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (shise1Array[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $shiseTaichu"
-            }
-        } else if (shise2Array.count { it == 0 } < 2) {
-            val shise2MaxNo = shise2Array.maxBy { it }
-            val shise2MinNo = shise2Array.filter { it > 0 }.minBy { it }
-            if (shise2MaxNo != shise2MinNo) {
-                if (shise2Array[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (shise2Array[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (shise2Array[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $shiseTaichu"
-            }
-        } else if (shiko1Array.count { it == 0 } < 2) {
-            val shiko1MaxNo = shiko1Array.maxBy { it }
-            val shiko1MinNo = shiko1Array.filter { it > 0 }.minBy { it }
-            if (shiko1MaxNo != shiko1MinNo) {
-                if (shiko1Array[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (shiko1Array[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (shiko1Array[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $shikoTaichu"
-            }
-        } else if (shiko2Array.count { it == 0 } < 2) {
-            val shiko2MaxNo = shiko2Array.maxBy { it }
-            val shiko2MinNo = shiko2Array.filter { it > 0 }.minBy { it }
-            if (shiko2MaxNo != shiko2MinNo) {
-                if (shiko2Array[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (shiko2Array[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (shiko2Array[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $shikoTaichu"
-            }
+        if (intArray.contains(1)) {
+            result = "$dayShi-$monthShi-$yearShi  $shiseiTaichu"
+        } else if (intArray.contains(2)) {
+            result = "$dayShi-$monthShi-$yearShi  $shiseTaichu"
+        } else if (intArray.contains(3)) {
+            result = "$dayShi-$monthShi-$yearShi  $shikoTaichu"
         }
 
         return result
+    }
+
+    /**
+     * Get Taichu parameter number
+     * @return 1:四正, 2:四勢, 3:四庫
+     */
+    fun getTaichuNo(shiNo1: Int, shiNo2: Int): Int {
+        val arrayNo = intArrayOf(shiNo1, shiNo2)
+        val shisei1Array = booleanArrayOf(false, false)
+        val shisei2Array = booleanArrayOf(false, false)
+        val shise1Array = booleanArrayOf(false, false)
+        val shise2Array = booleanArrayOf(false, false)
+        val shiko1Array = booleanArrayOf(false, false)
+        val shiko2Array = booleanArrayOf(false, false)
+
+        for (i in arrayNo) {
+            when (i) {
+                1 -> shisei1Array[0] = true
+                2 -> shiko1Array[0] = true
+                3 -> shise1Array[0] = true
+                4 -> shisei2Array[0] = true
+                5 -> shiko2Array[0] = true
+                6 -> shise2Array[0] = true
+                7 -> shisei1Array[1] = true
+                8 -> shiko1Array[1] = true
+                9 -> shise1Array[1] = true
+                10 -> shisei2Array[1] = true
+                11 -> shiko2Array[1] = true
+                12 -> shise2Array[1] = true
+            }
+        }
+
+        val shisei1Count = shisei1Array.count { it }
+        val shisei2Count = shisei2Array.count { it }
+        val shise1Count = shise1Array.count { it }
+        val shise2Count = shise2Array.count { it }
+        val shiko1Count = shiko1Array.count { it }
+        val shiko2Count = shiko2Array.count { it }
+        var num = 0
+
+        if ((shisei1Count == 2) || (shisei2Count == 2)) {
+            num = 1
+        } else if ((shise1Count == 2) || (shise2Count == 2)) {
+            num = 2
+        } else if ((shiko1Count == 2) || (shiko2Count == 2)) {
+            num = 3
+        }
+
+        return num
     }
 
     /**
      * Get Kei assessment result
      */
     fun getKei(context: Context, yearShiNo: Int, monthShiNo: Int, dayShiNo: Int): String {
-        val arrayNo = intArrayOf(yearShiNo, monthShiNo, dayShiNo)
-        val ji1Array = IntArray(3)
-        val ji2Array = IntArray(3)
-        val ji3Array = IntArray(3)
-        val ji4Array = IntArray(3)
-        val oukiArray = IntArray(3)
-        val seikiArray = IntArray(3)
-        val kokiArray = IntArray(3)
+        val year_month = getKeiNo(yearShiNo, monthShiNo)
+        val month_day = getKeiNo(monthShiNo, dayShiNo)
+        val day_year = getKeiNo(dayShiNo, yearShiNo)
+        var yearShi = "＿"
+        var monthShi = "＿"
+        var dayShi = "＿"
 
-        for ((index, i) in arrayNo.withIndex()) {
-            when (i) {
-                1, 4 -> oukiArray[index] = i
-                2, 8, 11 -> kokiArray[index] = i
-                3, 6, 9 -> seikiArray[index] = i
-                5 -> ji1Array[index] = i
-                7 -> ji2Array[index] = i
-                10 -> ji3Array[index] = i
-                12 -> ji4Array[index] = i
+        when (year_month) {
+            in 1..4 -> {
+                yearShi = KanShi.valueOf("Shi$yearShiNo").value
+                monthShi = KanShi.valueOf("Shi$monthShiNo").value
+            }
+        }
+        when (month_day) {
+            in 1..4 -> {
+                monthShi = KanShi.valueOf("Shi$monthShiNo").value
+                dayShi = KanShi.valueOf("Shi$dayShiNo").value
+            }
+        }
+        when (day_year) {
+            in 1..4 -> {
+                dayShi = KanShi.valueOf("Shi$dayShiNo").value
+                yearShi = KanShi.valueOf("Shi$yearShiNo").value
             }
         }
 
+        val intArray = intArrayOf(year_month, month_day, day_year)
         val jiKei = context.getString(R.string.isouhou_kei_ji_text)
         val oukiKei = context.getString(R.string.isouhou_kei_ouki_text)
         val seikiKei = context.getString(R.string.isouhou_kei_seiki_text)
         val kokiKei = context.getString(R.string.isouhou_kei_koki_text)
-        var yearShi = "＿"
-        var monthShi = "＿"
-        var dayShi = "＿"
         var result = ""
 
-        if (ji1Array.count { it == 0 } < 2) {
-            if (ji1Array[0] != 0)
-                yearShi = KanShi.valueOf("Shi$yearShiNo").value
-            if (ji1Array[1] != 0)
-                monthShi = KanShi.valueOf("Shi$monthShiNo").value
-            if (ji1Array[2] != 0)
-                dayShi = KanShi.valueOf("Shi$dayShiNo").value
+        if (intArray.contains(1)) {
             result = "$dayShi-$monthShi-$yearShi  $jiKei"
-        } else if (ji2Array.count { it == 0 } < 2) {
-            if (ji2Array[0] != 0)
-                yearShi = KanShi.valueOf("Shi$yearShiNo").value
-            if (ji2Array[1] != 0)
-                monthShi = KanShi.valueOf("Shi$monthShiNo").value
-            if (ji2Array[2] != 0)
-                dayShi = KanShi.valueOf("Shi$dayShiNo").value
-            result = "$dayShi-$monthShi-$yearShi  $jiKei"
-        } else if (ji3Array.count { it == 0 } < 2) {
-            if (ji3Array[0] != 0)
-                yearShi = KanShi.valueOf("Shi$yearShiNo").value
-            if (ji3Array[1] != 0)
-                monthShi = KanShi.valueOf("Shi$monthShiNo").value
-            if (ji3Array[2] != 0)
-                dayShi = KanShi.valueOf("Shi$dayShiNo").value
-            result = "$dayShi-$monthShi-$yearShi  $jiKei"
-        } else if (ji4Array.count { it == 0 } < 2) {
-            if (ji4Array[0] != 0)
-                yearShi = KanShi.valueOf("Shi$yearShiNo").value
-            if (ji4Array[1] != 0)
-                monthShi = KanShi.valueOf("Shi$monthShiNo").value
-            if (ji4Array[2] != 0)
-                dayShi = KanShi.valueOf("Shi$dayShiNo").value
-            result = "$dayShi-$monthShi-$yearShi  $jiKei"
-        } else if (oukiArray.count { it == 0 } < 2) {
-            val oukiMaxNo = oukiArray.maxBy { it }
-            val oukiMinNo = oukiArray.filter { it > 0 }.minBy { it }
-            if (oukiMaxNo != oukiMinNo) {
-                if (oukiArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (oukiArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (oukiArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $oukiKei"
-            }
-        } else if (seikiArray.count { it == 0 } < 2) {
-            val seikiMaxNo = seikiArray.maxBy { it }
-            val seikiMinNo = seikiArray.filter { it > 0 }.minBy { it }
-            if (seikiMaxNo != seikiMinNo) {
-                if (seikiArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (seikiArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (seikiArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $seikiKei"
-            }
-        } else if (kokiArray.count { it == 0 } < 2) {
-            val kokiMaxNo = kokiArray.maxBy { it }
-            val kokiMinNo = kokiArray.filter { it > 0 }.minBy { it }
-            if (kokiMaxNo != kokiMinNo) {
-                if (kokiArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (kokiArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (kokiArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $kokiKei"
-            }
+        } else if (intArray.contains(2)) {
+            result = "$dayShi-$monthShi-$yearShi  $oukiKei"
+        } else if (intArray.contains(3)) {
+            result = "$dayShi-$monthShi-$yearShi  $seikiKei"
+        } else if (intArray.contains(4)) {
+            result = "$dayShi-$monthShi-$yearShi  $kokiKei"
         }
 
         return result
+    }
+
+    /**
+     * Get Kei parameter number
+     * @return 1:自刑, 2:旺気刑, 3:生貴刑, 4:庫気刑
+     */
+    fun getKeiNo(shiNo1: Int, shiNo2: Int): Int {
+        val arrayNo = intArrayOf(shiNo1, shiNo2)
+        val ji1Array = booleanArrayOf(false, false)
+        val ji2Array = booleanArrayOf(false, false)
+        val ji3Array = booleanArrayOf(false, false)
+        val ji4Array = booleanArrayOf(false, false)
+        val oukiArray = booleanArrayOf(false, false)
+        val seikiArray = booleanArrayOf(false, false, false)
+        val kokiArray = booleanArrayOf(false, false, false)
+
+        for ((index, i) in arrayNo.withIndex()) {
+            when (i) {
+                1 -> oukiArray[0] = true
+                2 -> kokiArray[0] = true
+                3 -> seikiArray[0] = true
+                4 -> oukiArray[1] = true
+                5 -> ji1Array[index] = true
+                6 -> seikiArray[1] = true
+                7 -> ji2Array[index] = true
+                8 -> kokiArray[1] = true
+                9 -> seikiArray[2] = true
+                10 -> ji3Array[index] = true
+                11 -> kokiArray[2] = true
+                12 -> ji4Array[index] = true
+            }
+        }
+
+        val ji1Count = ji1Array.count { it }
+        val ji2Count = ji2Array.count { it }
+        val ji3Count = ji3Array.count { it }
+        val ji4Count = ji4Array.count { it }
+        val oukiCount = oukiArray.count { it }
+        val seikiCount = seikiArray.count { it }
+        val kokiCount = kokiArray.count { it }
+        var num = 0
+
+        if ((ji1Count == 2) || (ji2Count == 2) || (ji3Count == 2) || (ji4Count == 2)) {
+            num = 1
+        } else if (oukiCount == 2) {
+            num = 2
+        } else if (seikiCount == 2) {
+            num = 3
+        } else if (kokiCount == 2) {
+            num = 4
+        }
+
+        return num
     }
 
     /**
      * Get Ha assessment result
      */
     fun getHa(yearShiNo: Int, monthShiNo: Int, dayShiNo: Int): String {
-        val arrayNo = intArrayOf(yearShiNo, monthShiNo, dayShiNo)
-        val ha1Array = IntArray(3)
-        val ha2Array = IntArray(3)
-        val ha3Array = IntArray(3)
-        val ha4Array = IntArray(3)
-        val ha5Array = IntArray(3)
-        val ha6Array = IntArray(3)
+        val year_month = getHaNo(yearShiNo, monthShiNo)
+        val month_day = getHaNo(monthShiNo, dayShiNo)
+        val day_year = getHaNo(dayShiNo, yearShiNo)
 
-        for ((index, i) in arrayNo.withIndex()) {
-            when (i) {
-                1, 10 -> ha1Array[index] = i
-                2, 5 -> ha2Array[index] = i
-                3, 12 -> ha3Array[index] = i
-                4, 7 -> ha4Array[index] = i
-                6, 9 -> ha5Array[index] = i
-                8, 11 -> ha6Array[index] = i
-            }
-        }
+        if ((year_month == 0) && (month_day == 0) && (day_year == 0))
+            return ""
 
         var yearShi = "＿"
         var monthShi = "＿"
         var dayShi = "＿"
-        var result = ""
 
-        if (ha1Array.count { it == 0 } < 2) {
-            val ha1MaxNo = ha1Array.maxBy { it }
-            val ha1MinNo = ha1Array.filter { it > 0 }.minBy { it }
-            if (ha1MaxNo != ha1MinNo) {
-                if (ha1Array[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (ha1Array[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (ha1Array[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi"
-            }
-        } else if (ha2Array.count { it == 0 } < 2) {
-            val ha2MaxNo = ha2Array.maxBy { it }
-            val ha2MinNo = ha2Array.filter { it > 0 }.minBy { it }
-            if (ha2MaxNo != ha2MinNo) {
-                if (ha2Array[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (ha2Array[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (ha2Array[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi"
-            }
-        } else if (ha3Array.count { it == 0 } < 2) {
-            val ha3MaxNo = ha3Array.maxBy { it }
-            val ha3MinNo = ha3Array.filter { it > 0 }.minBy { it }
-            if (ha3MaxNo != ha3MinNo) {
-                if (ha3Array[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (ha3Array[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (ha3Array[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi"
-            }
-        } else if (ha4Array.count { it == 0 } < 2) {
-            val ha4MaxNo = ha4Array.maxBy { it }
-            val ha4MinNo = ha4Array.filter { it > 0 }.minBy { it }
-            if (ha4MaxNo != ha4MinNo) {
-                if (ha4Array[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (ha4Array[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (ha4Array[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi"
-            }
-        } else if (ha5Array.count { it == 0 } < 2) {
-            val ha5MaxNo = ha5Array.maxBy { it }
-            val ha5MinNo = ha5Array.filter { it > 0 }.minBy { it }
-            if (ha5MaxNo != ha5MinNo) {
-                if (ha5Array[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (ha5Array[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (ha5Array[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi"
-            }
-        } else if (ha6Array.count { it == 0 } < 2) {
-            val ha6MaxNo = ha6Array.maxBy { it }
-            val ha6MinNo = ha6Array.filter { it > 0 }.minBy { it }
-            if (ha6MaxNo != ha6MinNo) {
-                if (ha6Array[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (ha6Array[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (ha6Array[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi"
+        if (year_month > 0) {
+            yearShi = KanShi.valueOf("Shi$yearShiNo").value
+            monthShi = KanShi.valueOf("Shi$monthShiNo").value
+        }
+        if (month_day > 0) {
+            monthShi = KanShi.valueOf("Shi$monthShiNo").value
+            dayShi = KanShi.valueOf("Shi$dayShiNo").value
+        }
+        if (day_year > 0) {
+            dayShi = KanShi.valueOf("Shi$dayShiNo").value
+            yearShi = KanShi.valueOf("Shi$yearShiNo").value
+        }
+
+        return "$dayShi-$monthShi-$yearShi"
+    }
+
+    /**
+     * Get Ha parameter number
+     */
+    fun getHaNo(shiNo1: Int, shiNo2: Int): Int {
+        val arrayNo = intArrayOf(shiNo1, shiNo2)
+        val ha1Array = booleanArrayOf(false, false)
+        val ha2Array = booleanArrayOf(false, false)
+        val ha3Array = booleanArrayOf(false, false)
+        val ha4Array = booleanArrayOf(false, false)
+        val ha5Array = booleanArrayOf(false, false)
+        val ha6Array = booleanArrayOf(false, false)
+
+        for (i in arrayNo) {
+            when (i) {
+                1 -> ha1Array[0] = true
+                2 -> ha2Array[0] = true
+                3 -> ha3Array[0] = true
+                4 -> ha4Array[0] = true
+                5 -> ha2Array[1] = true
+                6 -> ha5Array[0] = true
+                7 -> ha4Array[1] = true
+                8 -> ha6Array[0] = true
+                9 -> ha5Array[1] = true
+                10 -> ha1Array[1] = true
+                11 -> ha6Array[1] = true
+                12 -> ha3Array[1] = true
             }
         }
 
-        return result
+        val ha1Count = ha1Array.count { it }
+        val ha2Count = ha2Array.count { it }
+        val ha3Count = ha3Array.count { it }
+        val ha4Count = ha4Array.count { it }
+        val ha5Count = ha5Array.count { it }
+        val ha6Count = ha6Array.count { it }
+        var num = 0
+
+        if (ha1Count == 2) {
+            num = 1
+        } else if (ha2Count == 2) {
+            num = 2
+        } else if (ha3Count == 2) {
+            num = 3
+        } else if (ha4Count == 2) {
+            num = 4
+        } else if (ha5Count == 2) {
+            num = 5
+        } else if (ha6Count == 2) {
+            num = 6
+        }
+
+        return num
     }
 
     /**
      * Get Gai assessment result
      */
     fun getGai(context: Context, yearShiNo: Int, monthShiNo: Int, dayShiNo: Int): String {
-        val arrayNo = intArrayOf(yearShiNo, monthShiNo, dayShiNo)
-        val hoppouArray = IntArray(3)
-        val nanpouArray = IntArray(3)
-        val touhouArray = IntArray(3)
-        val chuouArray = IntArray(3)
-        val seihouArray = IntArray(3)
-        val tenjikuArray = IntArray(3)
+        val year_month = getGaiNo(yearShiNo, monthShiNo)
+        val month_day = getGaiNo(monthShiNo, dayShiNo)
+        val day_year = getGaiNo(dayShiNo, yearShiNo)
+        var yearShi = "＿"
+        var monthShi = "＿"
+        var dayShi = "＿"
 
-        for ((index, i) in arrayNo.withIndex()) {
-            when (i) {
-                1, 8 -> hoppouArray[index] = i
-                2, 7 -> nanpouArray[index] = i
-                3, 6 -> touhouArray[index] = i
-                4, 5 -> chuouArray[index] = i
-                9, 12 -> seihouArray[index] = i
-                10, 11 -> tenjikuArray[index] = i
+        when (year_month) {
+            in 1..6 -> {
+                yearShi = KanShi.valueOf("Shi$yearShiNo").value
+                monthShi = KanShi.valueOf("Shi$monthShiNo").value
+            }
+        }
+        when (month_day) {
+            in 1..6 -> {
+                monthShi = KanShi.valueOf("Shi$monthShiNo").value
+                dayShi = KanShi.valueOf("Shi$dayShiNo").value
+            }
+        }
+        when (day_year) {
+            in 1..6 -> {
+                dayShi = KanShi.valueOf("Shi$dayShiNo").value
+                yearShi = KanShi.valueOf("Shi$yearShiNo").value
             }
         }
 
+        val intArray = intArrayOf(year_month, month_day, day_year)
         val hoppouGai = context.getString(R.string.isouhou_gai_hoku_text)
         val nanpouGai = context.getString(R.string.isouhou_gai_nan_text)
         val touhouGai = context.getString(R.string.isouhou_gai_tou_text)
         val chuouGai = context.getString(R.string.isouhou_gai_chu_text)
         val seihouGai = context.getString(R.string.isouhou_gai_sei_text)
         val tenjikuGai = context.getString(R.string.isouhou_gai_ten_text)
-        var yearShi = "＿"
-        var monthShi = "＿"
-        var dayShi = "＿"
         var result = ""
 
-        if (hoppouArray.count { it == 0 } < 2) {
-            val hoppouMaxNo = hoppouArray.maxBy { it }
-            val hoppouMinNo = hoppouArray.filter { it > 0 }.minBy { it }
-            if (hoppouMaxNo != hoppouMinNo) {
-                if (hoppouArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (hoppouArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (hoppouArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $hoppouGai"
-            }
-        } else if (nanpouArray.count { it == 0 } < 2) {
-            val nanpouMaxNo = nanpouArray.maxBy { it }
-            val nanpouMinNo = nanpouArray.filter { it > 0 }.minBy { it }
-            if (nanpouMaxNo != nanpouMinNo) {
-                if (nanpouArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (nanpouArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (nanpouArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $nanpouGai"
-            }
-        } else if (touhouArray.count { it == 0 } < 2) {
-            val touhouMaxNo = touhouArray.maxBy { it }
-            val touhouMinNo = touhouArray.filter { it > 0 }.minBy { it }
-            if (touhouMaxNo != touhouMinNo) {
-                if (touhouArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (touhouArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (touhouArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $touhouGai"
-            }
-        } else if (chuouArray.count { it == 0 } < 2) {
-            val chuouMaxNo = chuouArray.maxBy { it }
-            val chuouMinNo = chuouArray.filter { it > 0 }.minBy { it }
-            if (chuouMaxNo != chuouMinNo) {
-                if (chuouArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (chuouArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (chuouArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $chuouGai"
-            }
-        } else if (seihouArray.count { it == 0 } < 2) {
-            val seihouMaxNo = seihouArray.maxBy { it }
-            val seihouMinNo = seihouArray.filter { it > 0 }.minBy { it }
-            if (seihouMaxNo != seihouMinNo) {
-                if (seihouArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (seihouArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (seihouArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $seihouGai"
-            }
-        } else if (tenjikuArray.count { it == 0 } < 2) {
-            val tenjikuMaxNo = tenjikuArray.maxBy { it }
-            val tenjikuMinNo = tenjikuArray.filter { it > 0 }.minBy { it }
-            if (tenjikuMaxNo != tenjikuMinNo) {
-                if (tenjikuArray[0] != 0)
-                    yearShi = KanShi.valueOf("Shi$yearShiNo").value
-                if (tenjikuArray[1] != 0)
-                    monthShi = KanShi.valueOf("Shi$monthShiNo").value
-                if (tenjikuArray[2] != 0)
-                    dayShi = KanShi.valueOf("Shi$dayShiNo").value
-                result = "$dayShi-$monthShi-$yearShi  $tenjikuGai"
-            }
+        if (intArray.contains(1)) {
+            result = "$dayShi-$monthShi-$yearShi  $hoppouGai"
+        } else if (intArray.contains(2)) {
+            result = "$dayShi-$monthShi-$yearShi  $nanpouGai"
+        } else if (intArray.contains(3)) {
+            result = "$dayShi-$monthShi-$yearShi  $touhouGai"
+        } else if (intArray.contains(4)) {
+            result = "$dayShi-$monthShi-$yearShi  $chuouGai"
+        } else if (intArray.contains(5)) {
+            result = "$dayShi-$monthShi-$yearShi  $seihouGai"
+        } else if (intArray.contains(6)) {
+            result = "$dayShi-$monthShi-$yearShi  $tenjikuGai"
         }
 
         return result
+    }
+
+    /**
+     * Get Gai parameter number
+     * @return 1:北方害, 2:南方害, 3:東方害, 4:中央害, 5:西方害, 6:天軸害
+     */
+    fun getGaiNo(shiNo1: Int, shiNo2: Int): Int {
+        val arrayNo = intArrayOf(shiNo1, shiNo2)
+        val hoppouArray = booleanArrayOf(false, false)
+        val nanpouArray = booleanArrayOf(false, false)
+        val touhouArray = booleanArrayOf(false, false)
+        val chuouArray = booleanArrayOf(false, false)
+        val seihouArray = booleanArrayOf(false, false)
+        val tenjikuArray = booleanArrayOf(false, false)
+
+        for (i in arrayNo) {
+            when (i) {
+                1 -> hoppouArray[0] = true
+                2 -> nanpouArray[0] = true
+                3 -> touhouArray[0] = true
+                4 -> chuouArray[0] = true
+                5 -> chuouArray[1] = true
+                6 -> touhouArray[1] = true
+                7 -> nanpouArray[1] = true
+                8 -> hoppouArray[1] = true
+                9 -> seihouArray[0] = true
+                10 -> tenjikuArray[0] = true
+                11 -> tenjikuArray[1] = true
+                12 -> seihouArray[1] = true
+            }
+        }
+
+        val hoppouCount = hoppouArray.count { it }
+        val nanpouCount = nanpouArray.count { it }
+        val touhouCount = touhouArray.count { it }
+        val chuouCount = chuouArray.count { it }
+        val seihouCount = seihouArray.count { it }
+        val tenjikuCount = tenjikuArray.count { it }
+        var num = 0
+
+        if (hoppouCount == 2) {
+            num = 1
+        } else if (nanpouCount == 2) {
+            num = 2
+        } else if (touhouCount == 2) {
+            num = 3
+        } else if (chuouCount == 2) {
+            num = 4
+        } else if (seihouCount == 2) {
+            num = 5
+        } else if (tenjikuCount == 2) {
+            num = 6
+        }
+
+        return num
     }
 }
