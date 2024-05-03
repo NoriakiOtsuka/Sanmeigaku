@@ -32,11 +32,6 @@ class AssessmentActivity : AppCompatActivity() {
     /** Variable of the difference from the end of the month to the birthday */
     var mDiffLastDay: Int = -1
 
-    /** Variables of zou-kan number */
-    var mYearZouKanNo: Int = 0
-    var mMonthZouKanNo: Int = 0
-    var mDayZouKanNo: Int = 0
-
     companion object {
         /** Variables of user info received from the main activity */
         var mName: String = ""
@@ -56,6 +51,11 @@ class AssessmentActivity : AppCompatActivity() {
         var mMonthShiNo: Int = 0
         var mDayKanNo: Int = 0
         var mDayShiNo: Int = 0
+
+        /** Variables of zou-kan number */
+        var mYearZouKanNo: Int = 0
+        var mMonthZouKanNo: Int = 0
+        var mDayZouKanNo: Int = 0
 
         /** Variables of main star number */
         var mMainStarNo: Int = 0
