@@ -548,6 +548,60 @@ class Utility {
     }
 
     /**
+     * Get rokushin numbers
+     */
+    fun getRokushinNo(dayKanNo: Int): Pair<Int, Int> {
+        val fNum =
+            when (dayKanNo) {
+                1 -> 5
+                2 -> 4
+                3 -> 7
+                4 -> 6
+                5 -> 9
+                6 -> 8
+                7 -> 1
+                8 -> 10
+                9 -> 3
+                10 -> 2
+                else -> 0
+        }
+
+        val mNum =
+            when (dayKanNo) {
+                1 -> 10
+                2 -> 9
+                3 -> 2
+                4 -> 1
+                5 -> 4
+                6 -> 3
+                7 -> 6
+                8 -> 5
+                9 -> 8
+                10 -> 7
+                else -> 0
+        }
+
+        return Pair(fNum, mNum)
+    }
+
+    /**
+     * Determine if nanasatsu is present
+     */
+    fun isNanasatsu(kanNo1: Int, kanNo2: Int): Boolean {
+
+        when (kanNo1) {
+            in 1..4 -> when (kanNo2) {
+                kanNo1 + 6 -> return true
+            }
+            in 5..10 -> when (kanNo2) {
+                kanNo1 - 4 -> return true
+            }
+        }
+
+        return false
+    }
+
+    /**
      * Get shukumei tenchusatsu items array
      */
     fun getTenchusatsuArray(yearNo: Int, monthNo: Int, dayNo: Int): BooleanArray {
