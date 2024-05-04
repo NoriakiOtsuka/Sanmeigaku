@@ -41,6 +41,14 @@ class Kakuhou {
     private var mMonthShiType: Int = 0
     private var mDayShiType: Int = 0
 
+    /** Variables of zou-kan number based on shogen, chugen, hongen */
+    private var mMonthZouKan1: Int = 0
+    private var mMonthZouKan2: Int = 0
+    private var mMonthZouKan3: Int = 0
+    private var mZoukanStar1: Int = 0
+    private var mZoukanStar2: Int = 0
+    private var mZoukanStar3: Int = 0
+
     /**
      * Set kakuhou items
      */
@@ -51,6 +59,13 @@ class Kakuhou {
         mYearShiType = setGogyouFromShi(mYearShiNo)
         mMonthShiType = setGogyouFromShi(mMonthShiNo)
         mDayShiType = setGogyouFromShi(mDayShiNo)
+
+        mMonthZouKan1 = mUtil.getZonKanNo(mMonthShiNo, 1)
+        mMonthZouKan2 = mUtil.getZonKanNo(mMonthShiNo, 11)
+        mMonthZouKan3 = mUtil.getZonKanNo(mMonthShiNo, 21)
+        mZoukanStar1 = mUtil.getMainStarNo(mDayKanNo, mMonthZouKan1)
+        mZoukanStar2 = mUtil.getMainStarNo(mDayKanNo, mMonthZouKan2)
+        mZoukanStar3 = mUtil.getMainStarNo(mDayKanNo, mMonthZouKan3)
 
         Log.i(TAG, "setKakuhou: Calculate and set the appropriate Kaku")
 
@@ -68,6 +83,12 @@ class Kakuhou {
             henkiinshinjuryoKaku(),
             syokurokushinKaku(),
             syoukanKaku(),
+            zakkizaiKaku(),
+            zakkikanKaku(),
+            zakkiinKaku(),
+            zakkizaikanKaku(),
+            zakkikaninKaku(),
+            zakkizaiinKaku(),
         )
         var result = ""
         for ((index, i) in array.withIndex()) {
@@ -529,6 +550,225 @@ class Kakuhou {
             (mIsouUtil.getKeiNo(mDayShiNo, mMonthShiNo) > 0) ||
             (mIsouUtil.getHaNo(mDayShiNo, mMonthShiNo) > 0) ||
             (mIsouUtil.getGaiNo(mDayShiNo, mMonthShiNo) > 0))
+            return result
+
+        result = 1
+
+        return result
+    }
+
+    /** 14.雑気財格 */
+    private fun zakkizaiKaku(): Int {
+        var result =-1
+
+        if (mMonthShiType != 3)
+            return result
+
+        val mainStarArray = arrayListOf(mMainStar2, mMainStar4)
+        var mainStarCount = 0
+        for (num in mainStarArray) {
+            when (num) {
+                MainStar.valueOf("Main5").id -> mainStarCount++
+                MainStar.valueOf("Main6").id -> mainStarCount++
+            }
+        }
+
+        val zoukanStarArray = arrayListOf(mZoukanStar1, mZoukanStar2, mZoukanStar3)
+        var zoukanStarCount = 0
+        for (num in zoukanStarArray) {
+            when (num) {
+                MainStar.valueOf("Main5").id -> zoukanStarCount++
+                MainStar.valueOf("Main6").id -> zoukanStarCount++
+            }
+        }
+
+        if ((mainStarCount == 0) || (zoukanStarCount == 0))
+            return result
+
+        result = 1
+
+        return result
+    }
+
+    /** 15.雑気官格 */
+    private fun zakkikanKaku(): Int {
+        var result = -1
+
+        if (mMonthShiType != 3)
+            return result
+
+        val mainStarArray = arrayListOf(mMainStar2, mMainStar4)
+        var mainStarCount = 0
+        for (num in mainStarArray) {
+            when (num) {
+                MainStar.valueOf("Main7").id -> mainStarCount++
+                MainStar.valueOf("Main8").id -> mainStarCount++
+            }
+        }
+
+        val zoukanStarArray = arrayListOf(mZoukanStar1, mZoukanStar2, mZoukanStar3)
+        var zoukanStarCount = 0
+        for (num in zoukanStarArray) {
+            when (num) {
+                MainStar.valueOf("Main7").id -> zoukanStarCount++
+                MainStar.valueOf("Main8").id -> zoukanStarCount++
+            }
+        }
+
+        if ((mainStarCount == 0) || (zoukanStarCount == 0))
+            return result
+
+        result = 1
+
+        return result
+    }
+
+    /** 16.雑気印格 */
+    private fun zakkiinKaku(): Int {
+        var result = -1
+
+        if (mMonthShiType != 3)
+            return result
+
+        val mainStarArray = arrayListOf(mMainStar2, mMainStar4)
+        var mainStarCount = 0
+        for (num in mainStarArray) {
+            when (num) {
+                MainStar.valueOf("Main9").id -> mainStarCount++
+                MainStar.valueOf("Main10").id -> mainStarCount++
+            }
+        }
+
+        val zoukanStarArray = arrayListOf(mZoukanStar1, mZoukanStar2, mZoukanStar3)
+        var zoukanStarCount = 0
+        for (num in zoukanStarArray) {
+            when (num) {
+                MainStar.valueOf("Main9").id -> zoukanStarCount++
+                MainStar.valueOf("Main10").id -> zoukanStarCount++
+            }
+        }
+
+        if ((mainStarCount == 0) || (zoukanStarCount == 0))
+            return result
+
+        result = 1
+
+        return result
+    }
+
+    /** 17.雑気財官格 */
+    private fun zakkizaikanKaku(): Int {
+        var result = -1
+
+        if (mMonthShiType != 3)
+            return result
+
+        val mainStarArray = arrayListOf(mMainStar2, mMainStar4)
+        var mainStarZaiCount = 0
+        var mainStarKanCount = 0
+        for (num in mainStarArray) {
+            when (num) {
+                MainStar.valueOf("Main5").id -> mainStarZaiCount++
+                MainStar.valueOf("Main6").id -> mainStarZaiCount++
+                MainStar.valueOf("Main7").id -> mainStarKanCount++
+                MainStar.valueOf("Main8").id -> mainStarKanCount++
+            }
+        }
+
+        val zoukanStarArray = arrayListOf(mZoukanStar1, mZoukanStar2, mZoukanStar3)
+        var zoukanStarZaiCount = 0
+        var zoukanStarKanCount = 0
+        for (num in zoukanStarArray) {
+            when (num) {
+                MainStar.valueOf("Main5").id -> zoukanStarZaiCount++
+                MainStar.valueOf("Main6").id -> zoukanStarZaiCount++
+                MainStar.valueOf("Main7").id -> zoukanStarKanCount++
+                MainStar.valueOf("Main8").id -> zoukanStarKanCount++
+            }
+        }
+
+        if (((mainStarZaiCount == 0) || (mainStarKanCount == 0)) ||
+            ((zoukanStarZaiCount == 0) || (zoukanStarKanCount == 0)))
+            return result
+
+        result = 1
+
+        return result
+    }
+
+    /** 18.雑気官印格 */
+    private fun zakkikaninKaku(): Int {
+        var result = -1
+
+        if (mMonthShiType != 3)
+            return result
+
+        val mainStarArray = arrayListOf(mMainStar2, mMainStar4)
+        var mainStarKanCount = 0
+        var mainStarInCount = 0
+        for (num in mainStarArray) {
+            when (num) {
+                MainStar.valueOf("Main7").id -> mainStarKanCount++
+                MainStar.valueOf("Main8").id -> mainStarKanCount++
+                MainStar.valueOf("Main9").id -> mainStarInCount++
+                MainStar.valueOf("Main10").id -> mainStarInCount++
+            }
+        }
+
+        val zoukanStarArray = arrayListOf(mZoukanStar1, mZoukanStar2, mZoukanStar3)
+        var zoukanStarKanCount = 0
+        var zoukanStarInCount = 0
+        for (num in zoukanStarArray) {
+            when (num) {
+                MainStar.valueOf("Main7").id -> zoukanStarKanCount++
+                MainStar.valueOf("Main8").id -> zoukanStarKanCount++
+                MainStar.valueOf("Main9").id -> zoukanStarInCount++
+                MainStar.valueOf("Main10").id -> zoukanStarInCount++
+            }
+        }
+
+        if (((mainStarKanCount == 0) || (mainStarInCount == 0)) ||
+            ((zoukanStarKanCount == 0) || (zoukanStarInCount == 0)))
+            return result
+
+        result = 1
+
+        return result
+    }
+
+    /** 19.雑気財印格 */
+    private fun zakkizaiinKaku(): Int {
+        var result = -1
+
+        if (mMonthShiType != 3)
+            return result
+
+        val mainStarArray = arrayListOf(mMainStar2, mMainStar4)
+        var mainStarZaiCount = 0
+        var mainStarInCount = 0
+        for (num in mainStarArray) {
+            when (num) {
+                MainStar.valueOf("Main5").id -> mainStarZaiCount++
+                MainStar.valueOf("Main6").id -> mainStarZaiCount++
+                MainStar.valueOf("Main9").id -> mainStarInCount++
+                MainStar.valueOf("Main10").id -> mainStarInCount++
+            }
+        }
+
+        val zoukanStarArray = arrayListOf(mZoukanStar1, mZoukanStar2, mZoukanStar3)
+        var zoukanStarZaiCount = 0
+        var zoukanStarInCount = 0
+        for (num in zoukanStarArray) {
+            when (num) {
+                MainStar.valueOf("Main5").id -> zoukanStarZaiCount++
+                MainStar.valueOf("Main6").id -> zoukanStarZaiCount++
+                MainStar.valueOf("Main9").id -> zoukanStarInCount++
+                MainStar.valueOf("Main10").id -> zoukanStarInCount++
+            }
+        }
+
+        if (((mainStarZaiCount == 0) || (mainStarInCount == 0)) ||
+            ((zoukanStarZaiCount == 0) || (zoukanStarInCount == 0)))
             return result
 
         result = 1
