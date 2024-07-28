@@ -129,6 +129,11 @@ class Kakuhou {
             doseiIkkiKaku(),
             kinseiIkkiKaku(),
             suiseiIkkiKaku(),
+            mokuseiInjuKaku(),
+            kaseiInjuKaku(),
+            doseiInjuKaku(),
+            kinseiInjuKaku(),
+            suiseiInjuKaku(),
         )
         var result = ""
         for ((index, i) in array.withIndex()) {
@@ -1870,6 +1875,661 @@ class Kakuhou {
 
         if (gogyouArray.count { it == 5 } == 6)
             result = 0
+
+        return result
+    }
+
+    /** 58.木性印綬格 */
+    private fun mokuseiInjuKaku(): Int {
+        var result = -1
+
+        if (mDayKanType != 1)
+            return -1
+
+        val gogyouArray = intArrayOf(mYearShiType, mMonthShiType, mDayShiType)
+        for (type in gogyouArray) {
+            if (type == 1)
+                return -1
+        }
+
+        var yearKanType = mYearKanType
+        var monthKanType = mMonthKanType
+        val kangouNo = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+        if ((kangouNo == 9) || (kangouNo == 10)) {
+            yearKanType = 5
+            monthKanType = 5
+        }
+        if ((yearKanType != 5) || (monthKanType != 5))
+            return -1
+
+        val shiNoArray = intArrayOf(mYearShiNo, mDayShiNo)
+        shiNoArray.sort()
+        when (mMonthShiNo) {
+            1 -> when (shiNoArray[0]) {
+                1 -> when (shiNoArray[1]) {
+                    1, 2, 5, 9, 12 -> result = 1
+                    6, 7, 8, 10, 11 -> result = 0
+                }
+                2 -> when (shiNoArray[1]) {
+                    2, 5, 9, 12 -> result = 1
+                    6, 7, 8, 11 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    5, 9, 12 -> result = 1
+                    6, 7, 8, 10, 11 -> result = 0
+                }
+                6, 7 -> when (shiNoArray[1]) {
+                    9, 12 -> result = 0
+                }
+                8 -> when (shiNoArray[1]) {
+                    9 -> result = 0
+                }
+                9 -> when (shiNoArray[1]) {
+                    9, 12 -> result = 1
+                    10, 11 -> result = 0
+                }
+                10, 11 -> when (shiNoArray[1]) {
+                    12 -> result = 0
+                }
+                12 -> when (shiNoArray[1]) {
+                    12 -> result = 1
+                }
+            }
+            2 -> when (shiNoArray[0]) {
+                5 -> when (shiNoArray[1]) {
+                    9 -> result = 0
+                }
+                12 -> when (shiNoArray[1]) {
+                    12 -> result = 0
+                }
+            }
+            5, 9 -> when (shiNoArray[0]) {
+                12 -> when (shiNoArray[1]) {
+                    12 -> result = 0
+                }
+            }
+            6 -> when (shiNoArray[0]) {
+                1 -> when (shiNoArray[1]) {
+                    1, 5, 12 -> result = 0
+                }
+                12 -> when (shiNoArray[1]) {
+                    12 -> result = 0
+                }
+            }
+            7, 11 -> when (shiNoArray[0]) {
+                1 -> when (shiNoArray[1]) {
+                    1, 2, 5, 9, 12 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    9 -> result = 0
+                }
+                12 -> when (shiNoArray[1]) {
+                    12 -> result = 0
+                }
+            }
+            8 -> when (shiNoArray[0]) {
+                1 -> when (shiNoArray[1]) {
+                    1, 2, 5, 9 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    9 -> result = 0
+                }
+            }
+            10 -> when (shiNoArray[0]) {
+                1 -> when (shiNoArray[1]) {
+                    1, 5, 9, 12 -> result = 0
+                }
+                12 -> when (shiNoArray[1]) {
+                    12 -> result = 0
+                }
+            }
+            12 -> when (shiNoArray[0]) {
+                1 -> when (shiNoArray[1]) {
+                    1, 2, 5, 9, 12 -> result = 1
+                    6, 7, 10, 11 -> result = 0
+                }
+                2, 6, 7, 9, 10, 11 -> when (shiNoArray[1]) {
+                    12 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    9 -> result = 1
+                    12 -> result = 0
+                }
+                12 -> when (shiNoArray[1]) {
+                    12 -> result = 1
+                }
+            }
+        }
+
+        return result
+    }
+
+    /** 59.火性印綬格 */
+    private fun kaseiInjuKaku(): Int {
+        var result = -1
+
+        if (mDayKanType != 2)
+            return -1
+
+        val gogyouArray = intArrayOf(mYearShiType, mMonthShiType, mDayShiType)
+        for (type in gogyouArray) {
+            if (type == 2)
+                return -1
+        }
+
+        var yearKanType = mYearKanType
+        var monthKanType = mMonthKanType
+        val kangouNo = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+        if ((kangouNo == 1) || (kangouNo == 2)) {
+            yearKanType = 1
+            monthKanType = 1
+        }
+        if ((yearKanType != 1) || (monthKanType != 1))
+            return -1
+
+        val shiNoArray = intArrayOf(mYearShiNo, mDayShiNo)
+        shiNoArray.sort()
+        when (mMonthShiNo) {
+            1, 9, 10 -> when (shiNoArray[0]) {
+                3 -> when (shiNoArray[1]) {
+                    3, 4, 12 -> result = 0
+                }
+                4 -> when (shiNoArray[1]) {
+                    4, 8, 11, 12 -> result = 0
+                }
+                8 -> when (shiNoArray[1]) {
+                    12 -> result = 0
+                }
+            }
+            2, 5 -> when (shiNoArray[0]) {
+                3 -> when (shiNoArray[1]) {
+                    3, 4, 12 -> result = 0
+                }
+                4 -> when (shiNoArray[1]) {
+                    4, 8, 11, 12 -> result = 0
+                }
+                8 -> when (shiNoArray[1]) {
+                    12 -> result = 0
+                }
+            }
+            3 -> when (shiNoArray[0]) {
+                1, 2 -> when (shiNoArray[1]) {
+                    3, 4, 12 -> result = 0
+                }
+                3 -> when (shiNoArray[1]) {
+                    3, 4, 12 -> result = 1
+                    5, 8, 9, 10 -> result = 0
+                }
+                4 -> when (shiNoArray[1]) {
+                    4, 8, 12 -> result = 1
+                    5, 9, 10 -> result = 0
+                }
+                5, 9, 10 -> when (shiNoArray[1]) {
+                    12 -> result = 0
+                }
+                8, 12 -> when (shiNoArray[1]) {
+                    12 -> result = 1
+                }
+            }
+            4 -> when (shiNoArray[0]) {
+                1 -> when (shiNoArray[1]) {
+                    3, 4, 8, 11, 12 -> result = 0
+                }
+                2 -> when (shiNoArray[1]) {
+                    3, 4, 8, 11, 12 -> result = 0
+                }
+                3, 4 -> when (shiNoArray[1]) {
+                    3, 4, 8, 11, 12 -> result = 1
+                    5, 9, 10 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    8, 11, 12 -> result = 0
+                }
+                8 -> when (shiNoArray[1]) {
+                    8, 11, 12 -> result = 1
+                    9, 10 -> result = 0
+                }
+                9, 10 -> when (shiNoArray[1]) {
+                    11, 12 -> result = 0
+                }
+                11 -> when (shiNoArray[1]) {
+                    11, 12 -> result = 1
+                }
+                12 -> when (shiNoArray[1]) {
+                    12 -> result = 1
+                }
+            }
+            8 -> when (shiNoArray[0]) {
+                3 -> when (shiNoArray[1]) {
+                    3 -> result = 0
+                }
+            }
+            11 -> when (shiNoArray[0]) {
+                8 -> when (shiNoArray[1]) {
+                    12 -> result = 0
+                }
+            }
+        }
+
+        if (kangouNo != 0) {
+            when (mMonthShiNo) {
+                2, 5 -> when (shiNoArray[0]) {
+                    4 -> when (shiNoArray[1]) {
+                        11 -> result = -1
+                    }
+                }
+                4 -> when (shiNoArray[0]) {
+                    2, 5, 11 -> when (shiNoArray[1]) {
+                        11 -> result = -1
+                    }
+                }
+            }
+        }
+
+        return result
+    }
+
+    /** 60.土性印綬格 */
+    private fun doseiInjuKaku(): Int {
+        var result = -1
+
+        if (mDayKanType != 3)
+            return -1
+
+        val gogyouArray = intArrayOf(mYearShiType, mMonthShiType, mDayShiType)
+        for (type in gogyouArray) {
+            if (type == 3)
+                return -1
+        }
+
+        var yearKanType = mYearKanType
+        var monthKanType = mMonthKanType
+        val kangouNo = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+        if ((kangouNo == 3) || (kangouNo == 4)) {
+            yearKanType = 2
+            monthKanType = 2
+        }
+        if ((yearKanType != 2) || (monthKanType != 2))
+            return -1
+
+        val shiNoArray = intArrayOf(mYearShiNo, mDayShiNo)
+        shiNoArray.sort()
+        when (mMonthShiNo) {
+            1, 4 -> when (shiNoArray[0]) {
+                3 -> when (shiNoArray[1]) {
+                    7 -> result = 0
+                }
+                6, 7 -> when (shiNoArray[1]) {
+                    6, 7 -> result = 0
+                }
+            }
+            3 -> when (shiNoArray[0]) {
+                6 -> when (shiNoArray[1]) {
+                    6 -> result = 0
+                }
+            }
+            6 -> when (shiNoArray[0]) {
+                1 -> when (shiNoArray[1]) {
+                    6, 7 -> result = 0
+                }
+                3 -> when (shiNoArray[1]) {
+                    7 -> result = 1
+                    6 -> result = 0
+                }
+                4 -> when (shiNoArray[1]) {
+                    6, 7 -> result = 0
+                }
+                6, 7 -> when (shiNoArray[1]) {
+                    6, 7 -> result = 1
+                    12 -> result = 0
+                }
+            }
+            7 -> when (shiNoArray[0]) {
+                1 -> when (shiNoArray[1]) {
+                    3, 6, 7 -> result = 0
+                }
+                3 -> when (shiNoArray[1]) {
+                    3, 6, 7 -> result = 1
+                    4, 9, 10, 12 -> result = 0
+                }
+                4 -> when (shiNoArray[1]) {
+                    6, 7 -> result = 0
+                }
+                6 -> when (shiNoArray[1]) {
+                    6, 7 -> result = 1
+                    12 -> result = 0
+                }
+                7 -> when (shiNoArray[1]) {
+                    7 -> result = 1
+                    9, 10, 12 -> result = 0
+                }
+            }
+            9, 10 -> when (shiNoArray[0]) {
+                3, 7 -> when (shiNoArray[1]) {
+                    7 -> result = 0
+                }
+            }
+            12 -> when (shiNoArray[0]) {
+                3, 7 -> when (shiNoArray[1]) {
+                    7 -> result = 0
+                }
+                6 -> when (shiNoArray[1]) {
+                    6, 7 -> result = 0
+                }
+            }
+        }
+
+        return result
+    }
+
+    /** 61.金性印綬格 */
+    private fun kinseiInjuKaku(): Int {
+        var result = -1
+
+        if (mDayKanType != 4)
+            return -1
+
+        val gogyouArray = intArrayOf(mYearShiType, mMonthShiType, mDayShiType)
+        for (type in gogyouArray) {
+            if (type == 4)
+                return -1
+        }
+
+        var yearKanType = mYearKanType
+        var monthKanType = mMonthKanType
+        val kangouNo = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+        if ((kangouNo == 5) || (kangouNo == 6)) {
+            yearKanType = 3
+            monthKanType = 3
+        }
+        if ((yearKanType != 3) || (monthKanType != 3))
+            return -1
+
+        val shiNoArray = intArrayOf(mYearShiNo, mDayShiNo)
+        shiNoArray.sort()
+        when (mMonthShiNo) {
+            1 -> when (shiNoArray[0]) {
+                4 -> when (shiNoArray[1]) {
+                    11 -> result = 0
+                }
+                8 ,11 -> when (shiNoArray[1]) {
+                    8, 11 -> result = 0
+                }
+            }
+            2 -> when (shiNoArray[0]) {
+                2 -> when (shiNoArray[1]) {
+                    2, 5, 8, 11 -> result = 1
+                    3, 4, 7, 12 -> result = 0
+                }
+                3 -> when (shiNoArray[1]) {
+                    5, 8 -> result = 0
+                }
+                4 -> when (shiNoArray[1]) {
+                    11 -> result = 1
+                    5 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    5, 8, 11 -> result = 1
+                    7, 12 -> result = 0
+                }
+                8 -> when (shiNoArray[1]) {
+                    8, 11 -> result = 1
+                }
+                11 -> when (shiNoArray[1]) {
+                    11 -> result = 1
+                    12 -> result = 0
+                }
+            }
+            3 -> when (shiNoArray[0]) {
+                2, 5, 8 -> when (shiNoArray[1]) {
+                    2, 5, 8 -> result = 0
+                }
+            }
+            4, 7 -> when (shiNoArray[0]) {
+                2, 5 -> when (shiNoArray[1]) {
+                    2, 5 -> result = 0
+                }
+            }
+            5 -> when (shiNoArray[0]) {
+                2 -> when (shiNoArray[1]) {
+                    2, 5, 8, 11 -> result = 1
+                    3, 4, 7, 12 -> result = 0
+                }
+                3 -> when (shiNoArray[1]) {
+                    5, 8 -> result = 0
+                }
+                4 -> when (shiNoArray[1]) {
+                    11 -> result = 1
+                    5 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    5, 8, 11 -> result = 1
+                    6, 7, 12 -> result = 0
+                }
+                6 -> when (shiNoArray[1]) {
+                    8, 11 -> result = 0
+                }
+                8 -> when (shiNoArray[1]) {
+                    8, 11 -> result = 1
+                }
+                11 -> when (shiNoArray[1]) {
+                    11 -> result = 1
+                    12 -> result = 0
+                }
+            }
+            6 -> when (shiNoArray[0]) {
+                4 -> when (shiNoArray[1]) {
+                    11 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    5, 8, 11 -> result = 0
+                }
+                8 -> when (shiNoArray[1]) {
+                    8, 11 -> result = 0
+                }
+                11 -> when (shiNoArray[1]) {
+                    11 -> result = 0
+                }
+            }
+            8 -> when (shiNoArray[0]) {
+                1 -> when (shiNoArray[1]) {
+                    8, 11 -> result = 0
+                }
+                2 -> when (shiNoArray[1]) {
+                    2, 5, 8, 11 -> result = 1
+                    3 -> result = 0
+                }
+                3 -> when (shiNoArray[1]) {
+                    5, 8 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    5, 8, 11 -> result = 1
+                    6 -> result = 0
+                }
+                6 -> when (shiNoArray[1]) {
+                    8, 11 -> result = 0
+                }
+                8 -> when (shiNoArray[1]) {
+                    8, 11 -> result = 1
+                }
+                11 -> when (shiNoArray[1]) {
+                    11 -> result = 1
+                }
+            }
+            11-> when (shiNoArray[0]) {
+                1 -> when (shiNoArray[1]) {
+                    4, 8, 11 -> result = 0
+                }
+                2 -> when (shiNoArray[1]) {
+                    2, 4, 5, 8, 11 -> result = 1
+                    12 -> result = 0
+                }
+                4 -> when (shiNoArray[1]) {
+                    4, 5, 11 -> result = 1
+                    6 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    5, 8, 11 -> result = 1
+                    6, 12 -> result = 0
+                }
+                6 -> when (shiNoArray[1]) {
+                    8, 11 -> result = 0
+                }
+                8 -> when (shiNoArray[1]) {
+                    8, 11 -> result = 1
+                }
+                11 -> when (shiNoArray[1]) {
+                    11 -> result = 1
+                    12 -> result = 0
+                }
+            }
+            12-> when (shiNoArray[0]) {
+                2 -> when (shiNoArray[1]) {
+                    2, 5, 11 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    5, 11 -> result = 0
+                }
+                11 -> when (shiNoArray[1]) {
+                    11 -> result = 0
+                }
+            }
+        }
+
+        if (kangouNo != 0) {
+            when (mMonthShiNo) {
+                1, 6 -> when (shiNoArray[0]) {
+                    4 -> when (shiNoArray[1]) {
+                        11 -> result = -1
+                    }
+                }
+                11 -> when (shiNoArray[0]) {
+                    1 -> when (shiNoArray[1]) {
+                        4 -> result = -1
+                    }
+                    4 -> when (shiNoArray[1]) {
+                        4, 6 -> result = -1
+                    }
+                }
+            }
+        }
+
+        return result
+    }
+
+    /** 62.水性印綬格 */
+    private fun suiseiInjuKaku(): Int {
+        var result = -1
+
+        if (mDayKanType != 5)
+            return -1
+
+        val gogyouArray = intArrayOf(mYearShiType, mMonthShiType, mDayShiType)
+        for (type in gogyouArray) {
+            if (type == 5)
+                return -1
+        }
+
+        var yearKanType = mYearKanType
+        var monthKanType = mMonthKanType
+        val kangouNo = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+        if ((kangouNo == 7) || (kangouNo == 8)) {
+            yearKanType = 4
+            monthKanType = 4
+        }
+        if ((yearKanType != 4) || (monthKanType != 4))
+            return -1
+
+        val shiNoArray = intArrayOf(mYearShiNo, mDayShiNo)
+        shiNoArray.sort()
+        when (mMonthShiNo) {
+            2 -> when (shiNoArray[0]) {
+                9 -> when (shiNoArray[1]) {
+                    9 -> result = 0
+                }
+            }
+            3, 4, 7, 8 -> when (shiNoArray[0]) {
+                2 -> when (shiNoArray[1]) {
+                    6, 10 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    10 -> result = 0
+                }
+                6, 9 -> when (shiNoArray[1]) {
+                    9, 10 -> result = 0
+                }
+                10 -> when (shiNoArray[1]) {
+                    10 -> result = 0
+                }
+            }
+            5 -> when (shiNoArray[0]) {
+                2 -> when (shiNoArray[1]) {
+                    6 -> result = 0
+                }
+            }
+            9 -> when (shiNoArray[0]) {
+                2 -> when (shiNoArray[1]) {
+                    6, 10 -> result = 1
+                    9 -> result = 0
+                }
+                3, 4 -> when (shiNoArray[1]) {
+                    6, 9, 10 -> result = 0
+                }
+                6 -> when (shiNoArray[1]) {
+                    6, 9, 10 -> result = 1
+                    7, 8, 11 -> result = 0
+                }
+                7, 8 -> when (shiNoArray[1]) {
+                    9, 10 -> result = 0
+                }
+                9, 10 -> when (shiNoArray[1]) {
+                    9, 10 -> result = 1
+                    11 -> result = 0
+                }
+            }
+            10 -> when (shiNoArray[0]) {
+                2 -> when (shiNoArray[1]) {
+                    2, 5, 6, 9, 10 -> result = 1
+                    3, 4, 7, 8, 11 -> result = 0
+                }
+                3, 4 -> when (shiNoArray[1]) {
+                    5, 6, 9, 10 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    5, 6, 10 -> result = 1
+                    7, 8, 11 -> result = 0
+                }
+                6 -> when (shiNoArray[1]) {
+                    6, 9, 10 -> result = 1
+                    7, 8, 11 -> result = 0
+                }
+                7, 8 -> when (shiNoArray[1]) {
+                    9, 10 -> result = 0
+                }
+                9 -> when (shiNoArray[1]) {
+                    9, 10 -> result = 1
+                    11 -> result = 0
+                }
+                10 -> when (shiNoArray[1]) {
+                    10 -> result = 1
+                    11 -> result = 0
+                }
+            }
+            11 -> when (shiNoArray[0]) {
+                2 -> when (shiNoArray[1]) {
+                    6, 10 -> result = 0
+                }
+                5 -> when (shiNoArray[1]) {
+                    10 -> result = 0
+                }
+                6, 9 -> when (shiNoArray[1]) {
+                    9, 10 -> result = 0
+                }
+                10 -> when (shiNoArray[1]) {
+                    10 -> result = 0
+                }
+            }
+        }
 
         return result
     }
