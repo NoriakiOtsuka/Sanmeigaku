@@ -13,6 +13,8 @@ class Kakuhou {
     private val mIsouUtil: Isouhou = Isouhou()
 
     /** Variables of kan-shi number received from the assessment activity */
+    private val mYearKanShiNo: Int = activity.mYearKanShiNo
+    private val mMonthKanShiNo: Int = activity.mMonthKanShiNo
     private val mDayKanShiNo: Int = activity.mDayKanShiNo
     private val mYearKanNo: Int = activity.mYearKanNo
     private val mYearShiNo: Int = activity.mYearShiNo
@@ -89,6 +91,15 @@ class Kakuhou {
             zakkizaikanKaku(),
             zakkikaninKaku(),
             zakkizaiinKaku(),
+            zinkiryuhaiKaku(),
+            shiyoumiKaku(),
+            heihitsuMeishiki(),
+            hihitsuMeishiki(),
+            rokkouintokuKaku(),
+            rokkousuukenKaku(),
+            syousyosyuuseiKaku(),
+            kangoushikeiKaku(),
+            hakanKaku(),
         )
         var result = ""
         for ((index, i) in array.withIndex()) {
@@ -772,6 +783,208 @@ class Kakuhou {
             return result
 
         result = 1
+
+        return result
+    }
+
+    /** 20.壬騎龍背格 */
+    private fun zinkiryuhaiKaku(): Int {
+        var result = -1
+
+        if (mDayKanShiNo != 29)
+            return result
+
+        val shiArray = arrayListOf(mYearShiNo, mMonthShiNo)
+        var shiCount = 1
+        for (i in shiArray) {
+            when (i) {
+                5 -> shiCount++
+            }
+        }
+
+        if (shiCount == 3) {
+            result = 2
+        } else if (shiCount == 2) {
+            result = 1
+        }
+
+        return result
+    }
+
+    /** 21.子遙巳格 */
+    private fun shiyoumiKaku(): Int {
+        var result = -1
+
+        if ((mDayKanShiNo == 1) &&
+            ((mYearKanShiNo == 1) || (mMonthKanShiNo == 1)))
+            result = 1
+
+        return result
+    }
+
+    /** 22.閉畢命式 */
+    private fun heihitsuMeishiki(): Int {
+        var result = -1
+
+        when (mDayKanType) {
+            in 1..5 -> {
+                if (mYearKanType == (mDayKanType.rem(5) + 1)) {
+                    if (!mUtil.isNanasatsu(mYearKanNo, mMonthKanNo))
+                        return result
+                } else if (mMonthKanType == (mDayKanType.rem(5) + 1)) {
+                    if (!mUtil.isNanasatsu(mMonthKanNo, mYearKanNo))
+                        return result
+                } else {
+                    return result
+                }
+            }
+            else -> return result
+        }
+
+        val fRokuNo = mUtil.getRokushinNo(mDayKanNo).first
+        val mRokuNo = mUtil.getRokushinNo(mDayKanNo).second
+        if (!(((mYearKanNo == fRokuNo) && (mMonthKanNo == mRokuNo)) ||
+                    ((mYearKanNo == mRokuNo) && (mMonthKanNo == fRokuNo))))
+            return result
+
+        val mainStar4Type = setGogyouFromKan(mMainStar4)
+        val mainStarType = setGogyouFromKan(mMainStar)
+        val mainStar2Type = setGogyouFromKan(mMainStar2)
+        if (mainStar4Type == (mainStarType.rem(5) + 1))
+            if (mainStarType == (mainStar2Type.rem(5) + 1))
+                result = 1
+
+        return result
+    }
+
+    /** 23.閟畢命式 */
+    private fun hihitsuMeishiki(): Int {
+        var result = -1
+
+        when (mDayKanType) {
+            in 1..5 -> {
+                if (mYearKanType == (mDayKanType.rem(5) + 1)) {
+                    if (mUtil.getKangouNo(mYearKanNo, mMonthKanNo) == 0)
+                        return result
+                } else if (mMonthKanType == (mDayKanType.rem(5) + 1)) {
+                    if (mUtil.getKangouNo(mMonthKanNo, mYearKanNo) == 0)
+                        return result
+                } else {
+                    return result
+                }
+            }
+            else -> return result
+        }
+
+        val fRokuNo = mUtil.getRokushinNo(mDayKanNo).first
+        val mRokuNo = mUtil.getRokushinNo(mDayKanNo).second
+        if (!(((mYearKanNo == fRokuNo) && (mMonthKanNo == mRokuNo)) ||
+                    ((mYearKanNo == mRokuNo) && (mMonthKanNo == fRokuNo))))
+            return result
+
+        val mainStar4Type = setGogyouFromKan(mMainStar4)
+        val mainStarType = setGogyouFromKan(mMainStar)
+        val mainStar2Type = setGogyouFromKan(mMainStar2)
+        if (mainStar4Type == (mainStarType.rem(5) + 1))
+            if (mainStarType == (mainStar2Type.rem(5) + 1))
+                result = 1
+
+        return result
+    }
+
+    /** 24.六甲印徳格 */
+    private fun rokkouintokuKaku(): Int {
+        var result = -1
+
+        if (mDayKanNo != 1)
+            return result
+
+        if ((mYearShiNo == 12) || (mMonthShiNo == 12))
+            result = 1
+
+        return result
+    }
+
+    /** 25.六甲趨乾格 */
+    private fun rokkousuukenKaku(): Int {
+        var result = -1
+
+        val shiNoArray = arrayListOf(mYearShiNo, mMonthShiNo, mDayShiNo)
+        val boolArray = booleanArrayOf(false, false, false)
+        for (i in shiNoArray) {
+            when (i) {
+                2 -> boolArray[0] = true
+                6 -> boolArray[1] = true
+                10 -> boolArray[2] = true
+            }
+        }
+
+        if (boolArray.count { it } == 3)
+            result = 1
+
+        return result
+    }
+
+    /** 26.生処集生格 */
+    private fun syousyosyuuseiKaku(): Int {
+        var result = -1
+
+        val secondStar1 = mUtil.getSecondStarNo(mDayKanNo, mDayShiNo)
+        if (((mMainStar2 == MainStar.valueOf("Main10").id) ||
+                    (mMainStar4 == MainStar.valueOf("Main10").id)) &&
+            (secondStar1 == SecondStar.valueOf("Second3").id))
+            result = 1
+
+        return result
+    }
+
+    /** 27.干合支刑格 */
+    private fun kangoushikeiKaku(): Int {
+        var result = -1
+
+        if (mUtil.getKangouNo(mDayKanNo, mYearKanNo) > 0)
+            if (mIsouUtil.getKeiNo(mDayShiNo, mYearShiNo) > 0)
+                result = 1
+
+        if (mUtil.getKangouNo(mDayKanNo, mMonthKanNo) > 0)
+            if (mIsouUtil.getKeiNo(mDayShiNo, mMonthShiNo) > 0)
+                result = 1
+
+        return result
+    }
+
+    /** 28.破官格 */
+    private fun hakanKaku(): Int {
+        var result = -1
+
+        val mainStarArray = arrayListOf(mMainStar, mMainStar1, mMainStar2, mMainStar3, mMainStar4)
+        for (num in mainStarArray) {
+            when (num) {
+                MainStar.valueOf("Main3").id -> return result
+                MainStar.valueOf("Main5").id -> return result
+                MainStar.valueOf("Main6").id -> return result
+                MainStar.valueOf("Main8").id -> return result
+                MainStar.valueOf("Main10").id -> return result
+            }
+        }
+
+        if ((mIsouUtil.getHankaiNo(mYearShiNo, mMonthShiNo) > 0) ||
+            (mIsouUtil.getHankaiNo(mMonthShiNo, mDayShiNo) > 0) ||
+            (mIsouUtil.getHankaiNo(mDayShiNo, mYearShiNo) > 0))
+            return result
+
+        if ((mIsouUtil.getShigouNo(mYearShiNo, mMonthShiNo) > 0) ||
+            (mIsouUtil.getShigouNo(mMonthShiNo, mDayShiNo) > 0) ||
+            (mIsouUtil.getShigouNo(mDayShiNo, mYearShiNo) > 0))
+            return result
+
+        if (((mIsouUtil.getHaNo(mYearShiNo, mMonthShiNo) > 0) ||
+                    (mIsouUtil.getHaNo(mMonthShiNo, mDayShiNo) > 0) ||
+                    (mIsouUtil.getHaNo(mDayShiNo, mYearShiNo) > 0)) &&
+            ((mIsouUtil.getGaiNo(mYearShiNo, mMonthShiNo) > 0) ||
+                    (mIsouUtil.getGaiNo(mMonthShiNo, mDayShiNo) > 0) ||
+                    (mIsouUtil.getGaiNo(mDayShiNo, mYearShiNo) > 0)))
+            result = 1
 
         return result
     }
