@@ -100,6 +100,12 @@ class Kakuhou {
             syousyosyuuseiKaku(),
             kangoushikeiKaku(),
             hakanKaku(),
+            hassenrokuouKaku(),
+            tenkanrenjuKaku(),
+            chishirenjuKaku(),
+            tenchirenjuKaku(),
+            kyokijusyouzaiKaku(),
+            tenkansourenKaku(),
         )
         var result = ""
         for ((index, i) in array.withIndex()) {
@@ -985,6 +991,210 @@ class Kakuhou {
                     (mIsouUtil.getGaiNo(mMonthShiNo, mDayShiNo) > 0) ||
                     (mIsouUtil.getGaiNo(mDayShiNo, mYearShiNo) > 0)))
             result = 1
+
+        return result
+    }
+
+    /** 29.八専禄旺格 */
+    private fun hassenrokuouKaku(): Int {
+        var result = -1
+
+        if ((mDayKanShiNo == 51) || (mDayKanShiNo == 52) || (mDayKanShiNo == 57) || (mDayKanShiNo == 58))
+            result = 1
+
+        return result
+    }
+
+    /** 30.天干連珠格 */
+    private fun tenkanrenjuKaku(): Int {
+        var result = -1
+
+        when (mYearKanType) {
+            1 -> when (mMonthKanType) {
+                1 -> when (mDayKanType) {
+                    2, 5 -> result = 0
+                }
+                2 -> when (mDayKanType) {
+                    2 -> result = 0
+                    3 -> result = 1
+                }
+                5 -> when (mDayKanType) {
+                    4 -> result = 1
+                    5 -> result = 0
+                }
+            }
+            2 -> when (mMonthKanType) {
+                1 -> when (mDayKanType) {
+                    1 -> result = 0
+                    5 -> result = 1
+                }
+                2 -> when (mDayKanType) {
+                    1, 3 -> result = 0
+                }
+                3 -> when (mDayKanType) {
+                    3 -> result = 0
+                    4 -> result = 1
+                }
+            }
+            3 -> when (mMonthKanType) {
+                2 -> when (mDayKanType) {
+                    1 -> result = 1
+                    2 -> result = 0
+                }
+                3 -> when (mDayKanType) {
+                    2, 4 -> result = 0
+                }
+                4 -> when (mDayKanType) {
+                    4 -> result = 0
+                    5 -> result = 1
+                }
+            }
+            4 -> when (mMonthKanType) {
+                3 -> when (mDayKanType) {
+                    2 -> result = 1
+                    3 -> result = 0
+                }
+                4 -> when (mDayKanType) {
+                    3, 5 -> result = 0
+                }
+                5 -> when (mDayKanType) {
+                    1 -> result = 1
+                    5 -> result = 0
+                }
+            }
+            5 -> when (mMonthKanType) {
+                1 -> when (mDayKanType) {
+                    1 -> result = 0
+                    2 -> result = 1
+                }
+                4 -> when (mDayKanType) {
+                    3 -> result = 1
+                    4 -> result = 0
+                }
+                5 -> when (mDayKanType) {
+                    1, 4 -> result = 0
+                }
+            }
+        }
+
+        if (result == 1) {
+            if ((mUtil.getKangouNo(mYearKanNo, mMonthKanNo) > 0) ||
+                (mUtil.getKangouNo(mMonthKanNo, mDayKanNo) > 0) ||
+                (mUtil.getKangouNo(mDayKanNo, mYearKanNo) > 0))
+                result = 0
+
+            if (mUtil.isSeinenTenchusatsu(mDayKanShiNo, mYearShiNo) ||
+                mUtil.isSeigetsuTenchusatsu(mDayKanShiNo, mMonthShiNo))
+                result = 0
+        }
+
+        return result
+    }
+
+    /** 31.地支連珠格 */
+    private fun chishirenjuKaku(): Int {
+        var result = -1
+
+        if ((mMonthShiNo == (mYearShiNo.rem(12) + 1)) &&
+            (mDayShiNo == (mMonthShiNo.rem(12) + 1)))
+            result = 1
+
+        if ((mYearShiNo == (mMonthShiNo.rem(12) + 1)) &&
+            (mMonthShiNo == (mDayShiNo.rem(12) + 1)))
+            result = 1
+
+        if ((mMonthShiNo == (mYearShiNo.plus(1).rem(12).minus(1) + 2)) &&
+            (mDayShiNo == (mMonthShiNo.plus(1).rem(12).minus(1) + 2)))
+            result = 1
+
+        if ((mYearShiNo == (mMonthShiNo.plus(1).rem(12).minus(1) + 2)) &&
+            (mMonthShiNo == (mDayShiNo.plus(1).rem(12).minus(1) + 2)))
+            result = 1
+
+        return result
+    }
+
+    /** 32.天地連珠格 */
+    private fun tenchirenjuKaku(): Int {
+        var result = -1
+
+        if (chishirenjuKaku() == -1)
+            return -1
+
+        when (tenkanrenjuKaku()) {
+            0 -> result = 0
+            1 -> result = 1
+        }
+
+        return result
+    }
+
+    /** 33.虚気従生財格 */
+    private fun kyokijusyouzaiKaku(): Int {
+        var result = -1
+
+        val kangouNo = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+        if (kangouNo == 0)
+            return -1
+
+        val kanType = setGogyouFromKan(kangouNo)
+        if (kanType != (mDayKanType.plus(1).rem(5).minus(1) + 2))
+            return -1
+
+        val hankaiNo1 = mIsouUtil.getHankaiNo(mYearShiNo, mMonthShiNo)
+        val hankaiNo2 = mIsouUtil.getHankaiNo(mMonthShiNo, mDayShiNo)
+        val hankaiNo3 = mIsouUtil.getHankaiNo(mDayShiNo, mYearShiNo)
+        val shigouNo1 = mIsouUtil.getShigouNo(mYearShiNo, mMonthShiNo)
+        val shigouNo2 = mIsouUtil.getShigouNo(mMonthShiNo, mDayShiNo)
+        val shigouNo3 = mIsouUtil.getShigouNo(mDayShiNo, mYearShiNo)
+        if (((hankaiNo1 == 0) && (hankaiNo2 == 0) && (hankaiNo3 == 0)) &&
+            ((shigouNo1 == 0) && (shigouNo2 == 0) && (shigouNo3 == 0)))
+            return -1
+
+        if ((hankaiNo1 != 0) && (hankaiNo2 == 0) && (hankaiNo3 == 0)) {
+            if ((mDayShiType == mDayKanType.rem(5) + 1) &&
+                (hankaiNo1 == mDayKanType.plus(1).rem(5).minus(1) + 2))
+                result = 1
+        } else if ((hankaiNo1 == 0) && (hankaiNo2 != 0) && (hankaiNo3 == 0)) {
+            if ((mYearShiType == mDayKanType.rem(5) + 1) &&
+                (hankaiNo2 == mDayKanType.plus(1).rem(5).minus(1) + 2))
+                result = 1
+        } else if ((hankaiNo1 == 0) && (hankaiNo2 == 0) && (hankaiNo3 != 0)) {
+            if ((mMonthShiType == mDayKanType.rem(5) + 1) &&
+                (hankaiNo3 == mDayKanType.plus(1).rem(5).minus(1) + 2))
+                result = 1
+        } else if ((shigouNo1 != 0) && (shigouNo2 == 0) && (shigouNo3 == 0)) {
+            if ((mDayShiType == mDayKanType.rem(5) + 1) &&
+                (shigouNo1 == mDayKanType.plus(1).rem(5).minus(1) + 2))
+                result = 1
+        } else if ((shigouNo1 == 0) && (shigouNo2 != 0) && (shigouNo3 == 0)) {
+            if ((mYearShiType == mDayKanType.rem(5) + 1) &&
+                (shigouNo2 == mDayKanType.plus(1).rem(5).minus(1) + 2))
+                result = 1
+        } else if ((shigouNo1 == 0) && (shigouNo2 == 0) && (shigouNo3 != 0)) {
+            if ((mMonthShiType == mDayKanType.rem(5) + 1) &&
+                (shigouNo3 == mDayKanType.plus(1).rem(5).minus(1) + 2))
+                result = 1
+        }
+
+        return result
+    }
+
+    /** 34.天干双連格 */
+    private fun tenkansourenKaku(): Int {
+        var result = -1
+
+        if ((mUtil.getKangouNo(mYearKanNo, mMonthKanNo) > 0) || (mYearKanType == mMonthKanType))
+            if (mIsouUtil.getShigouNo(mYearShiNo, mMonthShiNo) > 0)
+                result = 1
+
+        if ((mUtil.getKangouNo(mDayKanNo, mYearKanNo) > 0) || (mDayKanType == mYearKanType))
+            if (mIsouUtil.getShigouNo(mDayShiNo, mYearShiNo) > 0)
+                result = 2
+
+        if ((mUtil.getKangouNo(mDayKanNo, mMonthKanNo) > 0) || (mDayKanType == mMonthKanType))
+            if (mIsouUtil.getShigouNo(mDayShiNo, mMonthShiNo) > 0)
+                result = 2
 
         return result
     }
