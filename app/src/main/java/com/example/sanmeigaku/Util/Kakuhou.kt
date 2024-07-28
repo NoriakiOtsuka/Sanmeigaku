@@ -106,6 +106,14 @@ class Kakuhou {
             tenchirenjuKaku(),
             kyokijusyouzaiKaku(),
             tenkansourenKaku(),
+            yonchinkiKaku(),
+            yonseiKaku(),
+            yonshouKaku(),
+            shigosouhouKaku(),
+            seiransyaKaku1(),
+            seiransyaKaku2(),
+            ikkiseisyouKaku(),
+            bosatsuKaku(),
         )
         var result = ""
         for ((index, i) in array.withIndex()) {
@@ -1195,6 +1203,232 @@ class Kakuhou {
         if ((mUtil.getKangouNo(mDayKanNo, mMonthKanNo) > 0) || (mDayKanType == mMonthKanType))
             if (mIsouUtil.getShigouNo(mDayShiNo, mMonthShiNo) > 0)
                 result = 2
+
+        return result
+    }
+
+    /** 35.四鎮貴格 */
+    private fun yonchinkiKaku(): Int {
+        var result = -1
+
+        val shiNoArray = intArrayOf(mYearShiNo, mMonthShiNo, mDayShiNo)
+        val boolArray = booleanArrayOf(false, false, false, false)
+        for (i in shiNoArray) {
+            when (i) {
+                2 -> boolArray[0] = true
+                5 -> boolArray[1] = true
+                8 -> boolArray[2] = true
+                11 -> boolArray[3] = true
+            }
+        }
+
+        if (boolArray.count { it } > 2)
+            result = 1
+
+        when (mYearShiNo) {
+            2, 5, 8, 11 -> {
+                if ((mMonthShiNo == (mYearShiNo.plus(2).rem(12).minus(2) + 3)) &&
+                    (mDayShiNo == (mMonthShiNo.plus(2).rem(12).minus(2) + 3)))
+                    result = 2
+            }
+        }
+
+        return result
+    }
+
+    /** 36.四正格 */
+    private fun yonseiKaku(): Int {
+
+        var result = -1
+
+        val shiNoArray = intArrayOf(mYearShiNo, mMonthShiNo, mDayShiNo)
+        val boolArray = booleanArrayOf(false, false, false, false)
+        for (i in shiNoArray) {
+            when (i) {
+                1 -> boolArray[0] = true
+                4 -> boolArray[1] = true
+                7 -> boolArray[2] = true
+                10 -> boolArray[3] = true
+            }
+        }
+
+        if (boolArray.count { it } > 2)
+            result = 1
+
+        return result
+    }
+
+    /** 37.四生格 */
+    private fun yonshouKaku(): Int {
+        var result = -1
+
+        val shiNoArray = intArrayOf(mYearShiNo, mMonthShiNo, mDayShiNo)
+        val boolArray = booleanArrayOf(false, false, false, false)
+        for (i in shiNoArray) {
+            when (i) {
+                3 -> boolArray[0] = true
+                6 -> boolArray[1] = true
+                9 -> boolArray[2] = true
+                12 -> boolArray[3] = true
+            }
+        }
+
+        if (boolArray.count { it } > 2)
+            result = 1
+
+        return result
+    }
+
+    /** 38.子午双包格 */
+    private fun shigosouhouKaku(): Int {
+        var result = -1
+
+        val shiNoArray: IntArray = intArrayOf(mYearShiNo, mMonthShiNo, mDayShiNo)
+        val boolArray1 = booleanArrayOf(false, false)
+        val boolArray2 = booleanArrayOf(false, false)
+        val boolArray3 = booleanArrayOf(false, false)
+        val boolArray4 = booleanArrayOf(false, false)
+        val boolArray5 = booleanArrayOf(false, false)
+        val boolArray6 = booleanArrayOf(false, false)
+        val countArray = intArrayOf(0, 0, 0, 0, 0, 0)
+
+        for (i in shiNoArray) {
+            val param = i.minus(1).div(6)
+            when (i) {
+                1, 7 -> {
+                    boolArray1[param] = true
+                    countArray[0]++
+                }
+                2, 8 -> {
+                    boolArray2[param] = true
+                    countArray[1]++
+                }
+                3, 9 -> {
+                    boolArray3[param] = true
+                    countArray[2]++
+                }
+                4, 10 -> {
+                    boolArray4[param] = true
+                    countArray[3]++
+                }
+                5, 11 -> {
+                    boolArray5[param] = true
+                    countArray[4]++
+                }
+                6, 12 -> {
+                    boolArray6[param] = true
+                    countArray[5]++
+                }
+            }
+        }
+
+        if (((boolArray1.count { it } == 2) && countArray[0] == 3) ||
+            ((boolArray2.count { it } == 2) && countArray[1] == 3) ||
+            ((boolArray3.count { it } == 2) && countArray[2] == 3) ||
+            ((boolArray4.count { it } == 2) && countArray[3] == 3) ||
+            ((boolArray5.count { it } == 2) && countArray[4] == 3) ||
+            ((boolArray6.count { it } == 2) && countArray[5] == 3))
+            result = 1
+
+        return result
+    }
+
+    /** 39.井蘭斜格 */
+    private fun seiransyaKaku1(): Int {
+        var result = -1
+
+        if (!((mDayKanShiNo == 17) || (mDayKanShiNo == 37) || (mDayKanShiNo == 57)))
+            return -1
+
+        if ((mIsouUtil.getTaichuNo(mYearShiNo, mMonthShiNo) > 0) ||
+            (mIsouUtil.getTaichuNo(mMonthShiNo, mDayShiNo) > 0) ||
+            (mIsouUtil.getTaichuNo(mDayShiNo, mYearShiNo) > 0))
+            return -1
+
+        if ((mIsouUtil.getHankaiNo(mYearShiNo, mMonthShiNo) == 5) ||
+            (mIsouUtil.getHankaiNo(mMonthShiNo, mDayShiNo) == 5) ||
+            (mIsouUtil.getHankaiNo(mDayShiNo, mYearShiNo) == 5))
+            result = 1
+
+        return result
+    }
+
+    /** 40.井蘭叉格 */
+    private fun seiransyaKaku2(): Int {
+        var result = -1
+
+        if (!((mDayKanShiNo == 17) || (mDayKanShiNo == 37) || (mDayKanShiNo == 57)))
+            return -1
+
+        if ((mIsouUtil.getTaichuNo(mYearShiNo, mMonthShiNo) == 0) &&
+            (mIsouUtil.getTaichuNo(mMonthShiNo, mDayShiNo) == 0) &&
+            (mIsouUtil.getTaichuNo(mDayShiNo, mYearShiNo) == 0))
+            return -1
+
+        if ((mIsouUtil.getHankaiNo(mYearShiNo, mMonthShiNo) == 5) ||
+            (mIsouUtil.getHankaiNo(mMonthShiNo, mDayShiNo) == 5) ||
+            (mIsouUtil.getHankaiNo(mDayShiNo, mYearShiNo) == 5))
+            result = 1
+
+        return result
+    }
+
+    /** 41.一気成生格 */
+    private fun ikkiseisyouKaku(): Int {
+        var result = -1
+
+        val kanNoArray = intArrayOf(mYearKanNo, mMonthKanNo, mDayKanNo)
+        val countArray = intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+        for (i in kanNoArray) {
+            when (i) {
+                in 1..9 -> countArray[i - 1]++
+            }
+        }
+        val shiNoArray = intArrayOf(mYearShiNo, mMonthShiNo, mDayShiNo)
+        for (i in shiNoArray) {
+            when (i) {
+                in 3..11 -> countArray[11 - i]++
+            }
+        }
+
+        if ((mDayKanNo == 1) && (countArray[0] >= 5)) {
+            result = 1
+        } else if ((mDayKanNo == 2) && (countArray[1] >= 5)) {
+            result = 2
+        } else if ((mDayKanNo == 3) && (countArray[2] >= 5)) {
+            result = 3
+        } else if ((mDayKanNo == 4) && (countArray[3] >= 5)) {
+            result = 4
+        } else if ((mDayKanNo == 5) && (countArray[4] >= 5)) {
+            result = 5
+        } else if ((mDayKanNo == 6) && (countArray[5] >= 5)) {
+            result = 6
+        } else if ((mDayKanNo == 7) && (countArray[6] >= 5)) {
+            result = 7
+        } else if ((mDayKanNo == 8) && (countArray[7] >= 5)) {
+            result = 8
+        } else if ((mDayKanNo == 9) && (countArray[8] >= 5)) {
+            result = 9
+        }
+
+        return result
+    }
+
+    /** 42.墓殺格 */
+    private fun bosatsuKaku(): Int {
+        var result = -1
+
+        val yearNanasatsu = mUtil.isNanasatsu(mDayKanNo, mYearKanNo)
+        val monthNanasatsu = mUtil.isNanasatsu(mDayKanNo, mMonthKanNo)
+        val isKangou = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+
+        if ((yearNanasatsu && (mYearShiType == 3)) &&
+            (monthNanasatsu && (mMonthShiType == 3))) {
+            result = 2
+        } else if ((yearNanasatsu && (mYearShiType == 3) && (isKangou == 0)) ||
+            (monthNanasatsu && (mMonthShiType == 3) && (isKangou == 0))) {
+            result = 1
+        }
 
         return result
     }
