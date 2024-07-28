@@ -114,6 +114,16 @@ class Kakuhou {
             seiransyaKaku2(),
             ikkiseisyouKaku(),
             bosatsuKaku(),
+            mokuseiTenkanikkiKaku(),
+            kaseiTenkanikkiKaku(),
+            doseiTenkanikkiKaku(),
+            kinseiTenkanikkiKaku(),
+            suiseiTenkanikkiKaku(),
+            mokuseiChishiikkiKaku(),
+            kaseiChishiikkiKaku(),
+            doseiChishiikkiKaku(),
+            kinseiChishiikkiKaku(),
+            suiseiChishiikkiKaku(),
         )
         var result = ""
         for ((index, i) in array.withIndex()) {
@@ -1429,6 +1439,126 @@ class Kakuhou {
             (monthNanasatsu && (mMonthShiType == 3) && (isKangou == 0))) {
             result = 1
         }
+
+        return result
+    }
+
+    /** 43.木性天干一気格 */
+    private fun mokuseiTenkanikkiKaku(): Int {
+        var result = -1
+
+        if ((mYearKanType == 1) && (mMonthKanType == 1) && (mDayKanType == 1))
+            result = 1
+
+        if (((mYearKanNo == 1) && (mMonthKanNo == 1) && (mDayKanNo == 1)) ||
+            ((mYearKanNo == 2) && (mMonthKanNo == 2) && (mDayKanNo == 2)))
+            result = 2
+
+        return result
+    }
+
+    /** 44.火性天干一気格 */
+    private fun kaseiTenkanikkiKaku(): Int {
+        var result = -1
+
+        if ((mYearKanType == 2) && (mMonthKanType == 2) && (mDayKanType == 2))
+            result = 1
+
+        if (((mYearKanNo == 3) && (mMonthKanNo == 3) && (mDayKanNo == 3)) ||
+            ((mYearKanNo == 4) && (mMonthKanNo == 4) && (mDayKanNo == 4)))
+            result = 2
+
+        return result
+    }
+
+    /** 45.土性天干一気格 */
+    private fun doseiTenkanikkiKaku(): Int {
+        var result = -1
+
+        if ((mYearKanType == 3) && (mMonthKanType == 3) && (mDayKanType == 3))
+            result = 1
+
+        if (((mYearKanNo == 5) && (mMonthKanNo == 5) && (mDayKanNo == 5)) ||
+            ((mYearKanNo == 6) && (mMonthKanNo == 6) && (mDayKanNo == 6)))
+            result = 2
+
+        return result
+    }
+
+    /** 46.金性天干一気格 */
+    private fun kinseiTenkanikkiKaku(): Int {
+        var result = -1
+
+        if ((mYearKanType == 4) && (mMonthKanType == 4) && (mDayKanType == 4))
+            result = 1
+
+        if (((mYearKanNo == 7) && (mMonthKanNo == 7) && (mDayKanNo == 7)) ||
+            ((mYearKanNo == 8) && (mMonthKanNo == 8) && (mDayKanNo == 8)))
+            result = 2
+
+        return result
+    }
+
+    /** 47.水性天干一気格 */
+    private fun suiseiTenkanikkiKaku(): Int {
+        var result = -1
+
+        if ((mYearKanType == 5) && (mMonthKanType == 5) && (mDayKanType == 5))
+            result = 1
+
+        if (((mYearKanNo == 9) && (mMonthKanNo == 9) && (mDayKanNo == 9)) ||
+            ((mYearKanNo == 10) && (mMonthKanNo == 10) && (mDayKanNo == 10)))
+            result = 2
+
+        return result
+    }
+
+    /** 48.木性地支一気格 */
+    private fun mokuseiChishiikkiKaku(): Int {
+        var result = -1
+
+        if ((mYearShiType == 1) && (mMonthShiType == 1) && (mDayShiType == 1))
+            result = 1
+
+        return result
+    }
+
+    /** 49.火性地支一気格 */
+    private fun kaseiChishiikkiKaku(): Int {
+        var result = -1
+
+        if ((mYearShiType == 2) && (mMonthShiType == 2) && (mDayShiType == 2))
+            result = 1
+
+        return result
+    }
+
+    /** 50.土性地支一気格 */
+    private fun doseiChishiikkiKaku(): Int {
+        var result = -1
+
+        if ((mYearShiType == 3) && (mMonthShiType == 3) && (mDayShiType == 3))
+            result = 1
+
+        return result
+    }
+
+    /** 51.金性地支一気格 */
+    private fun kinseiChishiikkiKaku(): Int {
+        var result = -1
+
+        if ((mYearShiType == 4) && (mMonthShiType == 4) && (mDayShiType == 4))
+            result = 1
+
+        return result
+    }
+
+    /** 52.水性地支一気格 */
+    private fun suiseiChishiikkiKaku(): Int {
+        var result = -1
+
+        if ((mYearShiType == 5) && (mMonthShiType == 5) && (mDayShiType == 5))
+            result = 1
 
         return result
     }
