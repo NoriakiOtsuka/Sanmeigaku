@@ -124,6 +124,11 @@ class Kakuhou {
             doseiChishiikkiKaku(),
             kinseiChishiikkiKaku(),
             suiseiChishiikkiKaku(),
+            mokuseiIkkiKaku(),
+            kaseiIkkiKaku(),
+            doseiIkkiKaku(),
+            kinseiIkkiKaku(),
+            suiseiIkkiKaku(),
         )
         var result = ""
         for ((index, i) in array.withIndex()) {
@@ -1559,6 +1564,312 @@ class Kakuhou {
 
         if ((mYearShiType == 5) && (mMonthShiType == 5) && (mDayShiType == 5))
             result = 1
+
+        return result
+    }
+
+    /** 53.木性一気格 */
+    private fun mokuseiIkkiKaku(): Int {
+        var result = -1
+
+        if (mDayKanType != 1)
+            return -1
+
+        val gogyouArray = intArrayOf(mYearKanType, mMonthKanType, mDayKanType, mYearShiType, mMonthShiType, mDayShiType)
+        if (gogyouArray.count { it == 1 } == 6) {
+            result = 1
+            return result
+        }
+
+        val kangouNo = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+        if ((kangouNo == 1) || (kangouNo == 2)) {
+            gogyouArray[0] = 1
+            gogyouArray[1] = 1
+        }
+
+        val hankaiNo1 = mIsouUtil.getHankaiNo(mYearShiNo, mMonthShiNo)
+        val hankaiNo2 = mIsouUtil.getHankaiNo(mMonthShiNo, mDayShiNo)
+        val hankaiNo3 = mIsouUtil.getHankaiNo(mDayShiNo, mYearShiNo)
+        val shigouNo1 = mIsouUtil.getShigouNo(mYearShiNo, mMonthShiNo)
+        val shigouNo2 = mIsouUtil.getShigouNo(mMonthShiNo, mDayShiNo)
+        val shigouNo3 = mIsouUtil.getShigouNo(mDayShiNo, mYearShiNo)
+        if ((hankaiNo1 == 0) && (hankaiNo2 == 0) && (hankaiNo3 == 0)) {
+            if ((shigouNo1 == 1) || (shigouNo1 == 6)) {
+                gogyouArray[3] = 1
+                gogyouArray[4] = 1
+            }
+            if ((shigouNo2 == 1) || (shigouNo2 == 6)) {
+                gogyouArray[4] = 1
+                gogyouArray[5] = 1
+            }
+            if ((shigouNo3 == 1) || (shigouNo3 == 6)) {
+                gogyouArray[5] = 1
+                gogyouArray[3] = 1
+            }
+        } else {
+            if (hankaiNo1 == 1) {
+                gogyouArray[3] = 1
+                gogyouArray[4] = 1
+                if ((shigouNo2 == 1) || (shigouNo3 == 1) || (shigouNo2 == 6) || (shigouNo3 == 6))
+                    gogyouArray[5] = 1
+            }
+            if (hankaiNo2 == 1) {
+                gogyouArray[4] = 1
+                gogyouArray[5] = 1
+                if ((shigouNo3 == 1) || (shigouNo1 == 1) || (shigouNo3 == 6) || (shigouNo1 == 6))
+                    gogyouArray[3] = 1
+            }
+            if (hankaiNo3 == 1) {
+                gogyouArray[5] = 1
+                gogyouArray[3] = 1
+                if ((shigouNo1 == 1) || (shigouNo2 == 1) || (shigouNo1 == 6) || (shigouNo2 == 6))
+                    gogyouArray[4] = 1
+            }
+        }
+
+        if (gogyouArray.count { it == 1 } == 6)
+            result = 0
+
+        return result
+    }
+
+    /** 54.火性一気格 */
+    private fun kaseiIkkiKaku(): Int {
+        var result = -1
+
+        if (mDayKanType != 2)
+            return -1
+
+        val gogyouArray = intArrayOf(mYearKanType, mMonthKanType, mDayKanType, mYearShiType, mMonthShiType, mDayShiType)
+        if (gogyouArray.count { it == 2 } == 6) {
+            result = 1
+            return result
+        }
+
+        val kangouNo = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+        if ((kangouNo == 3) || (kangouNo == 4)) {
+            gogyouArray[0] = 2
+            gogyouArray[1] = 2
+        }
+
+        val hankaiNo1 = mIsouUtil.getHankaiNo(mYearShiNo, mMonthShiNo)
+        val hankaiNo2 = mIsouUtil.getHankaiNo(mMonthShiNo, mDayShiNo)
+        val hankaiNo3 = mIsouUtil.getHankaiNo(mDayShiNo, mYearShiNo)
+        val shigouNo1 = mIsouUtil.getShigouNo(mYearShiNo, mMonthShiNo)
+        val shigouNo2 = mIsouUtil.getShigouNo(mMonthShiNo, mDayShiNo)
+        val shigouNo3 = mIsouUtil.getShigouNo(mDayShiNo, mYearShiNo)
+        if ((hankaiNo1 == 0) && (hankaiNo2 == 0) && (hankaiNo3 == 0)) {
+            if (shigouNo1 == 2) {
+                gogyouArray[3] = 2
+                gogyouArray[4] = 2
+            }
+            if (shigouNo2 == 2) {
+                gogyouArray[4] = 2
+                gogyouArray[5] = 2
+            }
+            if (shigouNo3 == 2) {
+                gogyouArray[5] = 2
+                gogyouArray[3] = 2
+            }
+        } else {
+            if (hankaiNo1 == 2) {
+                gogyouArray[3] = 2
+                gogyouArray[4] = 2
+                if ((shigouNo2 == 2) || (shigouNo3 == 2))
+                    gogyouArray[5] = 2
+            }
+            if (hankaiNo2 == 2) {
+                gogyouArray[4] = 2
+                gogyouArray[5] = 2
+                if ((shigouNo3 == 2) || (shigouNo1 == 2))
+                    gogyouArray[3] = 2
+            }
+            if (hankaiNo3 == 2) {
+                gogyouArray[5] = 2
+                gogyouArray[3] = 2
+                if ((shigouNo1 == 2) || (shigouNo2 == 2))
+                    gogyouArray[4] = 2
+            }
+        }
+
+        if (gogyouArray.count { it == 2 } == 6)
+            result = 0
+
+        return result
+    }
+
+    /** 55.土性一気格 */
+    private fun doseiIkkiKaku(): Int {
+        var result = -1
+
+        if (mDayKanType != 3)
+            return -1
+
+        val gogyouArray = intArrayOf(mYearKanType, mMonthKanType, mDayKanType, mYearShiType, mMonthShiType, mDayShiType)
+        if (gogyouArray.count { it == 3 } == 6) {
+            result = 1
+            return result
+        }
+
+        val kangouNo = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+        if ((kangouNo == 5) || (kangouNo == 6)) {
+            gogyouArray[0] = 3
+            gogyouArray[1] = 3
+        }
+
+        val hankaiNo1 = mIsouUtil.getHankaiNo(mYearShiNo, mMonthShiNo)
+        val hankaiNo2 = mIsouUtil.getHankaiNo(mMonthShiNo, mDayShiNo)
+        val hankaiNo3 = mIsouUtil.getHankaiNo(mDayShiNo, mYearShiNo)
+        val shigouNo1 = mIsouUtil.getShigouNo(mYearShiNo, mMonthShiNo)
+        val shigouNo2 = mIsouUtil.getShigouNo(mMonthShiNo, mDayShiNo)
+        val shigouNo3 = mIsouUtil.getShigouNo(mDayShiNo, mYearShiNo)
+        if ((hankaiNo1 == 0) && (hankaiNo2 == 0) && (hankaiNo3 == 0)) {
+            if ((shigouNo1 == 6) || (shigouNo1 == 7)) {
+                gogyouArray[3] = 3
+                gogyouArray[4] = 3
+            }
+            if ((shigouNo2 == 6) || (shigouNo2 == 7)) {
+                gogyouArray[4] = 3
+                gogyouArray[5] = 3
+            }
+            if ((shigouNo3 == 6) || (shigouNo3 == 7)) {
+                gogyouArray[5] = 3
+                gogyouArray[3] = 3
+            }
+        }
+
+        if (gogyouArray.count { it == 3 } == 6)
+            result = 0
+
+        return result
+    }
+
+    /** 56.金性一気格 */
+    private fun kinseiIkkiKaku(): Int {
+        var result = -1
+
+        if (mDayKanType != 4)
+            return -1
+
+        val gogyouArray = intArrayOf(mYearKanType, mMonthKanType, mDayKanType, mYearShiType, mMonthShiType, mDayShiType)
+        if (gogyouArray.count { it == 4 } == 6) {
+            result = 1
+            return result
+        }
+
+        val kangouNo = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+        if ((kangouNo == 7) || (kangouNo == 8)) {
+            gogyouArray[0] = 4
+            gogyouArray[1] = 4
+        }
+
+        val hankaiNo1 = mIsouUtil.getHankaiNo(mYearShiNo, mMonthShiNo)
+        val hankaiNo2 = mIsouUtil.getHankaiNo(mMonthShiNo, mDayShiNo)
+        val hankaiNo3 = mIsouUtil.getHankaiNo(mDayShiNo, mYearShiNo)
+        val shigouNo1 = mIsouUtil.getShigouNo(mYearShiNo, mMonthShiNo)
+        val shigouNo2 = mIsouUtil.getShigouNo(mMonthShiNo, mDayShiNo)
+        val shigouNo3 = mIsouUtil.getShigouNo(mDayShiNo, mYearShiNo)
+        if ((hankaiNo1 == 0) && (hankaiNo2 == 0) && (hankaiNo3 == 0)) {
+            if ((shigouNo1 == 4) || (shigouNo1 == 7)) {
+                gogyouArray[3] = 4
+                gogyouArray[4] = 4
+            }
+            if ((shigouNo2 == 4) || (shigouNo2 == 7)) {
+                gogyouArray[4] = 4
+                gogyouArray[5] = 4
+            }
+            if ((shigouNo3 == 4) || (shigouNo3 == 7)) {
+                gogyouArray[5] = 4
+                gogyouArray[3] = 4
+            }
+        } else {
+            if (hankaiNo1 == 4) {
+                gogyouArray[3] = 4
+                gogyouArray[4] = 4
+                if ((shigouNo2 == 4) || (shigouNo3 == 4) || (shigouNo2 == 7) || (shigouNo3 == 7))
+                    gogyouArray[5] = 4
+            }
+            if (hankaiNo2 == 4) {
+                gogyouArray[4] = 4
+                gogyouArray[5] = 4
+                if ((shigouNo3 == 4) || (shigouNo1 == 4) || (shigouNo3 == 7) || (shigouNo1 == 7))
+                    gogyouArray[3] = 4
+            }
+            if (hankaiNo3 == 4) {
+                gogyouArray[5] = 4
+                gogyouArray[3] = 4
+                if ((shigouNo1 == 4) || (shigouNo2 == 4) || (shigouNo1 == 7) || (shigouNo2 == 7))
+                    gogyouArray[4] = 4
+            }
+        }
+
+        if (gogyouArray.count { it == 4 } == 6)
+            result = 0
+
+        return result
+    }
+
+    /** 57.水性一気格 */
+    private fun suiseiIkkiKaku(): Int {
+        var result = -1
+
+        if (mDayKanType != 5)
+            return -1
+
+        val gogyouArray = intArrayOf(mYearKanType, mMonthKanType, mDayKanType, mYearShiType, mMonthShiType, mDayShiType)
+        if (gogyouArray.count { it == 5 } == 6) {
+            result = 1
+            return result
+        }
+
+        val kangouNo = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+        if ((kangouNo == 9) || (kangouNo == 10)) {
+            gogyouArray[0] = 5
+            gogyouArray[1] = 5
+        }
+
+        val hankaiNo1 = mIsouUtil.getHankaiNo(mYearShiNo, mMonthShiNo)
+        val hankaiNo2 = mIsouUtil.getHankaiNo(mMonthShiNo, mDayShiNo)
+        val hankaiNo3 = mIsouUtil.getHankaiNo(mDayShiNo, mYearShiNo)
+        val shigouNo1 = mIsouUtil.getShigouNo(mYearShiNo, mMonthShiNo)
+        val shigouNo2 = mIsouUtil.getShigouNo(mMonthShiNo, mDayShiNo)
+        val shigouNo3 = mIsouUtil.getShigouNo(mDayShiNo, mYearShiNo)
+        if ((hankaiNo1 == 0) && (hankaiNo2 == 0) && (hankaiNo3 == 0)) {
+            if (shigouNo1 == 5) {
+                gogyouArray[3] = 5
+                gogyouArray[4] = 5
+            }
+            if (shigouNo2 == 5) {
+                gogyouArray[4] = 5
+                gogyouArray[5] = 5
+            }
+            if (shigouNo3 == 5) {
+                gogyouArray[5] = 5
+                gogyouArray[3] = 5
+            }
+        } else {
+            if (hankaiNo1 == 5) {
+                gogyouArray[3] = 5
+                gogyouArray[4] = 5
+                if ((shigouNo2 == 5) || (shigouNo3 == 5))
+                    gogyouArray[5] = 5
+            }
+            if (hankaiNo2 == 5) {
+                gogyouArray[4] = 5
+                gogyouArray[5] = 5
+                if ((shigouNo3 == 5) || (shigouNo1 == 5))
+                    gogyouArray[3] = 5
+            }
+            if (hankaiNo3 == 5) {
+                gogyouArray[5] = 5
+                gogyouArray[3] = 5
+                if ((shigouNo1 == 5) || (shigouNo2 == 5))
+                    gogyouArray[4] = 5
+            }
+        }
+
+        if (gogyouArray.count { it == 5 } == 6)
+            result = 0
 
         return result
     }
