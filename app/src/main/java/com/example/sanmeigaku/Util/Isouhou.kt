@@ -240,19 +240,19 @@ class Isouhou {
         var dayShi = "＿"
 
         when (year_month) {
-            1, 2, 4, 5 -> {
+            in 1..5 -> {
                 yearShi = KanShi.valueOf("Shi$yearShiNo").value
                 monthShi = KanShi.valueOf("Shi$monthShiNo").value
             }
         }
         when (month_day) {
-            1, 2, 4, 5 -> {
+            in 1..5 -> {
                 monthShi = KanShi.valueOf("Shi$monthShiNo").value
                 dayShi = KanShi.valueOf("Shi$dayShiNo").value
             }
         }
         when (day_year) {
-            1, 2, 4, 5 -> {
+            in 1..5 -> {
                 dayShi = KanShi.valueOf("Shi$dayShiNo").value
                 yearShi = KanShi.valueOf("Shi$yearShiNo").value
             }
@@ -337,45 +337,45 @@ class Isouhou {
         var dayShi = "＿"
 
         when (year_month) {
-            in 1..6 -> {
+            in 1..7 -> {
                 yearShi = KanShi.valueOf("Shi$yearShiNo").value
                 monthShi = KanShi.valueOf("Shi$monthShiNo").value
             }
         }
         when (month_day) {
-            in 1..6 -> {
+            in 1..7 -> {
                 monthShi = KanShi.valueOf("Shi$monthShiNo").value
                 dayShi = KanShi.valueOf("Shi$dayShiNo").value
             }
         }
         when (day_year) {
-            in 1..6 -> {
+            in 1..7 -> {
                 dayShi = KanShi.valueOf("Shi$dayShiNo").value
                 yearShi = KanShi.valueOf("Shi$yearShiNo").value
             }
         }
 
         val intArray = intArrayOf(year_month, month_day, day_year)
-        val hoppouShigou = context.getString(R.string.isouhou_shigou_hoku_text)
         val touhouShigou = context.getString(R.string.isouhou_shigou_tou_text)
+        val nanpouShigou = context.getString(R.string.isouhou_shigou_nan_text)
+        val seihouShigou = context.getString(R.string.isouhou_shigou_sei_text)
+        val hoppouShigou = context.getString(R.string.isouhou_shigou_hoku_text)
         val chuouShigou = context.getString(R.string.isouhou_shigou_chu_text)
         val tenjikuShigou = context.getString(R.string.isouhou_shigou_ten_text)
-        val seihouShigou = context.getString(R.string.isouhou_shigou_sei_text)
-        val nanpouShigou = context.getString(R.string.isouhou_shigou_nan_text)
         var result = ""
 
         if (intArray.contains(1)) {
-            result = "$dayShi-$monthShi-$yearShi  $hoppouShigou"
-        } else if (intArray.contains(2)) {
             result = "$dayShi-$monthShi-$yearShi  $touhouShigou"
-        } else if (intArray.contains(3)) {
-            result = "$dayShi-$monthShi-$yearShi  $chuouShigou"
-        } else if (intArray.contains(4)) {
-            result = "$dayShi-$monthShi-$yearShi  $tenjikuShigou"
-        } else if (intArray.contains(5)) {
-            result = "$dayShi-$monthShi-$yearShi  $seihouShigou"
-        } else if (intArray.contains(6)) {
+        } else if (intArray.contains(2)) {
             result = "$dayShi-$monthShi-$yearShi  $nanpouShigou"
+        } else if (intArray.contains(4)) {
+            result = "$dayShi-$monthShi-$yearShi  $seihouShigou"
+        } else if (intArray.contains(5)) {
+            result = "$dayShi-$monthShi-$yearShi  $hoppouShigou"
+        } else if (intArray.contains(6)) {
+            result = "$dayShi-$monthShi-$yearShi  $chuouShigou"
+        } else if (intArray.contains(7)) {
+            result = "$dayShi-$monthShi-$yearShi  $tenjikuShigou"
         }
 
         return result
@@ -383,16 +383,16 @@ class Isouhou {
 
     /**
      * Get Shigou parameter number
-     * @return 1:北方支合, 2:東方支合, 3:中央支合, 4:天軸支合, 5:西方支合, 6:南方支合
+     * @return 1:東方支合, 2:南方支合, 4:西方支合, 5:北方支合, 6:中央支合, 7:天軸支合
      */
     fun getShigouNo(shiNo1: Int, shiNo2: Int): Int {
         val arrayNo = intArrayOf(shiNo1, shiNo2)
-        val hoppouArray = booleanArrayOf(false, false)
         val touhouArray = booleanArrayOf(false, false)
+        val nanpouArray = booleanArrayOf(false, false)
+        val seihouArray = booleanArrayOf(false, false)
+        val hoppouArray = booleanArrayOf(false, false)
         val chuouArray = booleanArrayOf(false, false)
         val tenjikuArray = booleanArrayOf(false, false)
-        val seihouArray = booleanArrayOf(false, false)
-        val nanpouArray = booleanArrayOf(false, false)
 
         for (i in arrayNo) {
             when (i) {
@@ -411,26 +411,26 @@ class Isouhou {
             }
         }
 
-        val hoppouCount = hoppouArray.count { it }
         val touhouCount = touhouArray.count { it }
+        val nanpouCount = nanpouArray.count { it }
+        val seihouCount = seihouArray.count { it }
+        val hoppouCount = hoppouArray.count { it }
         val chuouCount = chuouArray.count { it }
         val tenjikuCount = tenjikuArray.count { it }
-        val seihouCount = seihouArray.count { it }
-        val nanpouCount = nanpouArray.count { it }
         var num = 0
 
-        if (hoppouCount == 2) {
+        if (touhouCount == 2) {
             num = 1
-        } else if (touhouCount == 2) {
-            num = 2
-        } else if (chuouCount == 2) {
-            num = 3
-        } else if (tenjikuCount == 2) {
-            num = 4
-        } else if (seihouCount == 2) {
-            num = 5
         } else if (nanpouCount == 2) {
+            num = 2
+        } else if (seihouCount == 2) {
+            num = 4
+        } else if (hoppouCount == 2) {
+            num = 5
+        } else if (chuouCount == 2) {
             num = 6
+        } else if (tenjikuCount == 2) {
+            num = 7
         }
 
         return num
@@ -781,44 +781,44 @@ class Isouhou {
         var dayShi = "＿"
 
         when (year_month) {
-            in 1..6 -> {
+            in 1..7 -> {
                 yearShi = KanShi.valueOf("Shi$yearShiNo").value
                 monthShi = KanShi.valueOf("Shi$monthShiNo").value
             }
         }
         when (month_day) {
-            in 1..6 -> {
+            in 1..7 -> {
                 monthShi = KanShi.valueOf("Shi$monthShiNo").value
                 dayShi = KanShi.valueOf("Shi$dayShiNo").value
             }
         }
         when (day_year) {
-            in 1..6 -> {
+            in 1..7 -> {
                 dayShi = KanShi.valueOf("Shi$dayShiNo").value
                 yearShi = KanShi.valueOf("Shi$yearShiNo").value
             }
         }
 
         val intArray = intArrayOf(year_month, month_day, day_year)
-        val hoppouGai = context.getString(R.string.isouhou_gai_hoku_text)
-        val nanpouGai = context.getString(R.string.isouhou_gai_nan_text)
         val touhouGai = context.getString(R.string.isouhou_gai_tou_text)
-        val chuouGai = context.getString(R.string.isouhou_gai_chu_text)
+        val nanpouGai = context.getString(R.string.isouhou_gai_nan_text)
         val seihouGai = context.getString(R.string.isouhou_gai_sei_text)
+        val hoppouGai = context.getString(R.string.isouhou_gai_hoku_text)
+        val chuouGai = context.getString(R.string.isouhou_gai_chu_text)
         val tenjikuGai = context.getString(R.string.isouhou_gai_ten_text)
         var result = ""
 
         if (intArray.contains(1)) {
-            result = "$dayShi-$monthShi-$yearShi  $hoppouGai"
+            result = "$dayShi-$monthShi-$yearShi  $touhouGai"
         } else if (intArray.contains(2)) {
             result = "$dayShi-$monthShi-$yearShi  $nanpouGai"
-        } else if (intArray.contains(3)) {
-            result = "$dayShi-$monthShi-$yearShi  $touhouGai"
         } else if (intArray.contains(4)) {
-            result = "$dayShi-$monthShi-$yearShi  $chuouGai"
-        } else if (intArray.contains(5)) {
             result = "$dayShi-$monthShi-$yearShi  $seihouGai"
+        } else if (intArray.contains(5)) {
+            result = "$dayShi-$monthShi-$yearShi  $hoppouGai"
         } else if (intArray.contains(6)) {
+            result = "$dayShi-$monthShi-$yearShi  $chuouGai"
+        } else if (intArray.contains(7)) {
             result = "$dayShi-$monthShi-$yearShi  $tenjikuGai"
         }
 
@@ -827,15 +827,15 @@ class Isouhou {
 
     /**
      * Get Gai parameter number
-     * @return 1:北方害, 2:南方害, 3:東方害, 4:中央害, 5:西方害, 6:天軸害
+     * @return 1:東方害, 2:南方害, 4:西方害, 5:北方害, 6:中央害, 7:天軸害
      */
     fun getGaiNo(shiNo1: Int, shiNo2: Int): Int {
         val arrayNo = intArrayOf(shiNo1, shiNo2)
-        val hoppouArray = booleanArrayOf(false, false)
-        val nanpouArray = booleanArrayOf(false, false)
         val touhouArray = booleanArrayOf(false, false)
-        val chuouArray = booleanArrayOf(false, false)
+        val nanpouArray = booleanArrayOf(false, false)
         val seihouArray = booleanArrayOf(false, false)
+        val hoppouArray = booleanArrayOf(false, false)
+        val chuouArray = booleanArrayOf(false, false)
         val tenjikuArray = booleanArrayOf(false, false)
 
         for (i in arrayNo) {
@@ -855,26 +855,26 @@ class Isouhou {
             }
         }
 
-        val hoppouCount = hoppouArray.count { it }
-        val nanpouCount = nanpouArray.count { it }
         val touhouCount = touhouArray.count { it }
-        val chuouCount = chuouArray.count { it }
+        val nanpouCount = nanpouArray.count { it }
         val seihouCount = seihouArray.count { it }
+        val hoppouCount = hoppouArray.count { it }
+        val chuouCount = chuouArray.count { it }
         val tenjikuCount = tenjikuArray.count { it }
         var num = 0
 
-        if (hoppouCount == 2) {
+        if (touhouCount == 2) {
             num = 1
         } else if (nanpouCount == 2) {
             num = 2
-        } else if (touhouCount == 2) {
-            num = 3
-        } else if (chuouCount == 2) {
-            num = 4
         } else if (seihouCount == 2) {
+            num = 4
+        } else if (hoppouCount == 2) {
             num = 5
-        } else if (tenjikuCount == 2) {
+         } else if (chuouCount == 2) {
             num = 6
+        } else if (tenjikuCount == 2) {
+            num = 7
         }
 
         return num
