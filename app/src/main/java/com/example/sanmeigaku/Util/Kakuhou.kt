@@ -134,6 +134,11 @@ class Kakuhou {
             doseiInjuKaku(),
             kinseiInjuKaku(),
             suiseiInjuKaku(),
+            dokyokujungeKaku(),
+            jungehaKaku(),
+            kanshiziouKaku(),
+            tenkannijukangou(),
+            shunsui(),
         )
         var result = ""
         for ((index, i) in array.withIndex()) {
@@ -2530,6 +2535,129 @@ class Kakuhou {
                 }
             }
         }
+
+        return result
+    }
+
+    /** 63.土局潤下格 */
+    private fun dokyokujungeKaku(): Int {
+        var result = -1
+
+        if (!((mDayKanShiNo == 5) || (mDayKanShiNo == 25) || (mDayKanShiNo == 45)))
+            return -1
+
+        val taichuNo1 = mIsouUtil.getTaichuNo(mYearShiNo, mMonthShiNo)
+        val taichuNo2 = mIsouUtil.getTaichuNo(mMonthShiNo, mDayShiNo)
+        val taichuNo3 = mIsouUtil.getTaichuNo(mDayShiNo, mYearShiNo)
+        if ((taichuNo1 > 0) || (taichuNo2 > 0) || (taichuNo3 > 0))
+            return -1
+
+        val hankaiNo1 = mIsouUtil.getHankaiNo(mYearShiNo, mMonthShiNo)
+        val hankaiNo2 = mIsouUtil.getHankaiNo(mMonthShiNo, mDayShiNo)
+        val hankaiNo3 = mIsouUtil.getHankaiNo(mDayShiNo, mYearShiNo)
+        if ((hankaiNo1 != 5) && (hankaiNo2 != 5) && (hankaiNo3 != 5))
+            return -1
+
+        val gogyouArray = intArrayOf(mYearKanType, mMonthKanType, mDayKanType, mYearShiType, mMonthShiType, mDayShiType)
+        if (hankaiNo1 == 5) {
+            gogyouArray[3] = 5
+            gogyouArray[4] = 5
+        }
+        if (hankaiNo2 == 5) {
+            gogyouArray[4] = 5
+            gogyouArray[5] = 5
+        }
+        if (hankaiNo3 == 5) {
+            gogyouArray[5] = 5
+            gogyouArray[3] = 5
+        }
+
+        val doCount = gogyouArray.count { it == 3 }
+        val suiCount = gogyouArray.count { it == 5 }
+        if (suiCount > doCount)
+            result = 1
+
+        return result
+    }
+
+    /** 64.潤下破格 */
+    private fun jungehaKaku(): Int {
+        var result = -1
+
+        if (mDayKanType != 5)
+            return -1
+
+        val gogyouArray = intArrayOf(mYearKanType, mMonthKanType, mDayKanType, mYearShiType, mMonthShiType, mDayShiType)
+
+        val doCount = gogyouArray.count { it == 3 }
+        val suiCount = gogyouArray.count { it == 5 }
+        if ((doCount == 1) && (suiCount == 5))
+            result = 1
+
+        return result
+    }
+
+    /** 65.干支持旺格 */
+    private fun kanshiziouKaku(): Int {
+        var result = -1
+
+        when (mDayKanType) {
+            1 -> when (mYearShiType) {
+                1 -> when (mMonthShiNo) {
+                    4, 8, 12 -> result = 1
+                }
+            }
+            2 -> when (mYearShiType) {
+                2 -> when (mMonthShiNo) {
+                    3, 7, 11 -> result = 1
+                }
+            }
+            3 -> when (mYearShiType) {
+                3 -> when (mMonthShiNo) {
+                    6, 8 -> result = 1
+                }
+            }
+            4 -> when (mYearShiType) {
+                4 -> when (mMonthShiNo) {
+                    2, 6, 10 -> result = 1
+                }
+            }
+            5 -> when (mYearShiType) {
+                5 -> when (mMonthShiNo) {
+                    1, 5, 9 -> result = 1
+                }
+            }
+        }
+
+        return result
+    }
+
+    /** 66.天干二重干合 */
+    private fun tenkannijukangou(): Int {
+        var result = -1
+
+        val kangouNo1 = mUtil.getKangouNo(mYearKanNo, mMonthKanNo)
+        val kangouNo2 = mUtil.getKangouNo(mMonthKanNo, mDayKanNo)
+        val kangouNo3 = mUtil.getKangouNo(mDayKanNo, mYearKanNo)
+
+        if ((mMonthKanNo == mDayKanNo) && (kangouNo3 > 0) && (kangouNo1 > 0))
+            result = 1
+
+        if ((mDayKanNo == mYearKanNo) && (kangouNo1 > 0) && (kangouNo2 > 0))
+            result = 1
+
+        if ((mYearKanNo == mMonthKanNo) && (kangouNo2 > 0) && (kangouNo3 > 0))
+            result = 1
+
+        return result
+    }
+
+    /** 67.春水 */
+    private fun shunsui(): Int {
+        var result = -1
+
+        if ((mDayKanType == 5) && (mMonthShiType == 1) || (mMonthShiNo == 5))
+            result = 1
 
         return result
     }
