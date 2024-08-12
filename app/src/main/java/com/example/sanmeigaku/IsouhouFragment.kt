@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sanmeigaku.Adapter.IsouListAdapter
 import com.example.sanmeigaku.Enum.IjoKanShi
 import com.example.sanmeigaku.Enum.KanShi
 import com.example.sanmeigaku.Enum.TenChuSatsu
@@ -15,6 +17,7 @@ import com.example.sanmeigaku.Util.Kakuhou
 import com.example.sanmeigaku.Util.Kyokuhou
 import com.example.sanmeigaku.Util.Utility
 import com.example.sanmeigaku.databinding.FragmentIsouhouBinding
+import kotlin.math.abs
 
 class IsouhouFragment : Fragment() {
     private val TAG: String = "IsouhouFragment"
@@ -22,8 +25,11 @@ class IsouhouFragment : Fragment() {
     private val binding get() = _binding!!
     private val activity: AssessmentActivity.Companion = AssessmentActivity
     private val mUtil: Utility = Utility()
-    private val mIsouUtil = Isouhou()
+    private val mIsouUtil: Isouhou = Isouhou()
     private lateinit var mContext: Context
+
+    /** Variables of user info received from the assessment activity */
+    private val mYear: Int = activity.mYear
 
     /** Variables of kan-shi number received from the assessment activity */
     private val mDayKanNo: Int = activity.mDayKanNo
@@ -33,6 +39,12 @@ class IsouhouFragment : Fragment() {
     private val mYearShiNo: Int = activity.mYearShiNo
     private val mMonthShiNo: Int = activity.mMonthShiNo
     private val mDayShiNo: Int = activity.mDayShiNo
+
+    /** Variable of the difference from the beginning of the month to the birthday received from the assessment activity */
+    private val mFatalOrder: Int = activity.mFatalOrder
+    private val mTaiStartAge: Int = activity.mTaiStartAge
+    private val mTaiKanNo: Int = activity.mTaiKanNo
+    private val mTaiShiNo: Int = activity.mTaiShiNo
 
     companion object {
     }
@@ -69,6 +81,7 @@ class IsouhouFragment : Fragment() {
         setGouhouList()
         setSanhouList()
         setComprehensiveList()
+        setIsouList()
     }
 
     /**
@@ -111,6 +124,33 @@ class IsouhouFragment : Fragment() {
         binding.comprehensiveList.tenchusatsuText.text = setTenchusatsuItem()
         binding.comprehensiveList.ijoKanshiText.text = setIjokanshiItem()
         binding.comprehensiveList.shugoshinText.text = setShugoshinItem()
+    }
+
+    /**
+     * Set isou list
+     */
+    private fun setIsouList() {
+        val isouList = Array(100) {IntArray(6)}
+        var taiCount = 0
+        for (i in isouList.indices) {
+            isouList[i][0] = mYear
+            if (i.rem(10) == mTaiStartAge) {
+                isouList[i][1] = i
+                isouList[i][2] = abs(mTaiKanNo + (1 - mFatalOrder) * 10 + mFatalOrder * taiCount - 1).rem(10) + 1
+                isouList[i][3] = abs(mTaiShiNo + (1 - mFatalOrder) * 12 + mFatalOrder * taiCount - 1).rem(12) + 1
+                taiCount++
+            } else {
+                isouList[i][1] = -1
+            }
+            isouList[i][4] = (mYearKanShiNo + i).minus(1).mod(10).plus(1)
+            isouList[i][5] = (mYearKanShiNo + i).minus(1).mod(12).plus(1)
+        }
+
+        binding.isouhouList.isouList.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            adapter = IsouListAdapter(isouList)
+        }
     }
 
     /**

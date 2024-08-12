@@ -9,7 +9,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="@integer/isouhou_gousanlist_weight"
         android:orientation="horizontal">
 
         <include
@@ -17,7 +18,7 @@
             layout="@layout/isouhou_gouhou_list"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="@integer/isouhou_gouhoulist_weight"
             tools:ignore="NestedWeights" />
 
         <include
@@ -25,13 +26,31 @@
             layout="@layout/isouhou_sanhou_list"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="@integer/isouhou_sanhoulist_weight" />
 
         <include
             android:id="@+id/comprehensiveList"
             layout="@layout/isouhou_comprehensive_list"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="@integer/isouhou_comprehensivelist_weight" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="@integer/isouhou_listspace_weight"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="@integer/isouhou_isoulist_weight"
+        android:orientation="vertical" >
+
+        <include
+            android:id="@+id/isouhouList"
+            layout="@layout/isouhou_isou_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

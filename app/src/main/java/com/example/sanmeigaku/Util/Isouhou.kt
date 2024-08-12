@@ -8,10 +8,10 @@ class Isouhou {
     /**
      * Get Gouhou and Sanhou number
      */
-    fun getKouTenUnIsouNo(shiNo: Int, taiShiNo: Int): Int {
-        val num = when (shiNo) {
+    fun getKouTenUnIsouNo(meiShiNo: Int, kouShiNo: Int): Int {
+        val num = when (meiShiNo) {
             1 -> {
-                when (taiShiNo) {
+                when (kouShiNo) {
                     2 -> 25
                     4 -> 52
                     5 -> 18
@@ -23,7 +23,7 @@ class Isouhou {
                 }
             }
             2 -> {
-                when (taiShiNo) {
+                when (kouShiNo) {
                     1 -> 25
                     5 -> 61
                     6 -> 17
@@ -35,7 +35,7 @@ class Isouhou {
                 }
             }
             3 -> {
-                when (taiShiNo) {
+                when (kouShiNo) {
                     6 -> 5371
                     7 -> 16
                     9 -> 5342
@@ -45,7 +45,7 @@ class Isouhou {
                 }
             }
             4 -> {
-                when (taiShiNo) {
+                when (kouShiNo) {
                     1 -> 52
                     5 -> 71
                     7 -> 61
@@ -57,7 +57,7 @@ class Isouhou {
                 }
             }
             5 -> {
-                when (taiShiNo) {
+                when (kouShiNo) {
                     1 -> 18
                     2 -> 61
                     4 -> 71
@@ -69,7 +69,7 @@ class Isouhou {
                 }
             }
             6 -> {
-                when (taiShiNo) {
+                when (kouShiNo) {
                     2 -> 17
                     3 -> 5371
                     9 -> 245361
@@ -79,7 +79,7 @@ class Isouhou {
                 }
             }
             7 -> {
-                when (taiShiNo) {
+                when (kouShiNo) {
                     1 -> 41
                     2 -> 71
                     3 -> 16
@@ -91,7 +91,7 @@ class Isouhou {
                 }
             }
             8 -> {
-                when (taiShiNo) {
+                when (kouShiNo) {
                     1 -> 71
                     2 -> 5443
                     4 -> 15
@@ -102,7 +102,7 @@ class Isouhou {
                 }
             }
             9 -> {
-                when (taiShiNo) {
+                when (kouShiNo) {
                     1 -> 18
                     3 -> 5342
                     5 -> 18
@@ -112,7 +112,7 @@ class Isouhou {
                 }
             }
             10 -> {
-                when (taiShiNo) {
+                when (kouShiNo) {
                     1 -> 61
                     2 -> 17
                     4 -> 41
@@ -124,7 +124,7 @@ class Isouhou {
                 }
             }
             11 -> {
-                when (taiShiNo) {
+                when (kouShiNo) {
                     2 -> 54
                     3 -> 16
                     4 -> 2123
@@ -136,7 +136,7 @@ class Isouhou {
                 }
             }
             12 -> {
-                when (taiShiNo) {
+                when (kouShiNo) {
                     3 -> 2161
                     4 -> 15
                     6 -> 42

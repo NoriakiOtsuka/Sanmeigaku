@@ -259,13 +259,11 @@ class MeishikiFragment : Fragment() {
             mTaiunCycleArray[index] = cycle
         }
 
-        val taiunList = Array(cycleArray.size) {IntArray(5)}
+        val taiunList = Array(cycleArray.size) {IntArray(3)}
         for (i in taiunList.indices) {
             taiunList[i][0] = mTaiStartAge + i * 10
             taiunList[i][1] = abs(mTaiKanNo + (1 - mFatalOrder) * 10 + mFatalOrder * i - 1).rem(10) + 1
             taiunList[i][2] = abs(mTaiShiNo + (1 - mFatalOrder) * 12 + mFatalOrder * i - 1).rem(12) + 1
-            taiunList[i][3] = mTaiStartAge + i * 10
-            taiunList[i][4] = mTaiStartAge + i * 10
         }
 
         binding.taiunList.apply {

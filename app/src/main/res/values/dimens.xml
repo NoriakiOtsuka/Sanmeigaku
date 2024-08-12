@@ -17,4 +17,14 @@
     <dimen name="isouhou_gouhou_font_size">14sp</dimen>
     <dimen name="isouhou_sanhou_font_size">14sp</dimen>
     <dimen name="isouhou_comprehensive_font_size">14sp</dimen>
+    <integer name="isouhou_gousanlist_weight">8</integer>
+    <integer name="isouhou_listspace_weight">1</integer>
+    <integer name="isouhou_isoulist_weight">16</integer>
+    <integer name="isouhou_gouhoulist_weight">1</integer>
+    <integer name="isouhou_sanhoulist_weight">1</integer>
+    <integer name="isouhou_comprehensivelist_weight">2</integer>
+    <integer name="isouhou_isoulist_age_weight">2</integer>
+    <integer name="isouhou_isoulist_taiun_weight">8</integer>
+    <integer name="isouhou_isoulist_nenun_weight">4</integer>
+    <integer name="isouhou_isoulist_isouhou_weight">11</integer>
 </resources>

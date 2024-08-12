@@ -81,6 +81,10 @@
     <string name="isouhou_tenchusatsu_text">天中殺</string>
     <string name="isouhou_ijokanshi_text">異常干支</string>
     <string name="isouhou_shugoshin_text">守護神</string>
+    <string name="isouhou_isoulist_title_age_text">年齢</string>
+    <string name="isouhou_isoulist_title_taiun_text">大運</string>
+    <string name="isouhou_isoulist_title_nenun_text">年運</string>
+    <string name="isouhou_isoulist_title_isouhou_text">位相法</string>
 
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>
