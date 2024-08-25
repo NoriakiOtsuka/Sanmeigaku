@@ -95,6 +95,17 @@
     <string name="kizu_hachimon_do_text">土</string>
     <string name="kizu_hachimon_gon_text">金</string>
     <string name="kizu_hachimon_sui_text">水</string>
+    <string name="kizu_hachimon_scoretable_kouboku_text">甲</string>
+    <string name="kizu_hachimon_scoretable_otsuboku_text">乙</string>
+    <string name="kizu_hachimon_scoretable_heika_text">丙</string>
+    <string name="kizu_hachimon_scoretable_teika_text">丁</string>
+    <string name="kizu_hachimon_scoretable_bodo_text">戊</string>
+    <string name="kizu_hachimon_scoretable_kido_text">己</string>
+    <string name="kizu_hachimon_scoretable_koukin_text">庚</string>
+    <string name="kizu_hachimon_scoretable_shinkin_text">辛</string>
+    <string name="kizu_hachimon_scoretable_jinsui_text">壬</string>
+    <string name="kizu_hachimon_scoretable_kisui_text">癸</string>
+    <string name="kizu_hachimon_scoretable_total_text">総数</string>
 
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>

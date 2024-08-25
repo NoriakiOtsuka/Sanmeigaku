@@ -80,6 +80,7 @@ class KizuHachimonFragment : Fragment() {
         setScore()
         setKizuChart()
         setHachimonChart()
+        setKanTable()
     }
 
     /**
@@ -303,5 +304,29 @@ class KizuHachimonFragment : Fragment() {
                 binding.kizuHachimonHachimonChart.hachimonSouthScore.text = mMokuScore
             }
         }
+    }
+
+    /**
+     * Set Hachimon kan table scores
+     */
+    private fun setKanTable() {
+        binding.kizuHachimonScoreTable.mokuScore.text = mMokuScore
+        binding.kizuHachimonScoreTable.kaScore.text = mKaScore
+        binding.kizuHachimonScoreTable.doScore.text = mDoScore
+        binding.kizuHachimonScoreTable.gonScore.text = mGonScore
+        binding.kizuHachimonScoreTable.suiScore.text = mSuiScore
+
+        binding.kizuHachimonScoreTable.koubokuScore.text = mKanScoreList[0].toString()
+        binding.kizuHachimonScoreTable.otsubokuScore.text = mKanScoreList[1].toString()
+        binding.kizuHachimonScoreTable.heikaScore.text = mKanScoreList[2].toString()
+        binding.kizuHachimonScoreTable.teikaScore.text = mKanScoreList[3].toString()
+        binding.kizuHachimonScoreTable.bodoScore.text = mKanScoreList[4].toString()
+        binding.kizuHachimonScoreTable.kidoScore.text = mKanScoreList[5].toString()
+        binding.kizuHachimonScoreTable.koukinScore.text = mKanScoreList[6].toString()
+        binding.kizuHachimonScoreTable.shinkinScore.text = mKanScoreList[7].toString()
+        binding.kizuHachimonScoreTable.jinsuiScore.text = mKanScoreList[8].toString()
+        binding.kizuHachimonScoreTable.kisuiScore.text = mKanScoreList[9].toString()
+
+        binding.kizuHachimonScoreTable.totalScore.text = mKanScoreList.sum().toString()
     }
 }

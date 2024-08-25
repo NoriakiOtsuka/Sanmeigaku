@@ -35,4 +35,5 @@
     <dimen name="kizu_hachimon_title_font_size">24sp</dimen>
     <dimen name="kizu_hachimon_text_font_size">24sp</dimen>
     <dimen name="kizu_hachimon_score_font_size">14sp</dimen>
+    <integer name="kizu_hachimon_score_table_weight">8</integer>
 </resources>
