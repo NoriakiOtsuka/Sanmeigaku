@@ -27,4 +27,12 @@
     <integer name="isouhou_isoulist_taiun_weight">8</integer>
     <integer name="isouhou_isoulist_nenun_weight">4</integer>
     <integer name="isouhou_isoulist_isouhou_weight">11</integer>
+
+    <!--気図・八門法画面-->
+    <integer name="kizu_hachimon_container_weight">12</integer>
+    <dimen name="kizu_hachimon_container_size">48dp</dimen>
+    <integer name="kizu_hachimon_container_partition">4</integer>
+    <dimen name="kizu_hachimon_title_font_size">24sp</dimen>
+    <dimen name="kizu_hachimon_text_font_size">24sp</dimen>
+    <dimen name="kizu_hachimon_score_font_size">14sp</dimen>
 </resources>

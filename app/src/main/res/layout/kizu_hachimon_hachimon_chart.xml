@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/hachimonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:id="@+id/hachimonNorthContainer"
+            android:layout_width="@dimen/kizu_hachimon_container_size"
+            android:layout_height="@dimen/kizu_hachimon_container_size"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/hachimonNorthText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_text_font_size" />
+
+            <TextView
+                android:id="@+id/hachimonNorthScore"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_score_font_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hachimonWestContainer"
+            android:layout_width="@dimen/kizu_hachimon_container_size"
+            android:layout_height="@dimen/kizu_hachimon_container_size"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/hachimonWestText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_text_font_size" />
+
+            <TextView
+                android:id="@+id/hachimonWestScore"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_score_font_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hachimonCenterContainer"
+            android:layout_width="@dimen/kizu_hachimon_container_size"
+            android:layout_height="@dimen/kizu_hachimon_container_size"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/hachimonSouthContainer"
+            app:layout_constraintEnd_toStartOf="@+id/hachimonEastContainer"
+            app:layout_constraintStart_toEndOf="@+id/hachimonWestContainer"
+            app:layout_constraintTop_toBottomOf="@+id/hachimonNorthContainer">
+
+            <TextView
+                android:id="@+id/hachimonCenterText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_text_font_size" />
+
+            <TextView
+                android:id="@+id/hachimonCenterScore"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_score_font_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hachimonEastContainer"
+            android:layout_width="@dimen/kizu_hachimon_container_size"
+            android:layout_height="@dimen/kizu_hachimon_container_size"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/hachimonEastText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_text_font_size" />
+
+            <TextView
+                android:id="@+id/hachimonEastScore"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_score_font_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hachimonSouthContainer"
+            android:layout_width="@dimen/kizu_hachimon_container_size"
+            android:layout_height="@dimen/kizu_hachimon_container_size"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/hachimonSouthText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_text_font_size" />
+
+            <TextView
+                android:id="@+id/hachimonSouthScore"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_score_font_size" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/hachimonCenterContainer"
+            app:layout_constraintEnd_toEndOf="@+id/hachimonNorthContainer"
+            app:layout_constraintStart_toStartOf="@+id/hachimonNorthContainer"
+            app:layout_constraintTop_toBottomOf="@+id/hachimonNorthContainer"
+            app:srcCompat="@drawable/kizu_hachimon_vertical_line" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@+id/hachimonCenterContainer"
+            app:layout_constraintEnd_toStartOf="@+id/hachimonCenterContainer"
+            app:layout_constraintStart_toEndOf="@+id/hachimonWestContainer"
+            app:layout_constraintTop_toTopOf="@+id/hachimonCenterContainer"
+            app:srcCompat="@drawable/kizu_hachimon_horizontal_line" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@+id/hachimonCenterContainer"
+            app:layout_constraintEnd_toStartOf="@+id/hachimonEastContainer"
+            app:layout_constraintStart_toEndOf="@+id/hachimonCenterContainer"
+            app:layout_constraintTop_toTopOf="@+id/hachimonCenterContainer"
+            app:srcCompat="@drawable/kizu_hachimon_horizontal_line" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/hachimonSouthContainer"
+            app:layout_constraintEnd_toEndOf="@+id/hachimonCenterContainer"
+            app:layout_constraintStart_toStartOf="@+id/hachimonCenterContainer"
+            app:layout_constraintTop_toBottomOf="@+id/hachimonCenterContainer"
+            app:srcCompat="@drawable/kizu_hachimon_vertical_line" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

@@ -939,4 +939,154 @@ class Utility {
 
         return intArray
     }
+
+    /**
+     * Get energy score based on the second star
+     */
+    fun getEnergyScore(kanNo: Int, shiNo: Int): Int {
+        var score = 0
+        when (kanNo) {
+            1 -> when (shiNo) {
+                1 -> score = 7
+                2 -> score = 10
+                3 -> score = 11
+                4 -> score = 12
+                5 -> score = 8
+                6 -> score = 4
+                7 -> score = 2
+                8 -> score = 5
+                9 -> score = 1
+                10 -> score = 3
+                11 -> score = 6
+                12 -> score = 9
+            }
+            2 -> when (shiNo) {
+                1 -> score = 4
+                2 -> score = 8
+                3 -> score = 12
+                4 -> score = 11
+                5 -> score = 10
+                6 -> score = 7
+                7 -> score = 9
+                8 -> score = 6
+                9 -> score = 3
+                10 -> score = 1
+                11 -> score = 5
+                12 -> score = 2
+            }
+            3 -> when (shiNo) {
+                1 -> score = 3
+                2 -> score = 6
+                3 -> score = 9
+                4 -> score = 7
+                5 -> score = 10
+                6 -> score = 11
+                7 -> score = 12
+                8 -> score = 8
+                9 -> score = 4
+                10 -> score = 2
+                11 -> score = 5
+                12 -> score = 1
+            }
+            4 -> when (shiNo) {
+                1 -> score = 1
+                2 -> score = 5
+                3 -> score = 2
+                4 -> score = 4
+                5 -> score = 8
+                6 -> score = 12
+                7 -> score = 11
+                8 -> score = 10
+                9 -> score = 7
+                10 -> score = 9
+                11 -> score = 6
+                12 -> score = 3
+            }
+            5 -> when (shiNo) {
+                1 -> score = 3
+                2 -> score = 6
+                3 -> score = 9
+                4 -> score = 7
+                5 -> score = 10
+                6 -> score = 11
+                7 -> score = 12
+                8 -> score = 8
+                9 -> score = 4
+                10 -> score = 2
+                11 -> score = 5
+                12 -> score = 1
+            }
+            6 -> when (shiNo) {
+                1 -> score = 1
+                2 -> score = 5
+                3 -> score = 2
+                4 -> score = 4
+                5 -> score = 8
+                6 -> score = 12
+                7 -> score = 11
+                8 -> score = 10
+                9 -> score = 7
+                10 -> score = 9
+                11 -> score = 6
+                12 -> score = 3
+            }
+            7 -> when (shiNo) {
+                1 -> score = 2
+                2 -> score = 5
+                3 -> score = 1
+                4 -> score = 3
+                5 -> score = 6
+                6 -> score = 9
+                7 -> score = 7
+                8 -> score = 10
+                9 -> score = 11
+                10 -> score = 12
+                11 -> score = 8
+                12 -> score = 4
+            }
+            8 -> when (shiNo) {
+                1 -> score = 9
+                2 -> score = 6
+                3 -> score = 3
+                4 -> score = 1
+                5 -> score = 5
+                6 -> score = 2
+                7 -> score = 4
+                8 -> score = 8
+                9 -> score = 12
+                10 -> score = 11
+                11 -> score = 10
+                12 -> score = 7
+            }
+            9 -> when (shiNo) {
+                1 -> score = 12
+                2 -> score = 8
+                3 -> score = 4
+                4 -> score = 2
+                5 -> score = 5
+                6 -> score = 1
+                7 -> score = 3
+                8 -> score = 6
+                9 -> score = 9
+                10 -> score = 7
+                11 -> score = 10
+                12 -> score = 11
+            }
+            10 -> when (shiNo) {
+                1 -> score = 11
+                2 -> score = 10
+                3 -> score = 7
+                4 -> score = 9
+                5 -> score = 6
+                6 -> score = 3
+                7 -> score = 1
+                8 -> score = 5
+                9 -> score = 2
+                10 -> score = 4
+                11 -> score = 8
+                12 -> score = 12
+            }
+        }
+        return score
+    }
 }

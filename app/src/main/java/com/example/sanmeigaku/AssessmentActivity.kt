@@ -91,6 +91,7 @@ class AssessmentActivity : AppCompatActivity() {
             when (position) {
                 0 -> tab.text = getString(R.string.tab_meishiki)
                 1 -> tab.text = getString(R.string.tab_isouhou)
+                2 -> tab.text = getString(R.string.tab_kizuhachimon)
             }
         }.attach()
 
@@ -201,7 +202,7 @@ private class PagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     /**
      * Manage number of tabs
      */
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = 3
 
     /**
      * Create a fragment of the selected tab
@@ -212,6 +213,7 @@ private class PagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         return when (position) {
             0 -> MeishikiFragment()
             1 -> IsouhouFragment()
+            2 -> KizuHachimonFragment()
             else -> MeishikiFragment()
         }
     }

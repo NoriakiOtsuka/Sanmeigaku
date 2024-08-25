@@ -15,6 +15,7 @@
     <!--タブ-->
     <string name="tab_meishiki">命式</string>
     <string name="tab_isouhou">位相法</string>
+    <string name="tab_kizuhachimon">気図・八門法</string>
 
     <!--命式画面-->
     <string name="meishiki_save_button">保存</string>
@@ -85,6 +86,15 @@
     <string name="isouhou_isoulist_title_taiun_text">大運</string>
     <string name="isouhou_isoulist_title_nenun_text">年運</string>
     <string name="isouhou_isoulist_title_isouhou_text">位相法</string>
+
+    <!--気図・八門法画面-->
+    <string name="kizu_hachimon_kizu_title_text">気図法</string>
+    <string name="kizu_hachimon_hachimon_title_text">八門法</string>
+    <string name="kizu_hachimon_moku_text">木</string>
+    <string name="kizu_hachimon_ka_text">火</string>
+    <string name="kizu_hachimon_do_text">土</string>
+    <string name="kizu_hachimon_gon_text">金</string>
+    <string name="kizu_hachimon_sui_text">水</string>
 
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>

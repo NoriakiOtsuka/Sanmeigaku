@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/kizuContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:id="@+id/kizuMokuContainer"
+            android:layout_width="@dimen/kizu_hachimon_container_size"
+            android:layout_height="@dimen/kizu_hachimon_container_size"
+            android:background="@color/gogyou_moku"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/kizuMokuText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/kizu_hachimon_moku_text"
+                android:textSize="@dimen/kizu_hachimon_text_font_size" />
+
+            <TextView
+                android:id="@+id/kizuMokuScore"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_score_font_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/kizuKaContainer"
+            android:layout_width="@dimen/kizu_hachimon_container_size"
+            android:layout_height="@dimen/kizu_hachimon_container_size"
+            android:background="@color/gogyou_ka"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/kizuKaText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/kizu_hachimon_ka_text"
+                android:textSize="@dimen/kizu_hachimon_text_font_size" />
+
+            <TextView
+                android:id="@+id/kizuKaScore"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_score_font_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/kizuDoContainer"
+            android:layout_width="@dimen/kizu_hachimon_container_size"
+            android:layout_height="@dimen/kizu_hachimon_container_size"
+            android:background="@color/gogyou_do"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/kizuKaContainer"
+            app:layout_constraintEnd_toStartOf="@+id/kizuMokuContainer"
+            app:layout_constraintStart_toEndOf="@+id/kizuGonContainer"
+            app:layout_constraintTop_toBottomOf="@+id/kizuSuiContainer">
+
+            <TextView
+                android:id="@+id/kizuDoText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/kizu_hachimon_do_text"
+                android:textSize="@dimen/kizu_hachimon_text_font_size" />
+
+            <TextView
+                android:id="@+id/kizuDoScore"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_score_font_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/kizuGonContainer"
+            android:layout_width="@dimen/kizu_hachimon_container_size"
+            android:layout_height="@dimen/kizu_hachimon_container_size"
+            android:background="@color/gogyou_gon"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/kizuGonText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/kizu_hachimon_gon_text"
+                android:textSize="@dimen/kizu_hachimon_text_font_size" />
+
+            <TextView
+                android:id="@+id/kizuGonScore"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_score_font_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/kizuSuiContainer"
+            android:layout_width="@dimen/kizu_hachimon_container_size"
+            android:layout_height="@dimen/kizu_hachimon_container_size"
+            android:background="@color/gogyou_sui"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/kizuSuiText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/kizu_hachimon_sui_text"
+                android:textSize="@dimen/kizu_hachimon_text_font_size" />
+
+            <TextView
+                android:id="@+id/kizuSuiScore"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/kizu_hachimon_score_font_size" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/kizuGonContainer"
+            app:layout_constraintEnd_toStartOf="@+id/kizuSuiContainer"
+            app:layout_constraintStart_toEndOf="@+id/kizuGonContainer"
+            app:layout_constraintTop_toBottomOf="@+id/kizuSuiContainer"
+            app:srcCompat="@drawable/kizu_hachimon_right_upper_line" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/kizuMokuContainer"
+            app:layout_constraintEnd_toStartOf="@+id/kizuMokuContainer"
+            app:layout_constraintStart_toEndOf="@+id/kizuSuiContainer"
+            app:layout_constraintTop_toBottomOf="@+id/kizuSuiContainer"
+            app:srcCompat="@drawable/kizu_hachimon_left_upper_line" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@+id/kizuDoContainer"
+            app:layout_constraintEnd_toStartOf="@+id/kizuDoContainer"
+            app:layout_constraintStart_toEndOf="@+id/kizuGonContainer"
+            app:layout_constraintTop_toTopOf="@+id/kizuDoContainer"
+            app:srcCompat="@drawable/kizu_hachimon_horizontal_line" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/kizuKaContainer"
+            app:layout_constraintEnd_toEndOf="@+id/kizuDoContainer"
+            app:layout_constraintStart_toStartOf="@+id/kizuDoContainer"
+            app:layout_constraintTop_toBottomOf="@+id/kizuDoContainer"
+            app:srcCompat="@drawable/kizu_hachimon_vertical_line" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/kizuKaContainer"
+            app:layout_constraintEnd_toStartOf="@+id/kizuMokuContainer"
+            app:layout_constraintStart_toEndOf="@+id/kizuKaContainer"
+            app:layout_constraintTop_toBottomOf="@+id/kizuMokuContainer"
+            app:srcCompat="@drawable/kizu_hachimon_right_upper_line" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
