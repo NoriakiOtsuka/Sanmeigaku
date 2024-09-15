@@ -224,11 +224,11 @@ class KizuHachimonFragment : Fragment() {
                 binding.kizuHachimonHachimonChart.hachimonCenterContainer.setBackgroundColor(mokuColor)
                 binding.kizuHachimonHachimonChart.hachimonEastContainer.setBackgroundColor(doColor)
                 binding.kizuHachimonHachimonChart.hachimonSouthContainer.setBackgroundColor(kaColor)
-                binding.kizuHachimonHachimonChart.hachimonNorthText.text = getString(R.string.kizu_hachimon_sui_text)
-                binding.kizuHachimonHachimonChart.hachimonWestText.text = getString(R.string.kizu_hachimon_gon_text)
-                binding.kizuHachimonHachimonChart.hachimonCenterText.text = getString(R.string.kizu_hachimon_moku_text)
-                binding.kizuHachimonHachimonChart.hachimonEastText.text = getString(R.string.kizu_hachimon_do_text)
-                binding.kizuHachimonHachimonChart.hachimonSouthText.text = getString(R.string.kizu_hachimon_ka_text)
+                binding.kizuHachimonHachimonChart.hachimonNorthText.text = getString(R.string.common_sui_text)
+                binding.kizuHachimonHachimonChart.hachimonWestText.text = getString(R.string.common_gon_text)
+                binding.kizuHachimonHachimonChart.hachimonCenterText.text = getString(R.string.common_moku_text)
+                binding.kizuHachimonHachimonChart.hachimonEastText.text = getString(R.string.common_do_text)
+                binding.kizuHachimonHachimonChart.hachimonSouthText.text = getString(R.string.common_ka_text)
                 binding.kizuHachimonHachimonChart.hachimonNorthScore.text = mSuiScore
                 binding.kizuHachimonHachimonChart.hachimonWestScore.text = mGonScore
                 binding.kizuHachimonHachimonChart.hachimonCenterScore.text = mMokuScore
@@ -241,11 +241,11 @@ class KizuHachimonFragment : Fragment() {
                 binding.kizuHachimonHachimonChart.hachimonCenterContainer.setBackgroundColor(kaColor)
                 binding.kizuHachimonHachimonChart.hachimonEastContainer.setBackgroundColor(gonColor)
                 binding.kizuHachimonHachimonChart.hachimonSouthContainer.setBackgroundColor(doColor)
-                binding.kizuHachimonHachimonChart.hachimonNorthText.text = getString(R.string.kizu_hachimon_moku_text)
-                binding.kizuHachimonHachimonChart.hachimonWestText.text = getString(R.string.kizu_hachimon_sui_text)
-                binding.kizuHachimonHachimonChart.hachimonCenterText.text = getString(R.string.kizu_hachimon_ka_text)
-                binding.kizuHachimonHachimonChart.hachimonEastText.text = getString(R.string.kizu_hachimon_gon_text)
-                binding.kizuHachimonHachimonChart.hachimonSouthText.text = getString(R.string.kizu_hachimon_do_text)
+                binding.kizuHachimonHachimonChart.hachimonNorthText.text = getString(R.string.common_moku_text)
+                binding.kizuHachimonHachimonChart.hachimonWestText.text = getString(R.string.common_sui_text)
+                binding.kizuHachimonHachimonChart.hachimonCenterText.text = getString(R.string.common_ka_text)
+                binding.kizuHachimonHachimonChart.hachimonEastText.text = getString(R.string.common_gon_text)
+                binding.kizuHachimonHachimonChart.hachimonSouthText.text = getString(R.string.common_do_text)
                 binding.kizuHachimonHachimonChart.hachimonNorthScore.text = mMokuScore
                 binding.kizuHachimonHachimonChart.hachimonWestScore.text = mSuiScore
                 binding.kizuHachimonHachimonChart.hachimonCenterScore.text = mKaScore
@@ -258,11 +258,11 @@ class KizuHachimonFragment : Fragment() {
                 binding.kizuHachimonHachimonChart.hachimonCenterContainer.setBackgroundColor(doColor)
                 binding.kizuHachimonHachimonChart.hachimonEastContainer.setBackgroundColor(suiColor)
                 binding.kizuHachimonHachimonChart.hachimonSouthContainer.setBackgroundColor(gonColor)
-                binding.kizuHachimonHachimonChart.hachimonNorthText.text = getString(R.string.kizu_hachimon_ka_text)
-                binding.kizuHachimonHachimonChart.hachimonWestText.text = getString(R.string.kizu_hachimon_moku_text)
-                binding.kizuHachimonHachimonChart.hachimonCenterText.text = getString(R.string.kizu_hachimon_do_text)
-                binding.kizuHachimonHachimonChart.hachimonEastText.text = getString(R.string.kizu_hachimon_sui_text)
-                binding.kizuHachimonHachimonChart.hachimonSouthText.text = getString(R.string.kizu_hachimon_gon_text)
+                binding.kizuHachimonHachimonChart.hachimonNorthText.text = getString(R.string.common_ka_text)
+                binding.kizuHachimonHachimonChart.hachimonWestText.text = getString(R.string.common_moku_text)
+                binding.kizuHachimonHachimonChart.hachimonCenterText.text = getString(R.string.common_do_text)
+                binding.kizuHachimonHachimonChart.hachimonEastText.text = getString(R.string.common_sui_text)
+                binding.kizuHachimonHachimonChart.hachimonSouthText.text = getString(R.string.common_gon_text)
                 binding.kizuHachimonHachimonChart.hachimonNorthScore.text = mKaScore
                 binding.kizuHachimonHachimonChart.hachimonWestScore.text = mMokuScore
                 binding.kizuHachimonHachimonChart.hachimonCenterScore.text = mDoScore
@@ -275,11 +275,11 @@ class KizuHachimonFragment : Fragment() {
                 binding.kizuHachimonHachimonChart.hachimonCenterContainer.setBackgroundColor(gonColor)
                 binding.kizuHachimonHachimonChart.hachimonEastContainer.setBackgroundColor(mokuColor)
                 binding.kizuHachimonHachimonChart.hachimonSouthContainer.setBackgroundColor(suiColor)
-                binding.kizuHachimonHachimonChart.hachimonNorthText.text = getString(R.string.kizu_hachimon_do_text)
-                binding.kizuHachimonHachimonChart.hachimonWestText.text = getString(R.string.kizu_hachimon_ka_text)
-                binding.kizuHachimonHachimonChart.hachimonCenterText.text = getString(R.string.kizu_hachimon_gon_text)
-                binding.kizuHachimonHachimonChart.hachimonEastText.text = getString(R.string.kizu_hachimon_moku_text)
-                binding.kizuHachimonHachimonChart.hachimonSouthText.text = getString(R.string.kizu_hachimon_sui_text)
+                binding.kizuHachimonHachimonChart.hachimonNorthText.text = getString(R.string.common_do_text)
+                binding.kizuHachimonHachimonChart.hachimonWestText.text = getString(R.string.common_ka_text)
+                binding.kizuHachimonHachimonChart.hachimonCenterText.text = getString(R.string.common_gon_text)
+                binding.kizuHachimonHachimonChart.hachimonEastText.text = getString(R.string.common_moku_text)
+                binding.kizuHachimonHachimonChart.hachimonSouthText.text = getString(R.string.common_sui_text)
                 binding.kizuHachimonHachimonChart.hachimonNorthScore.text = mDoScore
                 binding.kizuHachimonHachimonChart.hachimonWestScore.text = mKaScore
                 binding.kizuHachimonHachimonChart.hachimonCenterScore.text = mGonScore
@@ -292,11 +292,11 @@ class KizuHachimonFragment : Fragment() {
                 binding.kizuHachimonHachimonChart.hachimonCenterContainer.setBackgroundColor(suiColor)
                 binding.kizuHachimonHachimonChart.hachimonEastContainer.setBackgroundColor(kaColor)
                 binding.kizuHachimonHachimonChart.hachimonSouthContainer.setBackgroundColor(mokuColor)
-                binding.kizuHachimonHachimonChart.hachimonNorthText.text = getString(R.string.kizu_hachimon_gon_text)
-                binding.kizuHachimonHachimonChart.hachimonWestText.text = getString(R.string.kizu_hachimon_do_text)
-                binding.kizuHachimonHachimonChart.hachimonCenterText.text = getString(R.string.kizu_hachimon_sui_text)
-                binding.kizuHachimonHachimonChart.hachimonEastText.text = getString(R.string.kizu_hachimon_ka_text)
-                binding.kizuHachimonHachimonChart.hachimonSouthText.text = getString(R.string.kizu_hachimon_moku_text)
+                binding.kizuHachimonHachimonChart.hachimonNorthText.text = getString(R.string.common_gon_text)
+                binding.kizuHachimonHachimonChart.hachimonWestText.text = getString(R.string.common_do_text)
+                binding.kizuHachimonHachimonChart.hachimonCenterText.text = getString(R.string.common_sui_text)
+                binding.kizuHachimonHachimonChart.hachimonEastText.text = getString(R.string.common_ka_text)
+                binding.kizuHachimonHachimonChart.hachimonSouthText.text = getString(R.string.common_moku_text)
                 binding.kizuHachimonHachimonChart.hachimonNorthScore.text = mGonScore
                 binding.kizuHachimonHachimonChart.hachimonWestScore.text = mDoScore
                 binding.kizuHachimonHachimonChart.hachimonCenterScore.text = mSuiScore

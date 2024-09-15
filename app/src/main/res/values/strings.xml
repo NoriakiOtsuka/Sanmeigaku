@@ -16,6 +16,24 @@
     <string name="tab_meishiki">命式</string>
     <string name="tab_isouhou">位相法</string>
     <string name="tab_kizuhachimon">気図・八門法</string>
+    <string name="tab_suuri">数理法</string>
+
+    <!--共通-->
+    <string name="common_moku_text">木</string>
+    <string name="common_ka_text">火</string>
+    <string name="common_do_text">土</string>
+    <string name="common_gon_text">金</string>
+    <string name="common_sui_text">水</string>
+    <string name="common_kouboku_text">甲</string>
+    <string name="common_otsuboku_text">乙</string>
+    <string name="common_heika_text">丙</string>
+    <string name="common_teika_text">丁</string>
+    <string name="common_bodo_text">戊</string>
+    <string name="common_kido_text">己</string>
+    <string name="common_koukin_text">庚</string>
+    <string name="common_shinkin_text">辛</string>
+    <string name="common_jinsui_text">壬</string>
+    <string name="common_kisui_text">癸</string>
 
     <!--命式画面-->
     <string name="meishiki_save_button">保存</string>
@@ -90,22 +108,16 @@
     <!--気図・八門法画面-->
     <string name="kizu_hachimon_kizu_title_text">気図法</string>
     <string name="kizu_hachimon_hachimon_title_text">八門法</string>
-    <string name="kizu_hachimon_moku_text">木</string>
-    <string name="kizu_hachimon_ka_text">火</string>
-    <string name="kizu_hachimon_do_text">土</string>
-    <string name="kizu_hachimon_gon_text">金</string>
-    <string name="kizu_hachimon_sui_text">水</string>
-    <string name="kizu_hachimon_scoretable_kouboku_text">甲</string>
-    <string name="kizu_hachimon_scoretable_otsuboku_text">乙</string>
-    <string name="kizu_hachimon_scoretable_heika_text">丙</string>
-    <string name="kizu_hachimon_scoretable_teika_text">丁</string>
-    <string name="kizu_hachimon_scoretable_bodo_text">戊</string>
-    <string name="kizu_hachimon_scoretable_kido_text">己</string>
-    <string name="kizu_hachimon_scoretable_koukin_text">庚</string>
-    <string name="kizu_hachimon_scoretable_shinkin_text">辛</string>
-    <string name="kizu_hachimon_scoretable_jinsui_text">壬</string>
-    <string name="kizu_hachimon_scoretable_kisui_text">癸</string>
     <string name="kizu_hachimon_scoretable_total_text">総数</string>
+
+    <!--数理法画面-->
+    <string name="suuri_gogyou_button">五行</string>
+    <string name="suuri_jukkan_button">十干</string>
+    <string name="suuri_scoretable_title_age_text">年齢</string>
+    <string name="suuri_scoretable_title_difference_text">差数</string>
+    <string name="suuri_scoretable_title_displacement_text">変位</string>
+    <string name="suuri_scoretable_title_capacity_text">容力</string>
+    <string name="suuri_scoretable_title_total_text">総数</string>
 
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>

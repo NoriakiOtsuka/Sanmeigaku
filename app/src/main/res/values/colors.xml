@@ -6,7 +6,9 @@
     <color name="orange">#FF8F00</color>
     <color name="magenta">#FF00FF</color>
 
-    <!--五行-->
+    <!--共通-->
+    <color name="active">@color/orange</color>
+    <color name="inactive">@color/light_gray</color>
     <color name="gogyou_moku">#008000</color>
     <color name="gogyou_ka">#FF0000</color>
     <color name="gogyou_do">#A52A2A</color>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".SuuriFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/gogyouButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/active"
+                android:text="@string/suuri_gogyou_button"
+                app:cornerRadius="10dp" />
+
+            <Button
+                android:id="@+id/jukkanButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/inactive"
+                android:text="@string/suuri_jukkan_button"
+                app:cornerRadius="10dp" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/gogyouScoreTable"
+            layout="@layout/suuri_gogyou_score_table" />
+
+        <include
+            android:id="@+id/jukkanScoreTable"
+            layout="@layout/suuri_jukkan_score_table" />
+    </LinearLayout>
+</LinearLayout>
