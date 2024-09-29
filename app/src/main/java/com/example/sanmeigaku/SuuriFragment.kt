@@ -12,7 +12,16 @@ import com.example.sanmeigaku.Adapter.GogyouScoreAdapter
 import com.example.sanmeigaku.Adapter.JukkanScoreAdapter
 import com.example.sanmeigaku.Enum.ZouKan
 import com.example.sanmeigaku.Util.Utility
+import com.example.sanmeigaku.View.SuuriGraphMarkerView
 import com.example.sanmeigaku.databinding.FragmentSuuriBinding
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -41,6 +50,27 @@ class SuuriFragment : Fragment() {
     private var mGogyouScoreList = Array(sRowNum) {FloatArray(9)}
     private var mJukkanScoreList = Array(sRowNum) {IntArray(10)}
     private val mBaseAveScoreArray = IntArray(10)
+
+    /** Data set for each item to be plotted on a line graph */
+    private var mMokuScoreDataSet:LineDataSet = LineDataSet(mutableListOf(), "")
+    private var mKaScoreDataSet:LineDataSet = LineDataSet(mutableListOf(), "")
+    private var mDoScoreDataSet:LineDataSet = LineDataSet(mutableListOf(), "")
+    private var mGonScoreDataSet:LineDataSet = LineDataSet(mutableListOf(), "")
+    private var mSuiScoreDataSet:LineDataSet = LineDataSet(mutableListOf(), "")
+    private var mDiffNumDataSet:LineDataSet = LineDataSet(mutableListOf(), "")
+    private var mDisplacementDataSet:LineDataSet = LineDataSet(mutableListOf(), "")
+    private var mCapacityRateDataSet:LineDataSet = LineDataSet(mutableListOf(), "")
+    private var mTotalScoreDataSet:LineDataSet = LineDataSet(mutableListOf(), "")
+
+    /** Status of the buttons related to the graph */
+    private var mGogyouGraphMode: Boolean = true
+    private var mIsGraphMoku: Boolean = false
+    private var mIsGraphKa: Boolean = false
+    private var mIsGraphDo: Boolean = false
+    private var mIsGraphGon: Boolean = false
+    private var mIsGraphSui: Boolean = false
+    private var mIsGraphDiffNum: Boolean = false
+    private var mIsGraphDisplacement: Boolean = false
 
     companion object {
         /** Number of rows in table */
@@ -77,21 +107,113 @@ class SuuriFragment : Fragment() {
         calculateScore()
         setGogyouTable()
         setJukkanTable()
-
-        val activeColor = resources.getColor(R.color.active, null)
-        val inactiveColor = resources.getColor(R.color.inactive, null)
+        toggleButtonActive()
+        setScoreLineChartData()
 
         binding.gogyouButton.setOnClickListener {
-            it.setBackgroundColor(activeColor)
-            binding.jukkanButton.setBackgroundColor(inactiveColor)
-            binding.gogyouScoreTable.gogyouScoreTable.isVisible = true
-            binding.jukkanScoreTable.jukkanScoreTable.isVisible = false
+            Log.i(TAG, "onViewCreated gogyouButton: mGogyouGraphMode was $mGogyouGraphMode before being tapped.")
+            if (!mGogyouGraphMode) {
+                mGogyouGraphMode = true
+                binding.gogyouScoreTable.gogyouScoreTable.isVisible = true
+                binding.jukkanScoreTable.jukkanScoreTable.isVisible = false
+                toggleButtonActive()
+                setScoreLineChart()
+            }
         }
+
         binding.jukkanButton.setOnClickListener {
-            binding.gogyouButton.setBackgroundColor(inactiveColor)
-            it.setBackgroundColor(activeColor)
-            binding.gogyouScoreTable.gogyouScoreTable.isVisible = false
-            binding.jukkanScoreTable.jukkanScoreTable.isVisible = true
+            Log.i(TAG, "onViewCreated jukkanButton: mGogyouGraphMode was $mGogyouGraphMode before being tapped." )
+            if (mGogyouGraphMode) {
+                mGogyouGraphMode = false
+                binding.gogyouScoreTable.gogyouScoreTable.isVisible = false
+                binding.jukkanScoreTable.jukkanScoreTable.isVisible = true
+                toggleButtonActive()
+                setScoreLineChart()
+            }
+        }
+
+        binding.mokuLineButton.setOnClickListener {
+            mIsGraphMoku = !mIsGraphMoku
+            if (mIsGraphMoku) {
+                it.setBackgroundColor(resources.getColor(R.color.gogyou_moku, null))
+            } else {
+                it.setBackgroundColor(resources.getColor(R.color.suuri_moku_inactive, null))
+            }
+            Log.i(TAG, "onViewCreated mokuLineButton: button active mode is $mIsGraphMoku.")
+
+            setScoreLineChart()
+        }
+
+        binding.kaLineButton.setOnClickListener {
+            mIsGraphKa = !mIsGraphKa
+            if (mIsGraphKa) {
+                it.setBackgroundColor(resources.getColor(R.color.gogyou_ka, null))
+            } else {
+                it.setBackgroundColor(resources.getColor(R.color.suuri_ka_inactive, null))
+            }
+            Log.i(TAG, "onViewCreated mokuLineButton: button active mode is $mIsGraphKa.")
+
+            setScoreLineChart()
+        }
+
+        binding.doLineButton.setOnClickListener {
+            mIsGraphDo = !mIsGraphDo
+            if (mIsGraphDo) {
+                it.setBackgroundColor(resources.getColor(R.color.gogyou_do, null))
+            } else {
+                it.setBackgroundColor(resources.getColor(R.color.suuri_do_inactive, null))
+            }
+            Log.i(TAG, "onViewCreated mokuLineButton: button active mode is $mIsGraphDo.")
+
+            setScoreLineChart()
+        }
+
+        binding.gonLineButton.setOnClickListener {
+            mIsGraphGon = !mIsGraphGon
+            if (mIsGraphGon) {
+                it.setBackgroundColor(resources.getColor(R.color.gogyou_gon, null))
+            } else {
+                it.setBackgroundColor(resources.getColor(R.color.suuri_gon_inactive, null))
+            }
+            Log.i(TAG, "onViewCreated mokuLineButton: button active mode is $mIsGraphGon.")
+
+            setScoreLineChart()
+        }
+
+        binding.suiLineButton.setOnClickListener {
+            mIsGraphSui = !mIsGraphSui
+            if (mIsGraphSui) {
+                it.setBackgroundColor(resources.getColor(R.color.gogyou_sui, null))
+            } else {
+                it.setBackgroundColor(resources.getColor(R.color.suuri_sui_inactive, null))
+            }
+            Log.i(TAG, "onViewCreated mokuLineButton: button active mode is $mIsGraphSui.")
+
+            setScoreLineChart()
+        }
+
+        binding.diffNumLineButton.setOnClickListener {
+            mIsGraphDiffNum = !mIsGraphDiffNum
+            if (mIsGraphDiffNum) {
+                it.setBackgroundColor(resources.getColor(R.color.suuri_difference, null))
+            } else {
+                it.setBackgroundColor(resources.getColor(R.color.suuri_difference_inactive, null))
+            }
+            Log.i(TAG, "onViewCreated mokuLineButton: button active mode is $mIsGraphDiffNum.")
+
+            setScoreLineChart()
+        }
+
+        binding.displacementLineButton.setOnClickListener {
+            mIsGraphDisplacement = !mIsGraphDisplacement
+            if (mIsGraphDisplacement) {
+                it.setBackgroundColor(resources.getColor(R.color.suuri_displacement, null))
+            } else {
+                it.setBackgroundColor(resources.getColor(R.color.suuri_displacement_inactive, null))
+            }
+            Log.i(TAG, "onViewCreated mokuLineButton: button active mode is $mIsGraphDisplacement.")
+
+            setScoreLineChart()
         }
     }
 
@@ -315,5 +437,251 @@ class SuuriFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = JukkanScoreAdapter(mJukkanScoreList)
         }
+    }
+
+    /**
+     * Set up data to plot score values for each item on a line graph
+     */
+    private fun setScoreLineChartData() {
+        Log.i(TAG, "setScoreLineChartData: Start to set up data")
+
+        val mokuScoreList: MutableList<Entry> = mutableListOf()
+        val kaScoreList: MutableList<Entry> = mutableListOf()
+        val doScoreList: MutableList<Entry> = mutableListOf()
+        val gonScoreList: MutableList<Entry> = mutableListOf()
+        val suiScoreList: MutableList<Entry> = mutableListOf()
+        val diffNumList: MutableList<Entry> = mutableListOf()
+        val displacementList: MutableList<Entry> = mutableListOf()
+        val capacityRateList: MutableList<Entry> = mutableListOf()
+        val totalScoreList: MutableList<Entry> = mutableListOf()
+
+        for (i in 0 until sRowNum) {
+            mokuScoreList.add(Entry(i.toFloat(), mGogyouScoreList[i][0]))
+            kaScoreList.add(Entry(i.toFloat(), mGogyouScoreList[i][1]))
+            doScoreList.add(Entry(i.toFloat(), mGogyouScoreList[i][2]))
+            gonScoreList.add(Entry(i.toFloat(), mGogyouScoreList[i][3]))
+            suiScoreList.add(Entry(i.toFloat(), mGogyouScoreList[i][4]))
+            diffNumList.add(Entry(i.toFloat(), mGogyouScoreList[i][5]))
+            displacementList.add(Entry(i.toFloat(), mGogyouScoreList[i][6]))
+            capacityRateList.add(Entry(i.toFloat(), mGogyouScoreList[i][7]))
+            totalScoreList.add(Entry(i.toFloat(), mGogyouScoreList[i][8]))
+        }
+
+        mMokuScoreDataSet = LineDataSet(mokuScoreList, getString(R.string.common_moku_text))
+        mMokuScoreDataSet.apply {
+            // Axis (LEFT)
+
+            // Line graph
+            setDrawCircles(false)
+            color = resources.getColor(R.color.gogyou_moku, null)
+
+            // Value
+            valueTextColor = resources.getColor(R.color.gogyou_moku, null)
+        }
+
+        mKaScoreDataSet = LineDataSet(kaScoreList, getString(R.string.common_ka_text))
+        mKaScoreDataSet.apply {
+            // Axis (LEFT)
+
+            // Line graph
+            setDrawCircles(false)
+            color = resources.getColor(R.color.gogyou_ka, null)
+
+            // Value
+            valueTextColor = resources.getColor(R.color.gogyou_ka, null)
+        }
+
+        mDoScoreDataSet = LineDataSet(doScoreList, getString(R.string.common_do_text))
+        mDoScoreDataSet.apply {
+            // Axis (LEFT)
+
+            // Line graph
+            setDrawCircles(false)
+            color = resources.getColor(R.color.gogyou_do, null)
+
+            // Value
+            valueTextColor = resources.getColor(R.color.gogyou_do, null)
+        }
+
+        mGonScoreDataSet = LineDataSet(gonScoreList, getString(R.string.common_gon_text))
+        mGonScoreDataSet.apply {
+            // Axis (LEFT)
+
+            // Line graph
+            setDrawCircles(false)
+            color = resources.getColor(R.color.gogyou_gon, null)
+
+            // Value
+            valueTextColor = resources.getColor(R.color.gogyou_gon, null)
+        }
+
+        mSuiScoreDataSet = LineDataSet(suiScoreList, getString(R.string.common_sui_text))
+        mSuiScoreDataSet.apply {
+            // Axis (LEFT)
+
+            // Line graph
+            setDrawCircles(false)
+            color = resources.getColor(R.color.gogyou_sui, null)
+
+            // Value
+            valueTextColor = resources.getColor(R.color.gogyou_sui, null)
+        }
+
+        mDiffNumDataSet = LineDataSet(diffNumList, getString(R.string.suuri_scoretable_title_difference_text))
+        mDiffNumDataSet.apply {
+            // Axis (LEFT)
+
+            // Line graph
+            enableDashedLine(5f, 5f, 0f)
+            setDrawCircles(false)
+            color = resources.getColor(R.color.suuri_difference, null)
+
+            // Value
+            valueTextColor = resources.getColor(R.color.suuri_difference, null)
+        }
+
+        mDisplacementDataSet = LineDataSet(displacementList, getString(R.string.suuri_scoretable_title_displacement_text))
+        mDisplacementDataSet.apply {
+            // Axis (RIGHT)
+            axisDependency = YAxis.AxisDependency.RIGHT
+
+            // Line graph
+            enableDashedLine(5f, 5f, 0f)
+            setDrawCircles(false)
+            color = resources.getColor(R.color.suuri_displacement, null)
+
+            // Value
+            valueTextColor = resources.getColor(R.color.suuri_displacement, null)
+        }
+
+        mCapacityRateDataSet = LineDataSet(capacityRateList, getString(R.string.suuri_scoretable_title_capacity_text))
+        mCapacityRateDataSet.apply {
+            // Axis (RIGHT)
+            axisDependency = YAxis.AxisDependency.RIGHT
+
+            // Line graph
+            enableDashedLine(5f, 5f, 0f)
+            setDrawCircles(false)
+            color = resources.getColor(R.color.suuri_capacity, null)
+
+            // Value
+            valueFormatter = object: ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return "%.2f".format(value)
+                }
+            }
+            valueTextColor = resources.getColor(R.color.dark_gray, null)
+        }
+
+        mTotalScoreDataSet = LineDataSet(totalScoreList, getString(R.string.suuri_scoretable_title_total_text))
+        mTotalScoreDataSet.apply {
+            // Axis (LEFT)
+
+            // Line graph
+            lineWidth = 1.5f
+            circleRadius = 2f
+            circleHoleRadius = 2f
+            color = resources.getColor(R.color.suuri_total, null)
+            setCircleColor(resources.getColor(R.color.suuri_total, null))
+
+            // Value
+            valueTextSize = 8f
+            valueTextColor = resources.getColor(R.color.suuri_total, null)
+        }
+
+        setScoreLineChart()
+    }
+
+    /**
+     * Settings for plotting the value of each item's score on a line graph
+     */
+    private fun setScoreLineChart() {
+        Log.i(TAG, "setScoreLineChart: Start to set up graph")
+
+        val lineDataSets = mutableListOf<ILineDataSet>()
+        lineDataSets.add(mTotalScoreDataSet)
+        lineDataSets.add(mCapacityRateDataSet)
+        if (mGogyouGraphMode && mIsGraphMoku)
+            lineDataSets.add(mMokuScoreDataSet)
+        if (mGogyouGraphMode && mIsGraphKa)
+            lineDataSets.add(mKaScoreDataSet)
+        if (mGogyouGraphMode && mIsGraphDo)
+            lineDataSets.add(mDoScoreDataSet)
+        if (mGogyouGraphMode && mIsGraphGon)
+            lineDataSets.add(mGonScoreDataSet)
+        if (mGogyouGraphMode && mIsGraphSui)
+            lineDataSets.add(mSuiScoreDataSet)
+        if (mGogyouGraphMode && mIsGraphDiffNum)
+            lineDataSets.add(mDiffNumDataSet)
+        if (mGogyouGraphMode && mIsGraphDisplacement)
+            lineDataSets.add(mDisplacementDataSet)
+
+        val graphTextColor = resources.getColor(R.color.dark_gray, null)
+        val markerView = SuuriGraphMarkerView(context, R.layout.suuri_graph_marker_view)
+        markerView.chartView = binding.suuriLineGraph
+
+        binding.suuriLineGraph.apply {
+            clear()
+
+            // Data
+            data = LineData(lineDataSets)
+            description.isEnabled = false
+
+            // Axis
+            xAxis.apply {
+                position = XAxis.XAxisPosition.BOTTOM
+                granularity = 1f
+                textColor = graphTextColor
+            }
+            axisLeft.textColor = graphTextColor
+            axisRight.apply {
+                isEnabled = true
+                axisMinimum = 0f
+                spaceTop = 100f
+                textColor = graphTextColor
+            }
+
+            // Legend
+            legend.form = Legend.LegendForm.LINE
+            legend.orientation = Legend.LegendOrientation.VERTICAL
+            legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+            legend.textColor = graphTextColor
+
+            // Marker
+            marker = markerView
+        }
+
+        toggleButtonVisibility()
+    }
+
+    /**
+     * Toggle between buttons gogyou and jukkan to activate one or the other.
+     */
+    private fun toggleButtonActive() {
+        Log.i(TAG, "toggleButtonActive: mGogyouGraphMode is $mGogyouGraphMode")
+
+        val activeColor = resources.getColor(R.color.active, null)
+        val inactiveColor = resources.getColor(R.color.inactive, null)
+
+        if (mGogyouGraphMode) {
+            binding.gogyouButton.setBackgroundColor(activeColor)
+            binding.jukkanButton.setBackgroundColor(inactiveColor)
+        } else {
+            binding.gogyouButton.setBackgroundColor(inactiveColor)
+            binding.jukkanButton.setBackgroundColor(activeColor)
+        }
+    }
+
+    /**
+     * Toggles the visibility of the buttons associated with Graph gogyou.
+     */
+    private fun toggleButtonVisibility() {
+        binding.mokuLineButton.isVisible = mGogyouGraphMode
+        binding.kaLineButton.isVisible = mGogyouGraphMode
+        binding.doLineButton.isVisible = mGogyouGraphMode
+        binding.gonLineButton.isVisible = mGogyouGraphMode
+        binding.suiLineButton.isVisible = mGogyouGraphMode
+        binding.diffNumLineButton.isVisible = mGogyouGraphMode
+        binding.displacementLineButton.isVisible = mGogyouGraphMode
     }
 }

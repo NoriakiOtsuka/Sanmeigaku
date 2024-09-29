@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--共通-->
+    <dimen name="common_button_corner_radius_size">10dp</dimen>
+
     <!--メイン画面-->
     <dimen name="main_container_margin_horizontal">48dp</dimen>
     <dimen name="main_container_margin_bottom">96dp</dimen>
@@ -36,4 +39,7 @@
     <dimen name="kizu_hachimon_text_font_size">24sp</dimen>
     <dimen name="kizu_hachimon_score_font_size">14sp</dimen>
     <integer name="kizu_hachimon_score_table_weight">8</integer>
+
+    <!--数理画面-->
+    <dimen name="suuri_marker_text_font_size">12sp</dimen>
 </resources>

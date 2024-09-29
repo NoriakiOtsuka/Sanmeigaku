@@ -2,13 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#FF888888</color>
+    <color name="dark_gray">#FF444444</color>
     <color name="light_gray">#FFCCCCCC</color>
     <color name="orange">#FF8F00</color>
     <color name="magenta">#FF00FF</color>
 
     <!--共通-->
     <color name="active">@color/orange</color>
-    <color name="inactive">@color/light_gray</color>
+    <color name="inactive">#44FF8F00</color>
     <color name="gogyou_moku">#008000</color>
     <color name="gogyou_ka">#FF0000</color>
     <color name="gogyou_do">#A52A2A</color>
@@ -18,4 +20,18 @@
     <!--命式画面-->
     <color name="meishiki_chart_main_line">#228B22</color>
     <color name="meishiki_chart_reference_line">#A9A9A9</color>
+
+    <!--数理画面-->
+    <color name="suuri_moku_inactive">#44008000</color>
+    <color name="suuri_ka_inactive">#44FF0000</color>
+    <color name="suuri_do_inactive">#44A52A2A</color>
+    <color name="suuri_gon_inactive">#44FFD700</color>
+    <color name="suuri_sui_inactive">#440000FF</color>
+    <color name="suuri_difference">#FF00FF</color>
+    <color name="suuri_difference_inactive">#44FF00FF</color>
+    <color name="suuri_displacement">#808000</color>
+    <color name="suuri_displacement_inactive">#44808000</color>
+    <color name="suuri_capacity">#C0C0C0</color>
+    <color name="suuri_total">#FF4500</color>
+    <color name="suuri_marker_backgoround">#AACCCCCC</color>
 </resources>

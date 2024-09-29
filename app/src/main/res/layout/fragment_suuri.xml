@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <LinearLayout
@@ -22,9 +23,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="@color/active"
+                android:backgroundTint="@color/inactive"
                 android:text="@string/suuri_gogyou_button"
-                app:cornerRadius="10dp" />
+                app:cornerRadius="@dimen/common_button_corner_radius_size" />
 
             <Button
                 android:id="@+id/jukkanButton"
@@ -33,7 +34,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/inactive"
                 android:text="@string/suuri_jukkan_button"
-                app:cornerRadius="10dp" />
+                app:cornerRadius="@dimen/common_button_corner_radius_size" />
         </LinearLayout>
 
         <include
@@ -43,5 +44,86 @@
         <include
             android:id="@+id/jukkanScoreTable"
             layout="@layout/suuri_jukkan_score_table" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/mokuLineButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/suuri_moku_inactive"
+                android:text="@string/common_moku_text"
+                app:cornerRadius="@dimen/common_button_corner_radius_size" />
+
+            <Button
+                android:id="@+id/kaLineButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/suuri_ka_inactive"
+                android:text="@string/common_ka_text"
+                app:cornerRadius="@dimen/common_button_corner_radius_size" />
+
+            <Button
+                android:id="@+id/doLineButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/suuri_do_inactive"
+                android:text="@string/common_do_text"
+                app:cornerRadius="@dimen/common_button_corner_radius_size" />
+
+            <Button
+                android:id="@+id/gonLineButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/suuri_gon_inactive"
+                android:text="@string/common_gon_text"
+                app:cornerRadius="@dimen/common_button_corner_radius_size" />
+
+            <Button
+                android:id="@+id/suiLineButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/suuri_sui_inactive"
+                android:text="@string/common_sui_text"
+                app:cornerRadius="@dimen/common_button_corner_radius_size" />
+
+            <Button
+                android:id="@+id/diffNumLineButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/suuri_difference_inactive"
+                android:text="@string/suuri_scoretable_title_difference_text"
+                app:cornerRadius="@dimen/common_button_corner_radius_size" />
+
+            <Button
+                android:id="@+id/displacementLineButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/suuri_displacement_inactive"
+                android:text="@string/suuri_scoretable_title_displacement_text"
+                app:cornerRadius="@dimen/common_button_corner_radius_size" />
+        </LinearLayout>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/suuriLineGraph"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 </LinearLayout>
