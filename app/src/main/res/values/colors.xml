@@ -34,4 +34,8 @@
     <color name="suuri_capacity">#C0C0C0</color>
     <color name="suuri_total">#FF4500</color>
     <color name="suuri_marker_backgoround">#AACCCCCC</color>
+
+    <!--六親法画面-->
+    <color name="rokushin_relative_text">#FFFACD</color>
+    <color name="rokushin_relation_line_width">#555555</color>
 </resources>

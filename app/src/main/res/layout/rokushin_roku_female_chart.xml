@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rokuFemaleChart"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/rokuMyself"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_myself_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/rokushin_relative_myself_vertical_bias" />
+
+    <TextView
+        android:id="@+id/rokuSpouse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintBottom_toBottomOf="@+id/rokuMyself"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_spouse_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rokuMyself" />
+
+    <TextView
+        android:id="@+id/rokuMyFather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_my_father_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rokuMyMother" />
+
+    <TextView
+        android:id="@+id/rokuMyMother"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintBottom_toTopOf="@+id/rokuMyself"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_myself_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rokuMaternalGrandmother" />
+
+    <TextView
+        android:id="@+id/rokuPaternalGrandfather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_paternal_grandfather_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/rokuPaternalGrandmother"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_my_father_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/rokuMaternalGrandmother"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_myself_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/rokuMaternalGrandfather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_spouse_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/rokuSpouseMother"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_spouse_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rokuMyMother" />
+
+    <TextView
+        android:id="@+id/rokuSpouseFather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_spouse_father_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rokuSpouseMother" />
+
+    <TextView
+        android:id="@+id/rokuSonSpouse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_child_left_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/rokuSon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_child_left_center_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/rokuDaughter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_child_center_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/rokuDaughterSpouse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rokushin_relative_text"
+        android:padding="@dimen/rokushin_relative_text_padding"
+        android:text="@string/rokushin_relative_empty_text"
+        android:textSize="@dimen/rokushin_relative_text_font_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="@dimen/rokushin_relative_child_right_center_horizontal_bias"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/rokushin_relation_line_width"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toBottomOf="@+id/rokuPaternalGrandmother"
+        app:layout_constraintEnd_toStartOf="@+id/rokuPaternalGrandmother"
+        app:layout_constraintStart_toEndOf="@+id/rokuPaternalGrandfather"
+        app:layout_constraintTop_toTopOf="@+id/rokuPaternalGrandmother" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/rokushin_relation_line_width"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toBottomOf="@+id/rokuMaternalGrandmother"
+        app:layout_constraintEnd_toStartOf="@+id/rokuMaternalGrandfather"
+        app:layout_constraintStart_toEndOf="@+id/rokuMaternalGrandmother"
+        app:layout_constraintTop_toTopOf="@+id/rokuMaternalGrandmother" />
+
+    <View
+        android:layout_width="@dimen/rokushin_relation_line_width"
+        android:layout_height="0dp"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toTopOf="@+id/rokuMyFather"
+        app:layout_constraintEnd_toEndOf="@+id/rokuMyFather"
+        app:layout_constraintStart_toStartOf="@+id/rokuMyFather"
+        app:layout_constraintTop_toBottomOf="@+id/rokuPaternalGrandmother" />
+
+    <View
+        android:id="@+id/view9"
+        android:layout_width="@dimen/rokushin_relation_line_width"
+        android:layout_height="0dp"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toTopOf="@+id/rokuMyMother"
+        app:layout_constraintEnd_toEndOf="@+id/rokuMyMother"
+        app:layout_constraintStart_toStartOf="@+id/rokuMyMother"
+        app:layout_constraintTop_toBottomOf="@+id/rokuMaternalGrandmother" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/rokushin_relation_line_width"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toBottomOf="@+id/rokuMyMother"
+        app:layout_constraintEnd_toStartOf="@+id/rokuMyMother"
+        app:layout_constraintStart_toEndOf="@+id/rokuMyFather"
+        app:layout_constraintTop_toTopOf="@+id/rokuMyMother" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/rokushin_relation_line_width"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toBottomOf="@+id/rokuSpouseMother"
+        app:layout_constraintEnd_toStartOf="@+id/rokuSpouseFather"
+        app:layout_constraintStart_toEndOf="@+id/rokuSpouseMother"
+        app:layout_constraintTop_toTopOf="@+id/rokuSpouseMother" />
+
+    <View
+        android:id="@+id/view8"
+        android:layout_width="@dimen/rokushin_relation_line_width"
+        android:layout_height="0dp"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toTopOf="@+id/rokuMyself"
+        app:layout_constraintEnd_toEndOf="@+id/rokuMyself"
+        app:layout_constraintStart_toStartOf="@+id/rokuMyself"
+        app:layout_constraintTop_toBottomOf="@+id/rokuMyMother" />
+
+    <View
+        android:layout_width="@dimen/rokushin_relation_line_width"
+        android:layout_height="0dp"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toTopOf="@+id/rokuSpouse"
+        app:layout_constraintEnd_toEndOf="@+id/rokuSpouse"
+        app:layout_constraintStart_toStartOf="@+id/rokuSpouse"
+        app:layout_constraintTop_toBottomOf="@+id/rokuSpouseMother" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/rokushin_relation_line_width"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toBottomOf="@+id/rokuMyself"
+        app:layout_constraintEnd_toStartOf="@+id/rokuSpouse"
+        app:layout_constraintStart_toEndOf="@+id/rokuMyself"
+        app:layout_constraintTop_toTopOf="@+id/rokuMyself" />
+
+    <View
+        android:layout_width="@dimen/rokushin_relation_line_width"
+        android:layout_height="0dp"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalRelationLine"
+        app:layout_constraintEnd_toStartOf="@+id/rokuDaughter"
+        app:layout_constraintStart_toEndOf="@+id/rokuSon"
+        app:layout_constraintTop_toBottomOf="@+id/rokuMyself" />
+
+    <View
+        android:id="@+id/horizontalRelationLine"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/rokushin_relation_line_width"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toTopOf="@+id/rokuSon"
+        app:layout_constraintEnd_toStartOf="@+id/verticalRelationLineRight"
+        app:layout_constraintStart_toEndOf="@+id/verticalRelationLineLeft"
+        app:layout_constraintTop_toBottomOf="@+id/rokuSpouse" />
+
+    <View
+        android:id="@+id/verticalRelationLineLeft"
+        android:layout_width="@dimen/rokushin_relation_line_width"
+        android:layout_height="0dp"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toTopOf="@+id/rokuSon"
+        app:layout_constraintEnd_toEndOf="@+id/rokuSon"
+        app:layout_constraintStart_toStartOf="@+id/rokuSon"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalRelationLine" />
+
+    <View
+        android:id="@+id/verticalRelationLineRight"
+        android:layout_width="@dimen/rokushin_relation_line_width"
+        android:layout_height="0dp"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toTopOf="@+id/rokuDaughter"
+        app:layout_constraintEnd_toEndOf="@+id/rokuDaughter"
+        app:layout_constraintStart_toStartOf="@+id/rokuDaughter"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalRelationLine" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/rokushin_relation_line_width"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rokuSon"
+        app:layout_constraintStart_toEndOf="@+id/rokuSonSpouse"
+        app:layout_constraintTop_toTopOf="@+id/rokuSon" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/rokushin_relation_line_width"
+        android:background="@color/rokushin_relation_line_width"
+        app:layout_constraintBottom_toBottomOf="@+id/rokuDaughter"
+        app:layout_constraintEnd_toStartOf="@+id/rokuDaughterSpouse"
+        app:layout_constraintStart_toEndOf="@+id/rokuDaughter"
+        app:layout_constraintTop_toTopOf="@+id/rokuDaughter" />
+</androidx.constraintlayout.widget.ConstraintLayout>

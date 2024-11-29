@@ -17,6 +17,7 @@
     <string name="tab_isouhou">位相法</string>
     <string name="tab_kizuhachimon">気図・八門法</string>
     <string name="tab_suuri">数理法</string>
+    <string name="tab_rokushin">六親法</string>
 
     <!--共通-->
     <string name="common_moku_text">木</string>
@@ -118,6 +119,11 @@
     <string name="suuri_scoretable_title_displacement_text">変位</string>
     <string name="suuri_scoretable_title_capacity_text">容力</string>
     <string name="suuri_scoretable_title_total_text">総数</string>
+
+    <!--六親法画面-->
+    <string name="rokushin_roku_title_text">六親法</string>
+    <string name="rokushin_juni_title_text">十二親干法</string>
+    <string name="rokushin_relative_empty_text">"　"</string>
 
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>

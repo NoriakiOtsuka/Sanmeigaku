@@ -42,4 +42,21 @@
 
     <!--数理画面-->
     <dimen name="suuri_marker_text_font_size">12sp</dimen>
+
+    <!--六親法画面-->
+    <dimen name="rokushin_title_font_size">24sp</dimen>
+    <dimen name="rokushin_relative_text_padding">5dp</dimen>
+    <dimen name="rokushin_relative_text_font_size">20sp</dimen>
+    <dimen name="rokushin_relative_myself_horizontal_bias">0.45</dimen>
+    <dimen name="rokushin_relative_spouse_horizontal_bias">0.65</dimen>
+    <dimen name="rokushin_relative_my_father_horizontal_bias">0.25</dimen>
+    <dimen name="rokushin_relative_paternal_grandfather_horizontal_bias">0.05</dimen>
+    <dimen name="rokushin_relative_spouse_father_horizontal_bias">0.85</dimen>
+    <dimen name="rokushin_relative_child_left_horizontal_bias">0.15</dimen>
+    <dimen name="rokushin_relative_child_left_center_horizontal_bias">0.35</dimen>
+    <dimen name="rokushin_relative_child_center_horizontal_bias">0.55</dimen>
+    <dimen name="rokushin_relative_child_right_center_horizontal_bias">0.75</dimen>
+    <dimen name="rokushin_relative_child_right_horizontal_bias">0.95</dimen>
+    <dimen name="rokushin_relative_myself_vertical_bias">0.7</dimen>
+    <dimen name="rokushin_relation_line_width">3dp</dimen>
 </resources>

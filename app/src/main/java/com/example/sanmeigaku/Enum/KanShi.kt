@@ -4,6 +4,7 @@ package com.example.sanmeigaku.Enum
  * Constant list of kan-shi
  */
 enum class KanShi(val value: String) {
+    Kan0("　"),
     Kan1("甲"),
     Kan2("乙"),
     Kan3("丙"),
