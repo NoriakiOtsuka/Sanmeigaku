@@ -25,6 +25,10 @@
         <activity
             android:name=".AssessmentActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".RegistrantActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
