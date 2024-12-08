@@ -126,6 +126,18 @@
     <string name="rokushin_juni_title_text">十二親干法</string>
     <string name="rokushin_relative_empty_text">"　"</string>
 
+    <!--登録者一覧画面-->
+    <string name="registrant_title_text">登録者一覧</string>
+    <string name="registrant_back_button">戻る</string>
+    <string name="registrant_search_button">検索</string>
+    <string name="registrant_name_text">名前</string>
+    <string name="registrant_kana_text">カナ</string>
+    <string name="registrant_birthday_text">生年月日</string>
+    <string name="registrant_gender_text">性別</string>
+    <string name="registrant_gender_male_text">男性</string>
+    <string name="registrant_gender_female_text">女性</string>
+    <string name="registrant_select_button">選択</string>
+
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>
     <string name="dialog_failed_db_setup_message">データベースの作成、更新に失敗しました。</string>
