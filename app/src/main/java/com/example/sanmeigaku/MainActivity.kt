@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputFilter
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doAfterTextChanged
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     /** variable of name */
     private var mName: String = ""
+    private var mKana: String = ""
 
     /** variable of birthday */
     private var mYear: Int? = null
@@ -33,6 +35,17 @@ class MainActivity : AppCompatActivity() {
 
     /** variable of gender */
     private var mGender: Int = 0
+
+    /** Variable for filtering characters that can be entered when inputting Kana */
+    private val mKanaInputFilter =
+        InputFilter { source, start, end, dest, dstart, dend ->
+            val filter = source.toString().matches("^[a-zA-Z0-9 \u30A0-\u30FF　]++\$".toRegex())
+            if (filter) {
+                source
+            } else {
+                ""
+            }
+        }
 
     companion object {
         /** Variable of select range of date */
@@ -60,6 +73,14 @@ class MainActivity : AppCompatActivity() {
         binding.nameEdit.doAfterTextChanged { name ->
             mName = name.toString()
             Log.i(TAG, "onCreate: The name input in the edit text is ${mName}")
+        }
+
+        binding.kanaEdit.also {
+            it.filters = arrayOf(mKanaInputFilter)
+            it.doAfterTextChanged { kana ->
+                mKana = kana.toString()
+                Log.i(TAG, "onCreate: The kana input in the edit text is ${mKana}")
+            }
         }
 
         binding.birthdayEdit.doAfterTextChanged { date ->
@@ -124,6 +145,7 @@ class MainActivity : AppCompatActivity() {
             if (mDateFormat && (mGender > 0)) {
                 val intent = Intent(this, AssessmentActivity::class.java)
                 intent.putExtra("name", mName)
+                intent.putExtra("kana", mKana)
                 intent.putExtra("year", mYear)
                 intent.putExtra("month", mMonth)
                 intent.putExtra("day", mDay)

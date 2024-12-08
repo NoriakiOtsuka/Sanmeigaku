@@ -39,6 +39,7 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         private const val TABLE_USER = "user"
         private const val _ID = "_id"
         private const val COLUMN_NAME = "name"
+        private const val COLUMN_KANA = "kana"
         private const val COLUMN_BIRTHDAY = "birthday"
         private const val COLUMN_GENDER = "gender"
 
@@ -63,6 +64,7 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         private const val CREATE_USER_ENTRIES = "CREATE TABLE " + TABLE_USER + " (" +
                 _ID + " INTEGER PRIMARY KEY, " +
                 COLUMN_NAME + " TEXT NOT NULL, " +
+                COLUMN_KANA + " TEXT NOT NULL, " +
                 COLUMN_BIRTHDAY + " INTEGER NOT NULL, " +
                 COLUMN_GENDER + " INTEGER NOT NULL)"
 

@@ -6,7 +6,12 @@
     <!--メイン画面-->
     <dimen name="main_container_margin_horizontal">48dp</dimen>
     <dimen name="main_container_margin_bottom">96dp</dimen>
+    <dimen name="main_layout_margin_top">16dp</dimen>
     <dimen name="main_layout_padding_horizontal">8dp</dimen>
+    <dimen name="main_button_font_size">24sp</dimen>
+    <dimen name="main_title_font_size">20sp</dimen>
+    <dimen name="main_birthday_button_font_size">18sp</dimen>
+    <dimen name="main_gender_button_font_size">16sp</dimen>
 
     <!--鑑定画面-->
     <dimen name="assessment_viewpager_margin_horizontal">10dp</dimen>

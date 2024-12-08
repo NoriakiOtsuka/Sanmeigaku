@@ -35,6 +35,7 @@ class AssessmentActivity : AppCompatActivity() {
     companion object {
         /** Variables of user info received from the main activity */
         var mName: String = ""
+        var mKana: String = ""
         var mYear: Int = 0
         var mMonth: Int = 0
         var mDay: Int = 0
@@ -98,6 +99,7 @@ class AssessmentActivity : AppCompatActivity() {
         }.attach()
 
         mName = intent.getStringExtra("name").toString()
+        mKana = intent.getStringExtra("kana").toString()
         mYear = intent.getIntExtra("year", 0)
         mMonth = intent.getIntExtra("month", 0)
         mDay = intent.getIntExtra("day", 0)

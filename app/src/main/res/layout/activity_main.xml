@@ -14,8 +14,8 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/orange"
         android:text="@string/main_registant_button"
-        android:textSize="24sp"
-        app:cornerRadius="10dp"
+        android:textSize="@dimen/main_button_font_size"
+        app:cornerRadius="@dimen/common_button_corner_radius_size"
         app:layout_constraintBottom_toTopOf="@+id/layoutContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/nameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/gray_shape"
@@ -47,7 +46,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="@string/main_name_title_text"
-                android:textSize="20sp" />
+                android:textSize="@dimen/main_title_font_size" />
 
             <EditText
                 android:id="@+id/nameEdit"
@@ -60,10 +59,36 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/birthdayLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/main_layout_margin_top"
+            android:background="@drawable/gray_shape"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/main_layout_padding_horizontal">
+
+            <TextView
+                android:id="@+id/kanaText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="@string/main_kana_title_text"
+                android:textSize="@dimen/main_title_font_size" />
+
+            <EditText
+                android:id="@+id/kanaEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:ems="10"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/main_layout_margin_top"
             android:background="@drawable/gray_shape"
             android:orientation="horizontal"
             android:paddingHorizontal="@dimen/main_layout_padding_horizontal">
@@ -75,7 +100,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="@string/main_birthday_title_text"
-                android:textSize="20sp" />
+                android:textSize="@dimen/main_title_font_size" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -98,16 +123,15 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/orange"
                     android:text="@string/main_birthday_button"
-                    android:textSize="18sp"
-                    app:cornerRadius="10dp" />
+                    android:textSize="@dimen/main_birthday_button_font_size"
+                    app:cornerRadius="@dimen/common_button_corner_radius_size" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/genderLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/main_layout_margin_top"
             android:background="@drawable/gray_shape"
             android:orientation="horizontal"
             android:paddingHorizontal="@dimen/main_layout_padding_horizontal">
@@ -119,7 +143,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="@string/main_gender_title_text"
-                android:textSize="20sp" />
+                android:textSize="@dimen/main_title_font_size" />
 
             <RadioGroup
                 android:id="@+id/genderButtonGroup"
@@ -135,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/main_gender_male_text"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/main_gender_button_font_size" />
 
                 <RadioButton
                     android:id="@+id/genderFemaleButton"
@@ -143,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/main_gender_female_text"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/main_gender_button_font_size" />
             </RadioGroup>
         </LinearLayout>
     </LinearLayout>
@@ -154,8 +178,8 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/orange"
         android:text="@string/main_divine_button"
-        android:textSize="24sp"
-        app:cornerRadius="10dp"
+        android:textSize="@dimen/main_button_font_size"
+        app:cornerRadius="@dimen/common_button_corner_radius_size"
         app:layout_constraintBottom_toTopOf="@+id/saveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -167,8 +191,8 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/orange"
         android:text="@string/main_save_button"
-        android:textSize="24sp"
-        app:cornerRadius="10dp"
+        android:textSize="@dimen/main_button_font_size"
+        app:cornerRadius="@dimen/common_button_corner_radius_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

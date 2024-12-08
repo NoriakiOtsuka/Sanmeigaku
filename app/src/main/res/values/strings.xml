@@ -3,6 +3,7 @@
 
     <!--メイン画面-->
     <string name="main_name_title_text">"名前　　："</string>
+    <string name="main_kana_title_text">"カナ　　："</string>
     <string name="main_birthday_title_text">"生年月日："</string>
     <string name="main_birthday_button">選択</string>
     <string name="main_gender_title_text">"性別　　："</string>
