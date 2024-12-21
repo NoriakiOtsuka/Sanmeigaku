@@ -176,6 +176,26 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
     }
 
     /**
+     * Add client to registrant list
+     */
+    fun addRegistrant(name: String, kana: String, birthday: Int, gender: Int): Long {
+        val dbHelper = AppDBHelpler(mContext)
+        val db = dbHelper.writableDatabase
+
+        val sql = ContentValues().apply {
+            put(COLUMN_NAME, name)
+            put(COLUMN_KANA, kana)
+            put(COLUMN_BIRTHDAY, birthday)
+            put(COLUMN_GENDER, gender)
+        }
+
+        val result = db.insert(TABLE_USER, null, sql)
+        db.close()
+
+        return result
+    }
+
+    /**
      * Get values from the kan-shi table
      */
     @SuppressLint("Range")

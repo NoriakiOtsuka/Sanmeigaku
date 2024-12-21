@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.util.Log
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import com.example.sanmeigaku.DB.AppDBHelpler
 import com.example.sanmeigaku.DB.AssetsDBHelper
@@ -156,6 +157,33 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("day", mDay)
                 intent.putExtra("gender", mGender)
                 startActivity(intent)
+            }
+        }
+
+        binding.saveButton.setOnClickListener {
+            val birthday = mYear?.times(10000)?.plus(mMonth!!.times(100))?.plus(mDay!!)
+            if ((mName != "") && (mKana != "") &&(birthday != null) && (mGender > 0)) {
+                if (mDateFormat) {
+                    val appDBHelper = AppDBHelpler(this)
+                    appDBHelper.writableDatabase
+
+                    val result = appDBHelper.addRegistrant(mName, mKana, birthday, mGender)
+                    val text = when (result) {
+                        -1L -> getString(R.string.toast_failed_add_registrant_list_message)
+                        else -> getString(R.string.toast_succeeded_add_registrant_list_message)
+                    }
+                    val duration = Toast.LENGTH_SHORT
+                    val toast = Toast.makeText(this, text, duration)
+                    toast.show()
+                } else {
+                    val title = getString(R.string.dialog_caution_title)
+                    val message = getString(R.string.dialog_failed_input_date_formant_message)
+                    simpleAlertDialog(title, message)
+                }
+            } else {
+                val title = getString(R.string.dialog_caution_title)
+                val message = getString(R.string.dialog_input_form_not_filled_in_message)
+                simpleAlertDialog(title, message)
             }
         }
     }
