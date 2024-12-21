@@ -67,7 +67,10 @@ class MainActivity : AppCompatActivity() {
         if (!setDateSelectRange()) {
             binding.birthdayEdit.isEnabled = false
             binding.birthdayButton.isEnabled = false
-            alertSetDateRange()
+
+            val title = getString(R.string.dialog_caution_title)
+            val message = getString(R.string.dialog_failed_set_date_range_message)
+            simpleAlertDialog(title, message)
         }
 
         binding.nameEdit.doAfterTextChanged { name ->
@@ -103,7 +106,7 @@ class MainActivity : AppCompatActivity() {
 
                 if (!checkDateSelectRange()) {
                     mDateFormat = false
-                    alertInputDateRange()
+                    inputDateRangeAlertDialog()
                 }
             } else {
                 Log.i(TAG, "onCreate: The birthday input in the edit text is not applied")
@@ -116,10 +119,12 @@ class MainActivity : AppCompatActivity() {
                 if (mDateFormat) {
                     if (!checkDateSelectRange()) {
                         mDateFormat = false
-                        alertInputDateRange()
+                        inputDateRangeAlertDialog()
                     }
                 } else {
-                    alertInputDateFormat()
+                    val title = getString(R.string.dialog_caution_title)
+                    val message = getString(R.string.dialog_failed_input_date_formant_message)
+                    simpleAlertDialog(title, message)
                 }
             }
             return@setOnEditorActionListener false
@@ -175,8 +180,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if (!assetDBExist)
-            alertDBSetup()
+        if (!assetDBExist) {
+            val title = getString(R.string.dialog_caution_title)
+            val message = getString(R.string.dialog_failed_db_setup_message)
+            simpleAlertDialog(title, message)
+        }
     }
 
     /**
@@ -213,42 +221,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Dialog when database creation or update failed
+     * Alert dialog with simple OK button
      */
-    private fun alertDBSetup() {
-        val title = getString(R.string.dialog_caution_title)
-        val message = getString(R.string.dialog_failed_db_setup_message)
+    private fun simpleAlertDialog(title: String, message: String) {
         val dialog = MessageDialog(title, message, "OK", {}, "", {})
         dialog.isCancelable = false
-        dialog.show(supportFragmentManager, "database_dialog")
-    }
-
-    /**
-     * Dialog when attempts to retrieve a date selection failed
-     */
-    private fun alertSetDateRange() {
-        val title = getString(R.string.dialog_caution_title)
-        val message = getString(R.string.dialog_failed_set_date_range_message)
-        val dialog = MessageDialog(title, message, "OK", {}, "", {})
-        dialog.isCancelable = false
-        dialog.show(supportFragmentManager, "select_date_dialog")
-    }
-
-    /**
-     * Dialog for incorrect date input format
-     */
-    private fun alertInputDateFormat() {
-        val title = getString(R.string.dialog_caution_title)
-        val message = getString(R.string.dialog_failed_input_date_formant_message)
-        val dialog = MessageDialog(title, message, "OK", {}, "", {})
-        dialog.isCancelable = false
-        dialog.show(supportFragmentManager, "select_date_dialog")
+        dialog.show(supportFragmentManager, "")
     }
 
     /**
      * Dialog when date of birth is out of selection
      */
-    private fun alertInputDateRange() {
+    private fun inputDateRangeAlertDialog() {
         val startDateText = "${startDate.toString().substring(0, 4)}/${startDate.toString().substring(4, 6)}/${startDate.toString().substring(6, 8)}"
         val endDateText = "${endDate.toString().substring(0, 4)}/${endDate.toString().substring(4, 6)}/${endDate.toString().substring(6, 8)}"
 
