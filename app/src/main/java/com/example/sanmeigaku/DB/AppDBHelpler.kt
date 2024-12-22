@@ -197,20 +197,21 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
     }
 
     /**
-     * Reading the list of registrants
+     * Make a list of registrants
      */
-    fun readRegistrantList(): Array<Array<String>> {
+    fun makeRegistrantList(word: String): Array<Array<String>> {
         val dbHelper = AppDBHelpler(mContext)
-        val db = dbHelper.readableDatabase
+        val db = dbHelper.writableDatabase
 
-        val cursor = db.query(TABLE_USER, null, null, null, null, null, "kana ASC")
+        val selection = "$COLUMN_NAME LIKE '%$word%' OR $COLUMN_KANA LIKE '%$word%'"
+        val cursor = db.query(TABLE_USER, null, selection, null, null, null, COLUMN_KANA)
         val registrantList = Array(cursor.count) {Array(3) {""}}
         with(cursor) {
             while (moveToNext()) {
-                val name = getString(getColumnIndexOrThrow("name"))
-                val kana = getString(getColumnIndexOrThrow("kana"))
-                val birthday = getInt(getColumnIndexOrThrow("birthday"))
-                val gender = getInt(getColumnIndexOrThrow("gender"))
+                val name = getString(getColumnIndexOrThrow(COLUMN_NAME))
+                val kana = getString(getColumnIndexOrThrow(COLUMN_KANA))
+                val birthday = getInt(getColumnIndexOrThrow(COLUMN_BIRTHDAY))
+                val gender = getInt(getColumnIndexOrThrow(COLUMN_GENDER))
 
                 val clientInfo = mutableListOf<String>()
                 clientInfo.add(name)
