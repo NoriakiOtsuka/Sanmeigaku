@@ -2,6 +2,7 @@ package com.example.sanmeigaku.DB
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -193,6 +194,35 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         db.close()
 
         return result
+    }
+
+    /**
+     * Reading the list of registrants
+     */
+    fun readRegistrantList(): Array<Array<String>> {
+        val dbHelper = AppDBHelpler(mContext)
+        val db = dbHelper.readableDatabase
+
+        val cursor = db.query(TABLE_USER, null, null, null, null, null, "kana ASC")
+        val registrantList = Array(cursor.count) {Array(3) {""}}
+        with(cursor) {
+            while (moveToNext()) {
+                val name = getString(getColumnIndexOrThrow("name"))
+                val kana = getString(getColumnIndexOrThrow("kana"))
+                val birthday = getInt(getColumnIndexOrThrow("birthday"))
+                val gender = getInt(getColumnIndexOrThrow("gender"))
+
+                val clientInfo = mutableListOf<String>()
+                clientInfo.add(name)
+                clientInfo.add(kana)
+                clientInfo.add(birthday.toString())
+                clientInfo.add(gender.toString())
+                registrantList[cursor.position] = clientInfo.toTypedArray()
+            }
+        }
+        cursor.close()
+
+        return registrantList
     }
 
     /**

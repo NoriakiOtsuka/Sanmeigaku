@@ -74,6 +74,11 @@ class MainActivity : AppCompatActivity() {
             simpleAlertDialog(title, message)
         }
 
+        binding.registeredButton.setOnClickListener {
+            val intent = Intent(this, RegistrantActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.nameEdit.doAfterTextChanged { name ->
             mName = name.toString()
             Log.i(TAG, "onCreate: The name input in the edit text is ${mName}")
