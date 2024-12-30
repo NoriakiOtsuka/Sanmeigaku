@@ -1,26 +1,11 @@
 <resources>
     <string name="app_name">Sanmeigaku</string>
 
-    <!--メイン画面-->
-    <string name="main_name_title_text">"名前　　："</string>
-    <string name="main_kana_title_text">"カナ　　："</string>
-    <string name="main_birthday_title_text">"生年月日："</string>
-    <string name="main_birthday_button">選択</string>
-    <string name="main_gender_title_text">"性別　　："</string>
-    <string name="main_gender_male_text">男性</string>
-    <string name="main_gender_female_text">女性</string>
-    <string name="main_divine_button">鑑定</string>
-    <string name="main_save_button">保存</string>
-    <string name="main_registant_button">登録者リスト</string>
-
-    <!--タブ-->
-    <string name="tab_meishiki">命式</string>
-    <string name="tab_isouhou">位相法</string>
-    <string name="tab_kizuhachimon">気図・八門法</string>
-    <string name="tab_suuri">数理法</string>
-    <string name="tab_rokushin">六親法</string>
-
     <!--共通-->
+    <string name="common_name_title_text">"名前"</string>
+    <string name="common_kana_title_text">"カナ"</string>
+    <string name="common_birthday_title_text">"生年月日"</string>
+    <string name="common_gender_title_text">"性別"</string>
     <string name="common_moku_text">木</string>
     <string name="common_ka_text">火</string>
     <string name="common_do_text">土</string>
@@ -36,6 +21,25 @@
     <string name="common_shinkin_text">辛</string>
     <string name="common_jinsui_text">壬</string>
     <string name="common_kisui_text">癸</string>
+
+    <!--タブ-->
+    <string name="tab_meishiki">命式</string>
+    <string name="tab_isouhou">位相法</string>
+    <string name="tab_kizuhachimon">気図・八門法</string>
+    <string name="tab_suuri">数理法</string>
+    <string name="tab_rokushin">六親法</string>
+
+    <!--メイン画面-->
+    <string name="main_name_title_text">"名前　　："</string>
+    <string name="main_kana_title_text">"カナ　　："</string>
+    <string name="main_birthday_title_text">"生年月日："</string>
+    <string name="main_birthday_button">選択</string>
+    <string name="main_gender_title_text">"性別　　："</string>
+    <string name="main_gender_male_text">男性</string>
+    <string name="main_gender_female_text">女性</string>
+    <string name="main_divine_button">鑑定</string>
+    <string name="main_save_button">保存</string>
+    <string name="main_registant_button">登録者リスト</string>
 
     <!--命式画面-->
     <string name="meishiki_save_button">保存</string>
@@ -141,10 +145,10 @@
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>
     <string name="dialog_failed_db_setup_message">データベースの作成、更新に失敗しました。</string>
-    <string name="dialog_input_form_not_filled_in_message">未入力の項目があります。</string>
+    <string name="dialog_input_form_not_filled_in_message">が未入力です。</string>
     <string name="dialog_failed_set_date_range_message">日付選択範囲の取得に失敗しました。\n日付の選択はできません。</string>
-    <string name="dialog_failed_input_date_formant_message">生年月日の入力形式が正しくありません</string>
-    <string name="dialog_failed_input_date_range_message">生年月日は下記の範囲内で入力してください</string>
+    <string name="dialog_failed_input_date_formant_message">生年月日の入力形式が正しくない、または存在しない日付を入力してます。\n記入例のように、年月日をそれぞれ / で区切って入力してください。\n (記入例) 2000/01/01</string>
+    <string name="dialog_failed_input_date_range_message">生年月日は下記の範囲内で入力してください。</string>
 
     <!--トースト-->
     <string name="toast_succeeded_add_registrant_list_message">登録しました。</string>

@@ -14,6 +14,7 @@ import com.example.sanmeigaku.DB.AssetsDBHelper
 import com.example.sanmeigaku.Util.DateDialog
 import com.example.sanmeigaku.Util.MessageDialog
 import com.example.sanmeigaku.databinding.ActivityMainBinding
+import java.lang.Exception
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -29,18 +30,31 @@ class MainActivity : AppCompatActivity() {
     private var mKana: String = ""
 
     /** variable of birthday */
-    private var mYear: Int? = null
-    private var mMonth: Int? = null
-    private var mDay: Int? = null
+    private var mYear: Int = 0
+    private var mMonth: Int = 0
+    private var mDay: Int = 0
+    private var mDateExist: Boolean = false
     private var mDateFormat: Boolean = false
+    private var mDateRange: Boolean = false
 
     /** variable of gender */
     private var mGender: Int = 0
 
-    /** Variable for filtering characters that can be entered when inputting Kana */
+    /** Variable for filtering characters that can be entered when inputting kana */
     private val mKanaInputFilter =
         InputFilter { source, start, end, dest, dstart, dend ->
             val filter = source.toString().matches("^[a-zA-Z0-9 \u30A0-\u30FF　]++\$".toRegex())
+            if (filter) {
+                source
+            } else {
+                ""
+            }
+        }
+
+    /** Variable for filtering characters that can be entered when inputting birthday */
+    private val mBirthdayInputFilter =
+        InputFilter { source, start, end, dest, dstart, dend ->
+            val filter = source.toString().matches("^[0-9/]++\$".toRegex())
             if (filter) {
                 source
             } else {
@@ -92,44 +106,42 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.birthdayEdit.doAfterTextChanged { date ->
-            var dateText = date.toString()
-            var str = dateText.replace("-", "/")
-            str = str.replace(".", "/")
-            val regex = Regex("""(\d+)/(\d+)/(\d+)""")
-            mDateFormat = regex.containsMatchIn(str)
+        binding.birthdayEdit.also {
+            it.filters = arrayOf(mBirthdayInputFilter)
+            it.doAfterTextChanged { date ->
+                val dateText = date.toString()
+                mDateExist = dateText != ""
 
-            if (mDateFormat) {
-                val format = DateFormat.getDateInstance()
-                val date = format.parse(str)
-                val simpleDateFormat = SimpleDateFormat("yyyyMMdd", Locale.JAPAN)
-                dateText = simpleDateFormat.format(date)
-
-                mYear = dateText.substring(0, 4).toInt()
-                mMonth = dateText.substring(4, 6).toInt()
-                mDay = dateText.substring(6, 8).toInt()
-                Log.i(TAG, "onCreate: The birthday input in the edit text is ${mYear}/${mMonth}/${mDay}")
-
-                if (!checkDateSelectRange()) {
-                    mDateFormat = false
-                    inputDateRangeAlertDialog()
+                mDateFormat = checkDateExist(dateText)
+                if (mDateFormat) {
+                    val dateArray = dateText.split("/")
+                    mYear = dateArray[0].toInt()
+                    mMonth = dateArray[1].toInt()
+                    mDay = dateArray[2].toInt()
+                    mDateRange = checkDateSelectRange()
+                    Log.i(TAG, "onCreate: The birthday input in the edit text is ${mYear}/${mMonth}/${mDay}")
+                } else {
+                    Log.i(TAG, "onCreate: The birthday input in the edit text is not applied")
                 }
-            } else {
-                Log.i(TAG, "onCreate: The birthday input in the edit text is not applied")
             }
         }
 
         binding.birthdayEdit.setOnEditorActionListener() { _, keyCode, _ ->
             if (keyCode == EditorInfo.IME_ACTION_DONE) {
                 Log.i(TAG, "onCreate: In birthday input field, enter key is tapped")
-                if (mDateFormat) {
-                    if (!checkDateSelectRange()) {
-                        mDateFormat = false
-                        inputDateRangeAlertDialog()
+                if (mDateExist) {
+                    if (mDateFormat) {
+                        if (!mDateRange)
+                            inputDateRangeAlertDialog()
+                    } else {
+                        val title = getString(R.string.dialog_caution_title)
+                        val message = getString(R.string.dialog_failed_input_date_formant_message)
+                        simpleAlertDialog(title, message)
                     }
                 } else {
                     val title = getString(R.string.dialog_caution_title)
-                    val message = getString(R.string.dialog_failed_input_date_formant_message)
+                    val message = getString(R.string.common_birthday_title_text) +
+                            getString(R.string.dialog_input_form_not_filled_in_message)
                     simpleAlertDialog(title, message)
                 }
             }
@@ -140,6 +152,7 @@ class MainActivity : AppCompatActivity() {
             DateDialog { date ->
                 binding.birthdayEdit.setText(date)
                 mDateFormat = true
+                mDateRange = true
             }.show(supportFragmentManager, "date_dialog")
             Log.i(TAG, "onCreate: The birthday selected in date picker dialog is ${mYear}/${mMonth}/${mDay}")
         }
@@ -153,33 +166,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.divineButton.setOnClickListener {
-            if (mDateFormat && (mGender > 0)) {
-                val intent = Intent(this, AssessmentActivity::class.java)
-                intent.putExtra("name", mName)
-                intent.putExtra("kana", mKana)
-                intent.putExtra("year", mYear)
-                intent.putExtra("month", mMonth)
-                intent.putExtra("day", mDay)
-                intent.putExtra("gender", mGender)
-                startActivity(intent)
-            }
-        }
-
-        binding.saveButton.setOnClickListener {
-            val birthday = mYear?.times(10000)?.plus(mMonth!!.times(100))?.plus(mDay!!)
-            if ((mName != "") && (mKana != "") &&(birthday != null) && (mGender > 0)) {
+            if ((mDateExist) && (mGender > 0)) {
                 if (mDateFormat) {
-                    val appDBHelper = AppDBHelpler(this)
-                    appDBHelper.writableDatabase
-
-                    val result = appDBHelper.addRegistrant(mName, mKana, birthday, mGender)
-                    val text = when (result) {
-                        -1L -> getString(R.string.toast_failed_add_registrant_list_message)
-                        else -> getString(R.string.toast_succeeded_add_registrant_list_message)
+                    if (mDateRange) {
+                        val intent = Intent(this, AssessmentActivity::class.java)
+                        intent.putExtra("name", mName)
+                        intent.putExtra("kana", mKana)
+                        intent.putExtra("year", mYear)
+                        intent.putExtra("month", mMonth)
+                        intent.putExtra("day", mDay)
+                        intent.putExtra("gender", mGender)
+                        startActivity(intent)
+                    } else {
+                        inputDateRangeAlertDialog()
                     }
-                    val duration = Toast.LENGTH_SHORT
-                    val toast = Toast.makeText(this, text, duration)
-                    toast.show()
                 } else {
                     val title = getString(R.string.dialog_caution_title)
                     val message = getString(R.string.dialog_failed_input_date_formant_message)
@@ -187,7 +187,53 @@ class MainActivity : AppCompatActivity() {
                 }
             } else {
                 val title = getString(R.string.dialog_caution_title)
-                val message = getString(R.string.dialog_input_form_not_filled_in_message)
+                var message = ""
+                if (!mDateExist)
+                    message += "${getString(R.string.common_birthday_title_text)} "
+                if (mGender == 0)
+                    message += "${getString(R.string.common_gender_title_text)} "
+                message += getString(R.string.dialog_input_form_not_filled_in_message)
+                simpleAlertDialog(title, message)
+            }
+        }
+
+        binding.saveButton.setOnClickListener {
+            if ((mName != "") && (mKana != "") && (mDateExist) && (mGender > 0)) {
+                if (mDateFormat) {
+                    if (mDateRange) {
+                        val appDBHelper = AppDBHelpler(this)
+                        appDBHelper.writableDatabase
+
+                        val birthday = mYear.times(10000).plus(mMonth.times(100)).plus(mDay)
+                        val result = appDBHelper.addRegistrant(mName, mKana, birthday, mGender)
+                        val text = when (result) {
+                            -1L -> getString(R.string.toast_failed_add_registrant_list_message)
+                            else -> getString(R.string.toast_succeeded_add_registrant_list_message)
+                        }
+
+                        val duration = Toast.LENGTH_SHORT
+                        val toast = Toast.makeText(this, text, duration)
+                        toast.show()
+                    } else {
+                        inputDateRangeAlertDialog()
+                    }
+                } else {
+                    val title = getString(R.string.dialog_caution_title)
+                    val message = getString(R.string.dialog_failed_input_date_formant_message)
+                    simpleAlertDialog(title, message)
+                }
+            } else {
+                val title = getString(R.string.dialog_caution_title)
+                var message = ""
+                if (mName == "")
+                    message += "${getString(R.string.common_name_title_text)} "
+                if (mKana == "")
+                    message += "${getString(R.string.common_kana_title_text)} "
+                if (!mDateExist)
+                    message += "${getString(R.string.common_birthday_title_text)} "
+                if (mGender == 0)
+                    message += "${getString(R.string.common_gender_title_text)} "
+                message += getString(R.string.dialog_input_form_not_filled_in_message)
                 simpleAlertDialog(title, message)
             }
         }
@@ -233,6 +279,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
+     * Check if the date exists in the calendar
+     */
+    private fun checkDateExist(strDate: String): Boolean {
+        val format = DateFormat.getDateInstance()
+        format.isLenient = false
+
+        return try {
+            format.parse(strDate)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
      * Check if the date entered is within the range
      */
     private fun checkDateSelectRange(): Boolean {
@@ -248,18 +309,9 @@ class MainActivity : AppCompatActivity() {
         calendar.time = dateFormat.parse("%04d".format(mYear) + "%02d".format(mMonth) + "%02d".format(mDay)) as Date
         val target = calendar.timeInMillis
 
-        Log.i(TAG, "checkDateSelectRange: Range from ${start} to ${end}, with ${target} selected")
+        Log.i(TAG, "checkDateSelectRange: Range from $start to $end, with $target selected")
 
         return (target > start) && (target < end)
-    }
-
-    /**
-     * Alert dialog with simple OK button
-     */
-    private fun simpleAlertDialog(title: String, message: String) {
-        val dialog = MessageDialog(title, message, "OK", {}, "", {})
-        dialog.isCancelable = false
-        dialog.show(supportFragmentManager, "")
     }
 
     /**
@@ -271,8 +323,15 @@ class MainActivity : AppCompatActivity() {
 
         val title = getString(R.string.dialog_caution_title)
         val message = "${getString(R.string.dialog_failed_input_date_range_message)}\n $startDateText ～ $endDateText"
+        simpleAlertDialog(title, message)
+    }
+
+    /**
+     * Alert dialog with simple OK button
+     */
+    private fun simpleAlertDialog(title: String, message: String) {
         val dialog = MessageDialog(title, message, "OK", {}, "", {})
         dialog.isCancelable = false
-        dialog.show(supportFragmentManager, "select_date_dialog")
+        dialog.show(supportFragmentManager, "")
     }
 }
