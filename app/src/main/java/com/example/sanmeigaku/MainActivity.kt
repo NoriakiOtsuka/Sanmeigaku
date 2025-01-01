@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import com.example.sanmeigaku.DB.AppDBHelpler
 import com.example.sanmeigaku.DB.AssetsDBHelper
-import com.example.sanmeigaku.Util.DateDialog
+import com.example.sanmeigaku.Util.DateSelectDialog
 import com.example.sanmeigaku.Util.MessageDialog
 import com.example.sanmeigaku.databinding.ActivityMainBinding
 import java.lang.Exception
@@ -30,10 +30,6 @@ class MainActivity : AppCompatActivity() {
     private var mKana: String = ""
 
     /** variable of birthday */
-    private var mYear: Int = 0
-    private var mMonth: Int = 0
-    private var mDay: Int = 0
-    private var mDateExist: Boolean = false
     private var mDateFormat: Boolean = false
     private var mDateRange: Boolean = false
 
@@ -63,6 +59,12 @@ class MainActivity : AppCompatActivity() {
         }
 
     companion object {
+        /** variable of birthday */
+        var mYear: Int = 0
+        var mMonth: Int = 0
+        var mDay: Int = 0
+        var mDateExist: Boolean = false
+
         /** Variable of select range of date */
         var startDate = 0
         var endDate = 0
@@ -149,12 +151,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.birthdayButton.setOnClickListener {
-            DateDialog { date ->
-                binding.birthdayEdit.setText(date)
-                mDateFormat = true
-                mDateRange = true
-            }.show(supportFragmentManager, "date_dialog")
-            Log.i(TAG, "onCreate: The birthday selected in date picker dialog is ${mYear}/${mMonth}/${mDay}")
+            val dialog = DateSelectDialog()
+            dialog.setDatePickerListener(object : DateSelectDialog.DatePickerListener {
+                override fun onDateSelected(year: Int, month: Int, dayOfMonth: Int) {
+                    val date = "$year/$month/$dayOfMonth"
+                    binding.birthdayEdit.setText(date)
+                    Log.i(TAG, "onCreate: The birthday selected in date picker dialog is $date")
+                    mDateFormat = true
+                    mDateRange = true
+                }
+            })
+            dialog.isCancelable = false
+            dialog.show(supportFragmentManager, "")
         }
 
         binding.genderButtonGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -330,7 +338,8 @@ class MainActivity : AppCompatActivity() {
      * Alert dialog with simple OK button
      */
     private fun simpleAlertDialog(title: String, message: String) {
-        val dialog = MessageDialog(title, message, "OK", {}, "", {})
+        val okLabbel = getString(R.string.dialog_labal_ok)
+        val dialog = MessageDialog.newInstance(title, message, okLabbel, "")
         dialog.isCancelable = false
         dialog.show(supportFragmentManager, "")
     }

@@ -143,6 +143,7 @@
     <string name="registrant_select_button">選択</string>
 
     <!--ダイアログ-->
+    <string name="dialog_labal_ok">OK</string>
     <string name="dialog_caution_title">注意</string>
     <string name="dialog_failed_db_setup_message">データベースの作成、更新に失敗しました。</string>
     <string name="dialog_input_form_not_filled_in_message">が未入力です。</string>
