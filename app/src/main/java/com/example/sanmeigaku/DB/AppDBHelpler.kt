@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
+import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
@@ -67,7 +68,8 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
                 COLUMN_NAME + " TEXT NOT NULL, " +
                 COLUMN_KANA + " TEXT NOT NULL, " +
                 COLUMN_BIRTHDAY + " INTEGER NOT NULL, " +
-                COLUMN_GENDER + " INTEGER NOT NULL)"
+                COLUMN_GENDER + " INTEGER NOT NULL, " +
+                "UNIQUE(" + COLUMN_NAME + ", " + COLUMN_KANA + ", " + COLUMN_BIRTHDAY + ", " + COLUMN_GENDER + "))"
 
         /**
          * Entry name to create kanshi table
@@ -103,6 +105,11 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         var appDBCreate: Boolean = false
         var isDBUpdated: Boolean = false
         var dbState: Int = DB_DEFAULT
+
+        /**
+         * Constant to manage causes in sqlite error log
+         */
+        private const val SQLITE_ERROR_UNIQUE = "UNIQUE constraint failed"
     }
 
     init {
@@ -178,8 +185,10 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
     /**
      * Add client to registrant list
+     * @return 1:success, 0:error(other), -1:error(unique)
      */
-    fun addRegistrant(name: String, kana: String, birthday: Int, gender: Int): Long {
+    fun addRegistrant(name: String, kana: String, birthday: Int, gender: Int): Int {
+        var result = 1
         val dbHelper = AppDBHelpler(mContext)
         val db = dbHelper.writableDatabase
 
@@ -190,7 +199,14 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
             put(COLUMN_GENDER, gender)
         }
 
-        val result = db.insert(TABLE_USER, null, sql)
+        try {
+            db.insertOrThrow(TABLE_USER, null, sql)
+        } catch (e: SQLiteConstraintException) {
+            result = when {
+                e.message?.contains(SQLITE_ERROR_UNIQUE) == true -> -1
+                else -> 0
+            }
+        }
         db.close()
 
         return result

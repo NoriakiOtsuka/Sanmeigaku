@@ -150,8 +150,9 @@
     <string name="dialog_failed_set_date_range_message">日付選択範囲の取得に失敗しました。\n日付の選択はできません。</string>
     <string name="dialog_failed_input_date_formant_message">生年月日の入力形式が正しくない、または存在しない日付を入力してます。\n記入例のように、年月日をそれぞれ / で区切って入力してください。\n (記入例) 2000/01/01</string>
     <string name="dialog_failed_input_date_range_message">生年月日は下記の範囲内で入力してください。</string>
+    <string name="dialog_failed_add_registrant_list_message">登録者リストへの登録に失敗しました。</string>
+    <string name="dialog_failed_add_registrant_list_message_unique">入力した情報は、すでに登録されてます。</string>
 
     <!--トースト-->
     <string name="toast_succeeded_add_registrant_list_message">登録しました。</string>
-    <string name="toast_failed_add_registrant_list_message">登録に失敗しました。</string>
 </resources>

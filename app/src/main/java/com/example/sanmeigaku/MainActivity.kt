@@ -130,18 +130,17 @@ class MainActivity : AppCompatActivity() {
 
         binding.birthdayEdit.setOnEditorActionListener() { _, keyCode, _ ->
             if (keyCode == EditorInfo.IME_ACTION_DONE) {
+                val title = getString(R.string.dialog_caution_title)
                 Log.i(TAG, "onCreate: In birthday input field, enter key is tapped")
                 if (mDateExist) {
                     if (mDateFormat) {
                         if (!mDateRange)
                             inputDateRangeAlertDialog()
                     } else {
-                        val title = getString(R.string.dialog_caution_title)
                         val message = getString(R.string.dialog_failed_input_date_formant_message)
                         simpleAlertDialog(title, message)
                     }
                 } else {
-                    val title = getString(R.string.dialog_caution_title)
                     val message = getString(R.string.common_birthday_title_text) +
                             getString(R.string.dialog_input_form_not_filled_in_message)
                     simpleAlertDialog(title, message)
@@ -174,6 +173,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.divineButton.setOnClickListener {
+            val title = getString(R.string.dialog_caution_title)
             if ((mDateExist) && (mGender > 0)) {
                 if (mDateFormat) {
                     if (mDateRange) {
@@ -189,12 +189,10 @@ class MainActivity : AppCompatActivity() {
                         inputDateRangeAlertDialog()
                     }
                 } else {
-                    val title = getString(R.string.dialog_caution_title)
                     val message = getString(R.string.dialog_failed_input_date_formant_message)
                     simpleAlertDialog(title, message)
                 }
             } else {
-                val title = getString(R.string.dialog_caution_title)
                 var message = ""
                 if (!mDateExist)
                     message += "${getString(R.string.common_birthday_title_text)} "
@@ -206,6 +204,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.saveButton.setOnClickListener {
+            val title = getString(R.string.dialog_caution_title)
             if ((mName != "") && (mKana != "") && (mDateExist) && (mGender > 0)) {
                 if (mDateFormat) {
                     if (mDateRange) {
@@ -214,24 +213,30 @@ class MainActivity : AppCompatActivity() {
 
                         val birthday = mYear.times(10000).plus(mMonth.times(100)).plus(mDay)
                         val result = appDBHelper.addRegistrant(mName, mKana, birthday, mGender)
-                        val text = when (result) {
-                            -1L -> getString(R.string.toast_failed_add_registrant_list_message)
-                            else -> getString(R.string.toast_succeeded_add_registrant_list_message)
+                        when (result) {
+                            1 -> {
+                                val message = getString(R.string.toast_succeeded_add_registrant_list_message)
+                                val duration = Toast.LENGTH_SHORT
+                                val toast = Toast.makeText(this, message, duration)
+                                toast.show()
+                            }
+                            -1 -> {
+                                val message = getString(R.string.dialog_failed_add_registrant_list_message_unique)
+                                simpleAlertDialog(title, message)
+                            }
+                            else -> {
+                                val message = getString(R.string.dialog_failed_add_registrant_list_message)
+                                simpleAlertDialog(title, message)
+                            }
                         }
-
-                        val duration = Toast.LENGTH_SHORT
-                        val toast = Toast.makeText(this, text, duration)
-                        toast.show()
                     } else {
                         inputDateRangeAlertDialog()
                     }
                 } else {
-                    val title = getString(R.string.dialog_caution_title)
                     val message = getString(R.string.dialog_failed_input_date_formant_message)
                     simpleAlertDialog(title, message)
                 }
             } else {
-                val title = getString(R.string.dialog_caution_title)
                 var message = ""
                 if (mName == "")
                     message += "${getString(R.string.common_name_title_text)} "
