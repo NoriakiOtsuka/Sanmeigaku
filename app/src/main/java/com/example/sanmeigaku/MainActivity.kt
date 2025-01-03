@@ -82,8 +82,8 @@ class MainActivity : AppCompatActivity() {
         checkDatabaseExist()
 
         if (!setDateSelectRange()) {
-            binding.birthdayEdit.isEnabled = false
-            binding.birthdayButton.isEnabled = false
+            binding.clientInfoInputForm.birthdayEdit.isEnabled = false
+            binding.clientInfoInputForm.birthdayButton.isEnabled = false
 
             val title = getString(R.string.dialog_caution_title)
             val message = getString(R.string.dialog_failed_set_date_range_message)
@@ -95,12 +95,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.nameEdit.doAfterTextChanged { name ->
+        binding.clientInfoInputForm.nameEdit.doAfterTextChanged { name ->
             mName = name.toString()
             Log.i(TAG, "onCreate: The name input in the edit text is ${mName}")
         }
 
-        binding.kanaEdit.also {
+        binding.clientInfoInputForm.kanaEdit.also {
             it.filters = arrayOf(mKanaInputFilter)
             it.doAfterTextChanged { kana ->
                 mKana = kana.toString()
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.birthdayEdit.also {
+        binding.clientInfoInputForm.birthdayEdit.also {
             it.filters = arrayOf(mBirthdayInputFilter)
             it.doAfterTextChanged { date ->
                 val dateText = date.toString()
@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.birthdayEdit.setOnEditorActionListener() { _, keyCode, _ ->
+        binding.clientInfoInputForm.birthdayEdit.setOnEditorActionListener() { _, keyCode, _ ->
             if (keyCode == EditorInfo.IME_ACTION_DONE) {
                 val title = getString(R.string.dialog_caution_title)
                 Log.i(TAG, "onCreate: In birthday input field, enter key is tapped")
@@ -149,12 +149,12 @@ class MainActivity : AppCompatActivity() {
             return@setOnEditorActionListener false
         }
 
-        binding.birthdayButton.setOnClickListener {
+        binding.clientInfoInputForm.birthdayButton.setOnClickListener {
             val dialog = DateSelectDialog()
             dialog.setDatePickerListener(object : DateSelectDialog.DatePickerListener {
                 override fun onDateSelected(year: Int, month: Int, dayOfMonth: Int) {
                     val date = "$year/$month/$dayOfMonth"
-                    binding.birthdayEdit.setText(date)
+                    binding.clientInfoInputForm.birthdayEdit.setText(date)
                     Log.i(TAG, "onCreate: The birthday selected in date picker dialog is $date")
                     mDateFormat = true
                     mDateRange = true
@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "")
         }
 
-        binding.genderButtonGroup.setOnCheckedChangeListener { _, checkedId ->
+        binding.clientInfoInputForm.genderButtonGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.genderMaleButton -> mGender = 1
                 R.id.genderFemaleButton -> mGender = 2
