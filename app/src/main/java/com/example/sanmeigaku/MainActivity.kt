@@ -4,26 +4,22 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.InputFilter
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import com.example.sanmeigaku.DB.AppDBHelpler
 import com.example.sanmeigaku.DB.AssetsDBHelper
+import com.example.sanmeigaku.Util.BaseDialog
+import com.example.sanmeigaku.Util.ClientInfoInput
 import com.example.sanmeigaku.Util.DateSelectDialog
-import com.example.sanmeigaku.Util.MessageDialog
 import com.example.sanmeigaku.databinding.ActivityMainBinding
-import java.lang.Exception
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private val TAG: String = "MainActivity"
     private lateinit var binding: ActivityMainBinding
+    private val mDialog: BaseDialog = BaseDialog()
+    private val mClientInfoInput: ClientInfoInput = ClientInfoInput()
 
     /** variable of name */
     private var mName: String = ""
@@ -36,28 +32,6 @@ class MainActivity : AppCompatActivity() {
     /** variable of gender */
     private var mGender: Int = 0
 
-    /** Variable for filtering characters that can be entered when inputting kana */
-    private val mKanaInputFilter =
-        InputFilter { source, start, end, dest, dstart, dend ->
-            val filter = source.toString().matches("^[a-zA-Z0-9 \u30A0-\u30FF　]++\$".toRegex())
-            if (filter) {
-                source
-            } else {
-                ""
-            }
-        }
-
-    /** Variable for filtering characters that can be entered when inputting birthday */
-    private val mBirthdayInputFilter =
-        InputFilter { source, start, end, dest, dstart, dend ->
-            val filter = source.toString().matches("^[0-9/]++\$".toRegex())
-            if (filter) {
-                source
-            } else {
-                ""
-            }
-        }
-
     companion object {
         /** variable of birthday */
         var mYear: Int = 0
@@ -66,8 +40,8 @@ class MainActivity : AppCompatActivity() {
         var mDateExist: Boolean = false
 
         /** Variable of select range of date */
-        var startDate = 0
-        var endDate = 0
+        var mStartDate = 0
+        var mEndDate = 0
     }
 
     /**
@@ -87,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
             val title = getString(R.string.dialog_caution_title)
             val message = getString(R.string.dialog_failed_set_date_range_message)
-            simpleAlertDialog(title, message)
+            mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
         }
 
         binding.registeredButton.setOnClickListener {
@@ -101,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.clientInfoInputForm.kanaEdit.also {
-            it.filters = arrayOf(mKanaInputFilter)
+            it.filters = arrayOf(mClientInfoInput.kanaInputFilter)
             it.doAfterTextChanged { kana ->
                 mKana = kana.toString()
                 Log.i(TAG, "onCreate: The kana input in the edit text is ${mKana}")
@@ -109,18 +83,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.clientInfoInputForm.birthdayEdit.also {
-            it.filters = arrayOf(mBirthdayInputFilter)
+            it.filters = arrayOf(mClientInfoInput.birthdayInputFilter)
             it.doAfterTextChanged { date ->
                 val dateText = date.toString()
                 mDateExist = dateText != ""
 
-                mDateFormat = checkDateExist(dateText)
+                mDateFormat = mClientInfoInput.checkDateExist(dateText)
                 if (mDateFormat) {
                     val dateArray = dateText.split("/")
                     mYear = dateArray[0].toInt()
                     mMonth = dateArray[1].toInt()
                     mDay = dateArray[2].toInt()
-                    mDateRange = checkDateSelectRange()
+                    mDateRange = mClientInfoInput.checkDateSelectRange()
                     Log.i(TAG, "onCreate: The birthday input in the edit text is ${mYear}/${mMonth}/${mDay}")
                 } else {
                     Log.i(TAG, "onCreate: The birthday input in the edit text is not applied")
@@ -135,15 +109,15 @@ class MainActivity : AppCompatActivity() {
                 if (mDateExist) {
                     if (mDateFormat) {
                         if (!mDateRange)
-                            inputDateRangeAlertDialog()
+                            mClientInfoInput.inputDateRangeAlertDialog(this, supportFragmentManager)
                     } else {
                         val message = getString(R.string.dialog_failed_input_date_formant_message)
-                        simpleAlertDialog(title, message)
+                        mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
                     }
                 } else {
                     val message = getString(R.string.common_birthday_title_text) +
                             getString(R.string.dialog_input_form_not_filled_in_message)
-                    simpleAlertDialog(title, message)
+                    mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
                 }
             }
             return@setOnEditorActionListener false
@@ -186,11 +160,11 @@ class MainActivity : AppCompatActivity() {
                         intent.putExtra("gender", mGender)
                         startActivity(intent)
                     } else {
-                        inputDateRangeAlertDialog()
+                        mClientInfoInput.inputDateRangeAlertDialog(this, supportFragmentManager)
                     }
                 } else {
                     val message = getString(R.string.dialog_failed_input_date_formant_message)
-                    simpleAlertDialog(title, message)
+                    mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
                 }
             } else {
                 var message = ""
@@ -199,7 +173,7 @@ class MainActivity : AppCompatActivity() {
                 if (mGender == 0)
                     message += "${getString(R.string.common_gender_title_text)} "
                 message += getString(R.string.dialog_input_form_not_filled_in_message)
-                simpleAlertDialog(title, message)
+                mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
             }
         }
 
@@ -222,19 +196,19 @@ class MainActivity : AppCompatActivity() {
                             }
                             -1 -> {
                                 val message = getString(R.string.dialog_failed_add_registrant_list_message_unique)
-                                simpleAlertDialog(title, message)
+                                mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
                             }
                             else -> {
                                 val message = getString(R.string.dialog_failed_add_registrant_list_message)
-                                simpleAlertDialog(title, message)
+                                mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
                             }
                         }
                     } else {
-                        inputDateRangeAlertDialog()
+                        mClientInfoInput.inputDateRangeAlertDialog(this, supportFragmentManager)
                     }
                 } else {
                     val message = getString(R.string.dialog_failed_input_date_formant_message)
-                    simpleAlertDialog(title, message)
+                    mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
                 }
             } else {
                 var message = ""
@@ -247,7 +221,7 @@ class MainActivity : AppCompatActivity() {
                 if (mGender == 0)
                     message += "${getString(R.string.common_gender_title_text)} "
                 message += getString(R.string.dialog_input_form_not_filled_in_message)
-                simpleAlertDialog(title, message)
+                mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
             }
         }
     }
@@ -275,7 +249,7 @@ class MainActivity : AppCompatActivity() {
         if (!assetDBExist) {
             val title = getString(R.string.dialog_caution_title)
             val message = getString(R.string.dialog_failed_db_setup_message)
-            simpleAlertDialog(title, message)
+            mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
         }
     }
 
@@ -284,68 +258,10 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setDateSelectRange(): Boolean {
         val sharedPref = getSharedPreferences("app_database", Context.MODE_PRIVATE)
-        startDate = sharedPref.getInt("start_date", 0)
-        endDate = sharedPref.getInt("end_date", 0)
-        Log.i(TAG, "setDateSelectRange: The range date is set from the start date(${startDate}) to the end date(${endDate})")
+        mStartDate = sharedPref.getInt("start_date", 0)
+        mEndDate = sharedPref.getInt("end_date", 0)
+        Log.i(TAG, "setDateSelectRange: The range date is set from the start date(${mStartDate}) to the end date(${mEndDate})")
 
-        return !((startDate == 0) || (endDate == 0))
-    }
-
-    /**
-     * Check if the date exists in the calendar
-     */
-    private fun checkDateExist(strDate: String): Boolean {
-        val format = DateFormat.getDateInstance()
-        format.isLenient = false
-
-        return try {
-            format.parse(strDate)
-            true
-        } catch (e: Exception) {
-            false
-        }
-    }
-
-    /**
-     * Check if the date entered is within the range
-     */
-    private fun checkDateSelectRange(): Boolean {
-        val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.JAPAN)
-
-        calendar.time = dateFormat.parse(startDate.toString()) as Date
-        val start = calendar.timeInMillis
-
-        calendar.time = dateFormat.parse((endDate + 1).toString()) as Date
-        val end = calendar.timeInMillis
-
-        calendar.time = dateFormat.parse("%04d".format(mYear) + "%02d".format(mMonth) + "%02d".format(mDay)) as Date
-        val target = calendar.timeInMillis
-
-        Log.i(TAG, "checkDateSelectRange: Range from $start to $end, with $target selected")
-
-        return (target > start) && (target < end)
-    }
-
-    /**
-     * Dialog when date of birth is out of selection
-     */
-    private fun inputDateRangeAlertDialog() {
-        val startDateText = "${startDate.toString().substring(0, 4)}/${startDate.toString().substring(4, 6)}/${startDate.toString().substring(6, 8)}"
-        val endDateText = "${endDate.toString().substring(0, 4)}/${endDate.toString().substring(4, 6)}/${endDate.toString().substring(6, 8)}"
-
-        val title = getString(R.string.dialog_caution_title)
-        val message = "${getString(R.string.dialog_failed_input_date_range_message)}\n $startDateText ～ $endDateText"
-        simpleAlertDialog(title, message)
-    }
-
-    /**
-     * Alert dialog with simple OK button
-     */
-    private fun simpleAlertDialog(title: String, message: String) {
-        val okLabbel = getString(R.string.dialog_message_label_ok)
-        val dialog = MessageDialog.newInstance(title, message, okLabbel, "")
-        dialog.isCancelable = false
-        dialog.show(supportFragmentManager, "")
+        return !((mStartDate == 0) || (mEndDate == 0))
     }
 }

@@ -10,12 +10,25 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.example.sanmeigaku.MainActivity
 import com.example.sanmeigaku.databinding.RegistrantDialogBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+
+class BaseDialog : DialogFragment() {
+    /**
+     * Alert dialog with simple OK button
+     */
+    fun simpleAlertDialog(context: Context, fragmentManager: FragmentManager, title: String, message: String) {
+        val okLabbel = context.getString(com.example.sanmeigaku.R.string.dialog_message_label_ok)
+        val dialog = MessageDialog.newInstance(title, message, okLabbel, "")
+        dialog.isCancelable = false
+        dialog.show(fragmentManager, "")
+    }
+}
 
 class MessageDialog : DialogFragment() {
     private val TAG: String = "MessageDialog"
@@ -78,8 +91,8 @@ class DateSelectDialog() : DialogFragment(), DatePickerDialog.OnDateSetListener 
         val year = if (activity.mDateExist) activity.mYear else calendar.get(Calendar.YEAR)
         val month = if (activity.mDateExist) activity.mMonth.minus(1) else calendar.get(Calendar.MONTH)
         val dayOfMonth = if (activity.mDateExist) activity.mDay else calendar.get(Calendar.DAY_OF_MONTH)
-        val startDate = MainActivity.startDate
-        val endDate = MainActivity.endDate
+        val startDate = activity.mStartDate
+        val endDate = activity.mEndDate
 
         val datePicker = DatePickerDialog(requireActivity(), R.style.Theme_Holo_Dialog, this, year, month, dayOfMonth)
             .also {
