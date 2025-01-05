@@ -42,10 +42,10 @@ class RegistrantActivity : AppCompatActivity() {
     private fun setRegistrantList() {
         val appDBHelper = AppDBHelpler(this)
         val registrantList = appDBHelper.makeRegistrantList(mSearchWord)
-        binding.registrantList.registrantList.apply {
+        binding.registrantList.registrantListRows.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            adapter = RegistrantListAdapter(context, registrantList)
+            adapter = RegistrantListAdapter(context, registrantList, supportFragmentManager)
         }
     }
 }

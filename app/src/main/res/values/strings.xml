@@ -145,8 +145,13 @@
     <string name="client_info_gender_female_text">女性</string>
 
     <!--ダイアログ-->
-    <string name="dialog_labal_ok">OK</string>
     <string name="dialog_caution_title">注意</string>
+    <string name="dialog_registrant_title">設定</string>
+    <string name="dialog_registrant_message">登録者の情報更新、または削除します。</string>
+    <string name="dialog_message_label_ok">OK</string>
+    <string name="dialog_registrant_label_ok">更新</string>
+    <string name="dialog_registrant_label_ng">キャンセル</string>
+    <string name="dialog_registrant_label_nt">削除</string>
     <string name="dialog_failed_db_setup_message">データベースの作成、更新に失敗しました。</string>
     <string name="dialog_input_form_not_filled_in_message">が未入力です。</string>
     <string name="dialog_failed_set_date_range_message">日付選択範囲の取得に失敗しました。\n日付の選択はできません。</string>

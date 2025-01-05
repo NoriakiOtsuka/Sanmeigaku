@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/registrant_dialog_layout_padding_horizontal"
+    android:paddingBottom="@dimen/registrant_dialog_layout_padding_bottom">
+
+    <include
+        android:id="@+id/clientInfoInputForm"
+        layout="@layout/client_info_input_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

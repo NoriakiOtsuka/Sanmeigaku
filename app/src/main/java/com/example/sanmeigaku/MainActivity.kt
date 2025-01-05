@@ -343,7 +343,7 @@ class MainActivity : AppCompatActivity() {
      * Alert dialog with simple OK button
      */
     private fun simpleAlertDialog(title: String, message: String) {
-        val okLabbel = getString(R.string.dialog_labal_ok)
+        val okLabbel = getString(R.string.dialog_message_label_ok)
         val dialog = MessageDialog.newInstance(title, message, okLabbel, "")
         dialog.isCancelable = false
         dialog.show(supportFragmentManager, "")

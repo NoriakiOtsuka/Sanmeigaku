@@ -5,11 +5,13 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
 import com.example.sanmeigaku.MainActivity
+import com.example.sanmeigaku.databinding.RegistrantDialogBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -105,5 +107,91 @@ class DateSelectDialog() : DialogFragment(), DatePickerDialog.OnDateSetListener 
      */
     fun setDatePickerListener(listener: DatePickerListener) {
         this.listener = listener
+    }
+}
+
+class RegistrantDialog() : DialogFragment() {
+    private val TAG: String = "RegistrantDialog"
+    private var _binding: RegistrantDialogBinding? = null
+    private val binding get() = _binding!!
+
+    /** VArray with registrant information */
+    private lateinit var mRegistrantArray: Array<String>
+
+    companion object {
+        /** Instance of registrant dialog */
+        fun newInstance(registrantArray: Array<String>): RegistrantDialog {
+            val fragment = RegistrantDialog()
+            val args = Bundle()
+            args.putStringArray("registrantArray", registrantArray)
+            fragment.arguments = args
+
+            return fragment
+        }
+    }
+
+    /**
+     * Create registrant dialog
+     */
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            mRegistrantArray = it.getStringArray("registrantArray") as Array<String>
+        }
+    }
+
+    /**
+     * Create registrant dialog
+     */
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        _binding = RegistrantDialogBinding.inflate(layoutInflater)
+
+        val title = getString(com.example.sanmeigaku.R.string.dialog_registrant_title)
+        val message = getString(com.example.sanmeigaku.R.string.dialog_registrant_message)
+        val okLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_ok)
+        val ngLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_ng)
+        val ntLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_nt)
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setView(binding.root)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(okLabel) { dialog, which ->
+            }
+            .setNegativeButton(ngLabel) { dialog, which ->
+            }
+            .setNeutralButton(ntLabel) { dialog, which ->
+            }
+
+        showRegistrantInfo()
+
+        return builder.create()
+    }
+
+    /**
+     * Destroy registrant dialog view
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    /**
+     * Show saved registration information in dialog
+     */
+    private fun showRegistrantInfo() {
+        val name = mRegistrantArray[0]
+        val kana = mRegistrantArray[1]
+        val birthday =
+            "${mRegistrantArray[2].substring(0, 4)}/" +
+                    "${mRegistrantArray[2].substring(4, 6)}/" +
+                    "${mRegistrantArray[2].substring(6, 8)}"
+        val gender = mRegistrantArray[3].toInt()
+        binding.clientInfoInputForm.nameEdit.setText(name)
+        binding.clientInfoInputForm.kanaEdit.setText(kana)
+        binding.clientInfoInputForm.birthdayEdit.setText(birthday)
+        when (gender) {
+            1 -> binding.clientInfoInputForm.genderMaleButton.isChecked = true
+            2 -> binding.clientInfoInputForm.genderFemaleButton.isChecked = true
+        }
     }
 }

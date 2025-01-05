@@ -67,6 +67,10 @@
     <dimen name="registrant_search_button_font_size">16sp</dimen>
     <dimen name="registrant_list_font_size">14sp</dimen>
 
+    <!--登録者一覧画面 ダイアログ-->
+    <dimen name="registrant_dialog_layout_padding_horizontal">16dp</dimen>
+    <dimen name="registrant_dialog_layout_padding_bottom">32dp</dimen>
+
     <!--依頼人情報入力フォーム-->
     <dimen name="client_info_layout_margin_top">16dp</dimen>
     <dimen name="client_info_layout_padding_horizontal">8dp</dimen>

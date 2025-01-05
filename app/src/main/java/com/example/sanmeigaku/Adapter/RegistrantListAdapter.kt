@@ -5,15 +5,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sanmeigaku.R
+import com.example.sanmeigaku.Util.RegistrantDialog
 import com.example.sanmeigaku.databinding.RegistrantListRowsBinding
 
-class RegistrantListAdapter(context: Context, private val dataSet: Array<Array<String>>) :
-    RecyclerView.Adapter<RegistrantListAdapter.ViewHolder>() {
+class RegistrantListAdapter(
+    private val context: Context,
+    private val dataSet: Array<Array<String>>,
+    private val fragmentManager: FragmentManager
+    ) : RecyclerView.Adapter<RegistrantListAdapter.ViewHolder>() {
     private val TAG: String = "RegistrantListAdapter"
     private lateinit var binding: RegistrantListRowsBinding
-    private val mContext: Context = context
 
     /**
      * Declaring the use of RecyclerView for ViewHolder
@@ -42,14 +46,20 @@ class RegistrantListAdapter(context: Context, private val dataSet: Array<Array<S
                     "${dataSet[position][2].substring(4, 6)}月" +
                     "${dataSet[position][2].substring(6, 8)}日"
         val gender = when (dataSet[position][3]) {
-            "1" -> mContext.getString(R.string.registrant_gender_male_text)
-            "2" -> mContext.getString(R.string.registrant_gender_female_text)
+            "1" -> context.getString(R.string.registrant_gender_male_text)
+            "2" -> context.getString(R.string.registrant_gender_female_text)
             else -> ""
         }
         binding.registrantNameText.text = name
         binding.registrantKanaText.text = kana
         binding.registrantBirthdayText.text = birthday
         binding.registrantGenderText.text = gender
+
+        binding.registrantSelectButton.setOnClickListener {
+            val registrantArray = arrayOf(dataSet[position][0], dataSet[position][1], dataSet[position][2], dataSet[position][3])
+            val dialog = RegistrantDialog.newInstance(registrantArray)
+            dialog.show(fragmentManager, "")
+        }
     }
 
     /**

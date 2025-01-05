@@ -48,7 +48,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/registrantList"
+        android:id="@+id/registrantListRows"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fadeScrollbars="false"
