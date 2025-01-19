@@ -2,7 +2,6 @@ package com.example.sanmeigaku.Adapter
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sanmeigaku.databinding.SuuriJukkanScoreRowsBinding
@@ -10,40 +9,39 @@ import com.example.sanmeigaku.databinding.SuuriJukkanScoreRowsBinding
 class JukkanScoreAdapter(private val dataSet: Array<IntArray>) :
     RecyclerView.Adapter<JukkanScoreAdapter.ViewHolder>() {
     private val TAG: String = "JukkanScoreAdapter"
-    private lateinit var binding: SuuriJukkanScoreRowsBinding
 
     /**
      * Declaring the use of RecyclerView for ViewHolder
      */
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(val binding: SuuriJukkanScoreRowsBinding) : RecyclerView.ViewHolder(binding.root) {
     }
 
     /**
      * Create jukkan score view
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = SuuriJukkanScoreRowsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = SuuriJukkanScoreRowsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         Log.i(TAG, "onCreateViewHolder: create jukkan score view")
 
-        return ViewHolder(binding.root)
+        return ViewHolder(binding)
     }
 
     /**
      * Retrieve the data associated with the position and enter it in the view
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        binding.suuriAgeText.text = position.toString()
-        binding.koubokuScore.text = dataSet[position][0].toString()
-        binding.otsubokuScore.text = dataSet[position][1].toString()
-        binding.heikaScore.text = dataSet[position][2].toString()
-        binding.teikaScore.text = dataSet[position][3].toString()
-        binding.bodoScore.text = dataSet[position][4].toString()
-        binding.kidoScore.text = dataSet[position][5].toString()
-        binding.koukinScore.text = dataSet[position][6].toString()
-        binding.shinkinScore.text = dataSet[position][7].toString()
-        binding.jinsuiScore.text = dataSet[position][8].toString()
-        binding.kisuiScore.text = dataSet[position][9].toString()
-        binding.totalScore.text = dataSet[position].sum().toString()
+        holder.binding.suuriAgeText.text = position.toString()
+        holder.binding.koubokuScore.text = dataSet[position][0].toString()
+        holder.binding.otsubokuScore.text = dataSet[position][1].toString()
+        holder.binding.heikaScore.text = dataSet[position][2].toString()
+        holder.binding.teikaScore.text = dataSet[position][3].toString()
+        holder.binding.bodoScore.text = dataSet[position][4].toString()
+        holder.binding.kidoScore.text = dataSet[position][5].toString()
+        holder.binding.koukinScore.text = dataSet[position][6].toString()
+        holder.binding.shinkinScore.text = dataSet[position][7].toString()
+        holder.binding.jinsuiScore.text = dataSet[position][8].toString()
+        holder.binding.kisuiScore.text = dataSet[position][9].toString()
+        holder.binding.totalScore.text = dataSet[position].sum().toString()
     }
 
     /**
