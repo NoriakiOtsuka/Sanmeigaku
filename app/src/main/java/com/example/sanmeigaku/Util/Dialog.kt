@@ -81,6 +81,20 @@ class DateSelectDialog() : DialogFragment(), DatePickerDialog.OnDateSetListener 
         fun onDateSelected(year: Int, month: Int, dayOfMonth: Int)
     }
 
+    companion object {
+        /** Instance of date select dialog */
+        fun newInstance(year: Int, month: Int, day: Int):  DateSelectDialog {
+            val fragment = DateSelectDialog()
+            val args = Bundle()
+            args.putInt("year", year)
+            args.putInt("month", month)
+            args.putInt("day", day)
+            fragment.arguments = args
+
+            return fragment
+        }
+    }
+
     /**
      * Create date picker dialog
      */
@@ -88,9 +102,10 @@ class DateSelectDialog() : DialogFragment(), DatePickerDialog.OnDateSetListener 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val activity = MainActivity
         val calendar = Calendar.getInstance()
-        val year = if (activity.mDateExist) activity.mYear else calendar.get(Calendar.YEAR)
-        val month = if (activity.mDateExist) activity.mMonth.minus(1) else calendar.get(Calendar.MONTH)
-        val dayOfMonth = if (activity.mDateExist) activity.mDay else calendar.get(Calendar.DAY_OF_MONTH)
+        val year = arguments?.getInt("year") ?: calendar.get(Calendar.YEAR)
+        val month = arguments?.getInt("month")?.minus(1) ?: calendar.get(Calendar.MONTH)
+        val dayOfMonth = arguments?.getInt("day") ?: calendar.get(Calendar.DAY_OF_MONTH)
+
         val startDate = activity.mStartDate
         val endDate = activity.mEndDate
 

@@ -56,22 +56,20 @@ class ClientInfoInput {
     /**
      * Check if the date entered is within the range
      */
-    fun checkDateSelectRange(): Boolean {
-        val activity = MainActivity
+    fun checkDateSelectRange(context: Context, year: Int, month: Int, day: Int): Boolean {
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.JAPAN)
+        val sharedPref = context.getSharedPreferences("app_database", Context.MODE_PRIVATE)
+        val startDate = sharedPref.getInt("start_date", 0)
+        val endDate = sharedPref.getInt("end_date", 0)
 
-        calendar.time = dateFormat.parse(activity.mStartDate.toString()) as Date
+        calendar.time = dateFormat.parse(startDate.toString()) as Date
         val start = calendar.timeInMillis
 
-        calendar.time = dateFormat.parse((activity.mEndDate + 1).toString()) as Date
+        calendar.time = dateFormat.parse((endDate + 1).toString()) as Date
         val end = calendar.timeInMillis
 
-        calendar.time = dateFormat.parse(
-            "%04d".format(activity.mYear) +
-                    "%02d".format(activity.mMonth) +
-                    "%02d".format(activity.mDay)
-        ) as Date
+        calendar.time = dateFormat.parse("%04d".format(year) + "%02d".format(month) + "%02d".format(day)) as Date
         val target = calendar.timeInMillis
 
         Log.i(TAG, "checkDateSelectRange: Range from $start to $end, with $target selected")

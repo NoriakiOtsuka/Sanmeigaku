@@ -71,14 +71,14 @@ class MainActivity : AppCompatActivity() {
 
         binding.clientInfoInputForm.nameEdit.doAfterTextChanged { name ->
             mName = name.toString()
-            Log.i(TAG, "onCreate: The name input in the edit text is ${mName}")
+            Log.i(TAG, "onCreate: The name input in the edit text is $mName")
         }
 
         binding.clientInfoInputForm.kanaEdit.also {
             it.filters = arrayOf(mClientInfoInput.kanaInputFilter)
             it.doAfterTextChanged { kana ->
                 mKana = kana.toString()
-                Log.i(TAG, "onCreate: The kana input in the edit text is ${mKana}")
+                Log.i(TAG, "onCreate: The kana input in the edit text is $mKana")
             }
         }
 
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                     mYear = dateArray[0].toInt()
                     mMonth = dateArray[1].toInt()
                     mDay = dateArray[2].toInt()
-                    mDateRange = mClientInfoInput.checkDateSelectRange()
+                    mDateRange = mClientInfoInput.checkDateSelectRange(this, mYear, mMonth, mDay)
                     Log.i(TAG, "onCreate: The birthday input in the edit text is ${mYear}/${mMonth}/${mDay}")
                 } else {
                     Log.i(TAG, "onCreate: The birthday input in the edit text is not applied")
@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.clientInfoInputForm.birthdayButton.setOnClickListener {
-            val dialog = DateSelectDialog()
+            val dialog = DateSelectDialog.newInstance(mYear, mMonth, mDay)
             dialog.setDatePickerListener(object : DateSelectDialog.DatePickerListener {
                 override fun onDateSelected(year: Int, month: Int, dayOfMonth: Int) {
                     val date = "$year/$month/$dayOfMonth"
@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.genderMaleButton -> mGender = 1
                 R.id.genderFemaleButton -> mGender = 2
             }
-            Log.i(TAG, "onCreate: The gender selected from radio button group is ${mGender}")
+            Log.i(TAG, "onCreate: The gender selected from radio button group is $mGender")
         }
 
         binding.divineButton.setOnClickListener {
