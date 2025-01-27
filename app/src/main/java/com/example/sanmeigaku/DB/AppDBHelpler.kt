@@ -215,13 +215,13 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
     /**
      * Make a list of registrants
      */
-    fun makeRegistrantList(word: String): Array<Array<String>> {
+    fun makeRegistrantList(word: String): MutableList<ArrayList<String>> {
         val dbHelper = AppDBHelpler(mContext)
         val db = dbHelper.writableDatabase
 
         val selection = "$COLUMN_NAME LIKE '%$word%' OR $COLUMN_KANA LIKE '%$word%'"
         val cursor = db.query(TABLE_USER, null, selection, null, null, null, COLUMN_KANA)
-        val registrantList = Array(cursor.count) {Array(3) {""}}
+        val registrantList = MutableList(cursor.count) { ArrayList<String>(3) }
         with(cursor) {
             while (moveToNext()) {
                 val name = getString(getColumnIndexOrThrow(COLUMN_NAME))
@@ -229,12 +229,12 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
                 val birthday = getInt(getColumnIndexOrThrow(COLUMN_BIRTHDAY))
                 val gender = getInt(getColumnIndexOrThrow(COLUMN_GENDER))
 
-                val clientInfo = mutableListOf<String>()
+                val clientInfo = arrayListOf<String>()
                 clientInfo.add(name)
                 clientInfo.add(kana)
                 clientInfo.add(birthday.toString())
                 clientInfo.add(gender.toString())
-                registrantList[cursor.position] = clientInfo.toTypedArray()
+                registrantList[cursor.position] = clientInfo
             }
         }
         cursor.close()
@@ -301,5 +301,96 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         db.close()
 
         return date
+    }
+
+    /**
+     * Get the registrant's ID from the registrant list
+     * @return registrant's ID
+     */
+    fun getRegistrantId(array: ArrayList<String>): Int {
+        val dbHelper = AppDBHelpler(mContext)
+        val db = dbHelper.writableDatabase
+
+        val name = array[0]
+        val kana = array[1]
+        val birthday = array[2]
+        val gender = array[3]
+        val selection = "$COLUMN_NAME = '$name' AND $COLUMN_KANA = '$kana' AND $COLUMN_BIRTHDAY = '$birthday' AND $COLUMN_GENDER = '$gender'"
+        val cursor = db.query(TABLE_USER, null, selection, null, null, null, null)
+
+        val id = if (cursor.moveToFirst()) {
+            cursor.getInt(cursor.getColumnIndexOrThrow(_ID))
+        } else {
+            0
+        }
+        cursor.close()
+        Log.i(TAG, "getRegistrantId: registrant's ID is $id")
+
+        return id
+    }
+
+    /**
+     * Check for duplicate registrant info
+     * @return 1:updatable, 0:no need to update, -1:duplicated
+     */
+    fun checkDuplicateRegistrant(id: Int, array: ArrayList<String>): Int {
+        val dbHelper = AppDBHelpler(mContext)
+        val db = dbHelper.writableDatabase
+
+        val name = array[0]
+        val kana = array[1]
+        val birthday = array[2]
+        val gender = array[3]
+        val sql = "SELECT $_ID FROM $TABLE_USER WHERE $COLUMN_NAME = ? AND $COLUMN_KANA = ? AND $COLUMN_BIRTHDAY = ? AND $COLUMN_GENDER = ?"
+        val cursor = db.rawQuery(sql, arrayOf(name, kana, birthday, gender))
+        val duplicatedId = if (cursor.moveToFirst()) {
+            cursor.getLong(cursor.getColumnIndexOrThrow(_ID)).toInt()
+        } else {
+            0
+        }
+        cursor.close()
+
+        val result = when (duplicatedId) {
+            0 -> 1
+            id -> 0
+            else -> -1
+        }
+        Log.i(TAG, "checkDuplicateRegistrant: whether the registrant info can be updated or not is $result")
+
+        return result
+    }
+
+    /**
+     * Update client to registrant list
+     */
+    fun updateRegistrant(id: Int, array: ArrayList<String>) {
+        val dbHelper = AppDBHelpler(mContext)
+        val db = dbHelper.writableDatabase
+
+        val name = array[0]
+        val kana = array[1]
+        val birthday = array[2]
+        val gender = array[3]
+        val values = ContentValues().apply {
+            put(COLUMN_NAME, name)
+            put(COLUMN_KANA, kana)
+            put(COLUMN_BIRTHDAY, birthday)
+            put(COLUMN_GENDER, gender)
+        }
+        val selection = "$_ID = ?"
+        val selectionArgs = arrayOf(id.toString())
+        db.update(TABLE_USER, values, selection, selectionArgs)
+    }
+
+    /**
+     * Delete client to registrant list
+     */
+    fun deleteRegistrant(id: Int) {
+        val dbHelper = AppDBHelpler(mContext)
+        val db = dbHelper.writableDatabase
+
+        val selection = "$_ID = ?"
+        val selectionArgs = arrayOf(id.toString())
+        db.delete(TABLE_USER, selection, selectionArgs)
     }
 }

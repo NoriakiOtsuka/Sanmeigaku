@@ -13,7 +13,10 @@ class RegistrantActivity : AppCompatActivity() {
     private val TAG: String = "RegistrantActivity"
     private lateinit var binding: ActivityRegistrantBinding
 
-    /** variable of search word */
+    /** Adapter for registrant list */
+    lateinit var registrantListAdapter: RegistrantListAdapter
+
+    /** Variable of search word */
     private var mSearchWord: String = ""
 
     /**
@@ -34,6 +37,10 @@ class RegistrantActivity : AppCompatActivity() {
         binding.searchButton.setOnClickListener {
             setRegistrantList()
         }
+
+        binding.backButton.setOnClickListener {
+            finish()
+        }
     }
 
     /**
@@ -45,7 +52,8 @@ class RegistrantActivity : AppCompatActivity() {
         binding.registrantList.registrantListRows.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            adapter = RegistrantListAdapter(context, registrantList, supportFragmentManager)
+            registrantListAdapter = RegistrantListAdapter(context, registrantList, supportFragmentManager)
+            adapter = registrantListAdapter
         }
     }
 }

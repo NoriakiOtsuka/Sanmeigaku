@@ -12,7 +12,7 @@ import com.example.sanmeigaku.databinding.RegistrantListRowsBinding
 
 class RegistrantListAdapter(
     private val context: Context,
-    private val dataSet: Array<Array<String>>,
+    private val dataSet: MutableList<ArrayList<String>>,
     private val fragmentManager: FragmentManager
     ) : RecyclerView.Adapter<RegistrantListAdapter.ViewHolder>() {
     private val TAG: String = "RegistrantListAdapter"
@@ -54,9 +54,10 @@ class RegistrantListAdapter(
         holder.binding.registrantGenderText.text = gender
 
         holder.binding.registrantSelectButton.setOnClickListener {
-            val registrantArray = arrayOf(dataSet[position][0], dataSet[position][1], dataSet[position][2], dataSet[position][3])
-            val dialog = RegistrantDialog.newInstance(registrantArray)
-            dialog.show(fragmentManager, "")
+            val registrantArray = mutableListOf<String>(dataSet[position][0], dataSet[position][1], dataSet[position][2], dataSet[position][3])
+            val dialog = RegistrantDialog.newInstance(position, registrantArray)
+            dialog.show(fragmentManager, "RegistrantFragmentTag")
+            Log.i(TAG, "onBindViewHolder: tap select button on line $position")
         }
     }
 
@@ -64,4 +65,23 @@ class RegistrantListAdapter(
      * Return the size of the dataset
      */
     override fun getItemCount() = dataSet.size
+
+    /**
+     * Update registrant info
+     */
+    fun updateItem(position: Int, item: ArrayList<String>) {
+        dataSet[position] = item
+        notifyItemChanged(position)
+        Log.i(TAG, "updateItem: row $position updated")
+    }
+
+    /**
+     * Delete registrant
+     */
+    fun deleteItem(position: Int) {
+        dataSet.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, dataSet.size)
+        Log.i(TAG, "deleteItem: position $position deleted")
+    }
 }
