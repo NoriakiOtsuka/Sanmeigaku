@@ -3,18 +3,24 @@ package com.example.sanmeigaku
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sanmeigaku.Adapter.RegistrantListAdapter
 import com.example.sanmeigaku.DB.AppDBHelpler
+import com.example.sanmeigaku.ViewModel.RegistrantViewModel
 import com.example.sanmeigaku.databinding.ActivityRegistrantBinding
 
 class RegistrantActivity : AppCompatActivity() {
     private val TAG: String = "RegistrantActivity"
     private lateinit var binding: ActivityRegistrantBinding
+    private lateinit var mAppDBHelper: AppDBHelpler
+
+    /** View model for registrant */
+    private val mRegistrantViewModel: RegistrantViewModel by viewModels()
 
     /** Adapter for registrant list */
-    lateinit var registrantListAdapter: RegistrantListAdapter
+    private lateinit var mRegistrantListAdapter: RegistrantListAdapter
 
     /** Variable of search word */
     private var mSearchWord: String = ""
@@ -28,6 +34,11 @@ class RegistrantActivity : AppCompatActivity() {
         setContentView(binding.root)
         Log.i(TAG, "onCreate: create registrant activity")
 
+        mAppDBHelper = AppDBHelpler(this)
+        if (mRegistrantViewModel.itemsList.value == null) {
+            val registrantList = mAppDBHelper.makeRegistrantList(mSearchWord)
+            mRegistrantViewModel.setItemsList(registrantList)
+        }
         setRegistrantList()
 
         binding.searchEdit.doAfterTextChanged { word ->
@@ -35,7 +46,10 @@ class RegistrantActivity : AppCompatActivity() {
         }
 
         binding.searchButton.setOnClickListener {
+            val registrantList = mAppDBHelper.makeRegistrantList(mSearchWord)
+            mRegistrantViewModel.setItemsList(registrantList)
             setRegistrantList()
+            binding.searchEdit.clearFocus()
         }
 
         binding.backButton.setOnClickListener {
@@ -44,16 +58,62 @@ class RegistrantActivity : AppCompatActivity() {
     }
 
     /**
+     * Destroy registrant activity
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (isFinishing)
+            mRegistrantViewModel.setItemsList(null)
+        Log.i(TAG, "onDestroy: destroy assessment activity")
+    }
+
+    /**
      * Set a list of registrants
      */
     private fun setRegistrantList() {
-        val appDBHelper = AppDBHelpler(this)
-        val registrantList = appDBHelper.makeRegistrantList(mSearchWord)
+        mRegistrantViewModel.itemsList.observe(this) { newList ->
+            if (newList != null)
+                sortRegistrantList(newList)
+        }
+
         binding.registrantList.registrantListRows.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            registrantListAdapter = RegistrantListAdapter(context, registrantList, supportFragmentManager)
-            adapter = registrantListAdapter
+            mRegistrantListAdapter = RegistrantListAdapter(context, mRegistrantViewModel, mRegistrantViewModel.itemsList.value!!, supportFragmentManager) { row, newItem ->
+                mRegistrantViewModel.updateItem(row, newItem)
+            }
+            adapter = mRegistrantListAdapter
+        }
+
+        mRegistrantViewModel.updatedRowIndex.observe(this) { updatedRow ->
+            updatedRow?.let {
+                mRegistrantListAdapter.notifyItemChanged(it)
+                Log.i(TAG, "updateRow")
+            }
+        }
+
+        mRegistrantViewModel.deletedRowIndex.observe(this) { deletedRow ->
+            deletedRow?.let {
+                mRegistrantListAdapter.notifyItemRemoved(it)
+                val itemCount = mRegistrantListAdapter.itemCount
+                mRegistrantListAdapter.notifyItemRangeChanged(it, itemCount)
+                Log.i(TAG, "deletedRow")
+            }
+        }
+    }
+
+    /**
+     * Sort registrant list in ascending order
+     */
+    private fun sortRegistrantList(newList: MutableList<ArrayList<String>>) {
+        val originalList = newList.map { ArrayList(it) }
+        newList.sortBy { it[1] }
+
+        val needsListSort = !originalList.indices.all { originalList[it][1] == newList[it][1] }
+        if (needsListSort) {
+            mRegistrantListAdapter.notifyDataSetChanged()
+            Log.i(TAG, "registrant list is sorted")
         }
     }
 }

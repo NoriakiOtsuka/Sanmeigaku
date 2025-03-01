@@ -66,7 +66,7 @@ class ClientInfoInput {
         calendar.time = dateFormat.parse(startDate.toString()) as Date
         val start = calendar.timeInMillis
 
-        calendar.time = dateFormat.parse((endDate + 1).toString()) as Date
+        calendar.time = dateFormat.parse(endDate.toString()) as Date
         val end = calendar.timeInMillis
 
         calendar.time = dateFormat.parse("%04d".format(year) + "%02d".format(month) + "%02d".format(day)) as Date
@@ -74,7 +74,7 @@ class ClientInfoInput {
 
         Log.i(TAG, "checkDateSelectRange: Range from $start to $end, with $target selected")
 
-        return (target > start) && (target < end)
+        return (target >= start) && (target <= end)
     }
 
     /**

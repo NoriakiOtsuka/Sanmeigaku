@@ -8,12 +8,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sanmeigaku.R
 import com.example.sanmeigaku.Util.RegistrantDialog
+import com.example.sanmeigaku.ViewModel.RegistrantViewModel
 import com.example.sanmeigaku.databinding.RegistrantListRowsBinding
 
 class RegistrantListAdapter(
     private val context: Context,
+    private val viewModel: RegistrantViewModel,
     private val dataSet: MutableList<ArrayList<String>>,
-    private val fragmentManager: FragmentManager
+    private val fragmentManager: FragmentManager,
+    private val updateCallback: (Int, ArrayList<String>) -> Unit
     ) : RecyclerView.Adapter<RegistrantListAdapter.ViewHolder>() {
     private val TAG: String = "RegistrantListAdapter"
 
@@ -54,8 +57,12 @@ class RegistrantListAdapter(
         holder.binding.registrantGenderText.text = gender
 
         holder.binding.registrantSelectButton.setOnClickListener {
-            val registrantArray = mutableListOf<String>(dataSet[position][0], dataSet[position][1], dataSet[position][2], dataSet[position][3])
-            val dialog = RegistrantDialog.newInstance(position, registrantArray)
+            viewModel.setItemPosition(position)
+            viewModel.setName(name)
+            viewModel.setKana(kana)
+            viewModel.setBirthday(dataSet[position][2].toInt())
+            viewModel.setGender(dataSet[position][3].toInt())
+            val dialog = RegistrantDialog()
             dialog.show(fragmentManager, "RegistrantFragmentTag")
             Log.i(TAG, "onBindViewHolder: tap select button on line $position")
         }
@@ -65,23 +72,4 @@ class RegistrantListAdapter(
      * Return the size of the dataset
      */
     override fun getItemCount() = dataSet.size
-
-    /**
-     * Update registrant info
-     */
-    fun updateItem(position: Int, item: ArrayList<String>) {
-        dataSet[position] = item
-        notifyItemChanged(position)
-        Log.i(TAG, "updateItem: row $position updated")
-    }
-
-    /**
-     * Delete registrant
-     */
-    fun deleteItem(position: Int) {
-        dataSet.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, dataSet.size)
-        Log.i(TAG, "deleteItem: position $position deleted")
-    }
 }

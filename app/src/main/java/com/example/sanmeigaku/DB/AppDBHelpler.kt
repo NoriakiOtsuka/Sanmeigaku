@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.example.sanmeigaku.ViewModel.RegistrantViewModel
 import java.io.IOException
 
 class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -307,14 +308,14 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
      * Get the registrant's ID from the registrant list
      * @return registrant's ID
      */
-    fun getRegistrantId(array: ArrayList<String>): Int {
+    fun getRegistrantId(viewModel: RegistrantViewModel): Int {
         val dbHelper = AppDBHelpler(mContext)
         val db = dbHelper.writableDatabase
 
-        val name = array[0]
-        val kana = array[1]
-        val birthday = array[2]
-        val gender = array[3]
+        val name = viewModel.name.value.toString()
+        val kana = viewModel.kana.value.toString()
+        val birthday = viewModel.birthday.value.toString()
+        val gender = viewModel.gender.value.toString()
         val selection = "$COLUMN_NAME = '$name' AND $COLUMN_KANA = '$kana' AND $COLUMN_BIRTHDAY = '$birthday' AND $COLUMN_GENDER = '$gender'"
         val cursor = db.query(TABLE_USER, null, selection, null, null, null, null)
 
@@ -333,14 +334,15 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
      * Check for duplicate registrant info
      * @return 1:updatable, 0:no need to update, -1:duplicated
      */
-    fun checkDuplicateRegistrant(id: Int, array: ArrayList<String>): Int {
+    fun checkDuplicateRegistrant(viewModel: RegistrantViewModel): Int {
         val dbHelper = AppDBHelpler(mContext)
         val db = dbHelper.writableDatabase
 
-        val name = array[0]
-        val kana = array[1]
-        val birthday = array[2]
-        val gender = array[3]
+        val id = viewModel.registrantId.value
+        val name = viewModel.name.value.toString()
+        val kana = viewModel.kana.value.toString()
+        val birthday = viewModel.birthday.value.toString()
+        val gender = viewModel.gender.value.toString()
         val sql = "SELECT $_ID FROM $TABLE_USER WHERE $COLUMN_NAME = ? AND $COLUMN_KANA = ? AND $COLUMN_BIRTHDAY = ? AND $COLUMN_GENDER = ?"
         val cursor = db.rawQuery(sql, arrayOf(name, kana, birthday, gender))
         val duplicatedId = if (cursor.moveToFirst()) {
@@ -363,14 +365,15 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
     /**
      * Update client to registrant list
      */
-    fun updateRegistrant(id: Int, array: ArrayList<String>) {
+    fun updateRegistrant(viewModel: RegistrantViewModel) {
         val dbHelper = AppDBHelpler(mContext)
         val db = dbHelper.writableDatabase
 
-        val name = array[0]
-        val kana = array[1]
-        val birthday = array[2]
-        val gender = array[3]
+        val id = viewModel.registrantId.value
+        val name = viewModel.name.value.toString()
+        val kana = viewModel.kana.value.toString()
+        val birthday = viewModel.birthday.value.toString()
+        val gender = viewModel.gender.value.toString()
         val values = ContentValues().apply {
             put(COLUMN_NAME, name)
             put(COLUMN_KANA, kana)
@@ -380,17 +383,20 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         val selection = "$_ID = ?"
         val selectionArgs = arrayOf(id.toString())
         db.update(TABLE_USER, values, selection, selectionArgs)
+        db.close()
     }
 
     /**
      * Delete client to registrant list
      */
-    fun deleteRegistrant(id: Int) {
+    fun deleteRegistrant(viewModel: RegistrantViewModel) {
         val dbHelper = AppDBHelpler(mContext)
         val db = dbHelper.writableDatabase
 
+        val id = viewModel.registrantId.value
         val selection = "$_ID = ?"
         val selectionArgs = arrayOf(id.toString())
         db.delete(TABLE_USER, selection, selectionArgs)
+        db.close()
     }
 }
