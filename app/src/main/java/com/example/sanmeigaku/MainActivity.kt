@@ -8,11 +8,13 @@ import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.ViewModelProvider
 import com.example.sanmeigaku.DB.AppDBHelpler
 import com.example.sanmeigaku.DB.AssetsDBHelper
 import com.example.sanmeigaku.Util.BaseDialog
 import com.example.sanmeigaku.Util.ClientInfoInput
 import com.example.sanmeigaku.Util.DateSelectDialog
+import com.example.sanmeigaku.ViewModel.AssessmentViewModel
 import com.example.sanmeigaku.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +22,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val mDialog: BaseDialog = BaseDialog()
     private val mClientInfoInput: ClientInfoInput = ClientInfoInput()
+
+    /** Variable of application */
+    private lateinit var mApp: MainApplication
+
+    /** View model for assessment */
+    private lateinit var mAssessmentViewModel: AssessmentViewModel
 
     /** variable of name */
     private var mName: String = ""
@@ -52,6 +60,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.i(TAG, "onCreate: create main activity")
+
+        mApp = application as MainApplication
+        mAssessmentViewModel = ViewModelProvider(mApp).get(AssessmentViewModel::class.java)
 
         checkDatabaseExist()
 
@@ -151,13 +162,14 @@ class MainActivity : AppCompatActivity() {
             if ((mDateExist) && (mGender > 0)) {
                 if (mDateFormat) {
                     if (mDateRange) {
+                        mAssessmentViewModel.setName(mName)
+                        mAssessmentViewModel.setKana(mKana)
+                        mAssessmentViewModel.setYear(mYear)
+                        mAssessmentViewModel.setMonth(mMonth)
+                        mAssessmentViewModel.setDay(mDay)
+                        mAssessmentViewModel.setGender(mGender)
+
                         val intent = Intent(this, AssessmentActivity::class.java)
-                        intent.putExtra("name", mName)
-                        intent.putExtra("kana", mKana)
-                        intent.putExtra("year", mYear)
-                        intent.putExtra("month", mMonth)
-                        intent.putExtra("day", mDay)
-                        intent.putExtra("gender", mGender)
                         startActivity(intent)
                     } else {
                         mClientInfoInput.inputDateRangeAlertDialog(this, supportFragmentManager)
@@ -182,11 +194,17 @@ class MainActivity : AppCompatActivity() {
             if ((mName != "") && (mKana != "") && (mDateExist) && (mGender > 0)) {
                 if (mDateFormat) {
                     if (mDateRange) {
+                        mAssessmentViewModel.setName(mName)
+                        mAssessmentViewModel.setKana(mKana)
+                        mAssessmentViewModel.setYear(mYear)
+                        mAssessmentViewModel.setMonth(mMonth)
+                        mAssessmentViewModel.setDay(mDay)
+                        mAssessmentViewModel.setGender(mGender)
+
                         val appDBHelper = AppDBHelpler(this)
                         appDBHelper.writableDatabase
 
-                        val birthday = mYear.times(10000).plus(mMonth.times(100)).plus(mDay)
-                        val result = appDBHelper.addRegistrant(mName, mKana, birthday, mGender)
+                        val result = appDBHelper.addRegistrant(mAssessmentViewModel)
                         when (result) {
                             1 -> {
                                 val message = getString(R.string.toast_succeeded_add_registrant_list_message)

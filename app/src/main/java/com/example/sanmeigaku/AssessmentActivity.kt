@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.sanmeigaku.DB.AppDBHelpler
 import com.example.sanmeigaku.Util.Utility
+import com.example.sanmeigaku.ViewModel.AssessmentViewModel
 import com.example.sanmeigaku.databinding.ActivityAssessmentBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import java.time.LocalDate
@@ -25,6 +27,12 @@ class AssessmentActivity : AppCompatActivity() {
     private lateinit var mAppDBHelper: AppDBHelpler
     private val mUtil: Utility = Utility()
 
+    /** Variable of application */
+    private lateinit var mApp: MainApplication
+
+    /** View model for assessment */
+    private lateinit var mAssessmentViewModel: AssessmentViewModel
+
     /** Variables related to the first day of the month in 24 Solar Terms */
     private var mFirstDay: Int = 0
     private var mFirstDayKanShiNo: Int = 0
@@ -34,8 +42,6 @@ class AssessmentActivity : AppCompatActivity() {
 
     companion object {
         /** Variables of user info received from the main activity */
-        var mName: String = ""
-        var mKana: String = ""
         var mYear: Int = 0
         var mMonth: Int = 0
         var mDay: Int = 0
@@ -82,6 +88,9 @@ class AssessmentActivity : AppCompatActivity() {
         setContentView(binding.root)
         Log.i(TAG, "onCreate: create assessment activity")
 
+        mApp = application as MainApplication
+        mAssessmentViewModel = ViewModelProvider(mApp).get(AssessmentViewModel::class.java)
+
         pagerAdapter = PagerAdapter(this)
         viewPager = binding.viewPager
         viewPager.adapter = pagerAdapter
@@ -98,12 +107,10 @@ class AssessmentActivity : AppCompatActivity() {
             }
         }.attach()
 
-        mName = intent.getStringExtra("name").toString()
-        mKana = intent.getStringExtra("kana").toString()
-        mYear = intent.getIntExtra("year", 0)
-        mMonth = intent.getIntExtra("month", 0)
-        mDay = intent.getIntExtra("day", 0)
-        mGender = intent.getIntExtra("gender", 0)
+        mYear = mAssessmentViewModel.year.value!!
+        mMonth = mAssessmentViewModel.month.value!!
+        mDay = mAssessmentViewModel.day.value!!
+        mGender = mAssessmentViewModel.gender.value!!
         mAge = setAge()
 
         mAppDBHelper = AppDBHelpler(this)

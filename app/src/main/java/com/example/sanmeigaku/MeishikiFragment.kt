@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sanmeigaku.Adapter.TaiunListAdapter
 import com.example.sanmeigaku.Enum.KanShi
@@ -15,6 +16,7 @@ import com.example.sanmeigaku.Enum.MainStar
 import com.example.sanmeigaku.Enum.SecondStar
 import com.example.sanmeigaku.Enum.ZouKan
 import com.example.sanmeigaku.Util.Utility
+import com.example.sanmeigaku.ViewModel.AssessmentViewModel
 import com.example.sanmeigaku.databinding.FragmentMeishikiBinding
 import kotlin.math.abs
 
@@ -25,8 +27,12 @@ class MeishikiFragment : Fragment() {
     private val activity: AssessmentActivity.Companion = AssessmentActivity
     private val mUtil: Utility = Utility()
 
+    /** View model for assessment */
+    private lateinit var mAssessmentViewModel: AssessmentViewModel
+
     /** Variables of user info received from the assessment activity */
-    private val mName: String = activity.mName
+    private var mName: String = ""
+    private var mKana: String = ""
     private val mYear: Int = activity.mYear
     private val mMonth: Int = activity.mMonth
     private val mDay: Int = activity.mDay
@@ -79,6 +85,11 @@ class MeishikiFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i(TAG, "onCreate: create meishiki fragment")
+
+        val app = requireActivity().application as MainApplication
+        mAssessmentViewModel = ViewModelProvider(app).get(AssessmentViewModel::class.java)
+        mName = mAssessmentViewModel.name.value.toString()
+        mKana = mAssessmentViewModel.kana.value.toString()
     }
 
     /**

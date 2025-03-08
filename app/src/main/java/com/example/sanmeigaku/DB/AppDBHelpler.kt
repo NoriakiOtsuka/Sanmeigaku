@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.example.sanmeigaku.ViewModel.AssessmentViewModel
 import com.example.sanmeigaku.ViewModel.RegistrantViewModel
 import java.io.IOException
 
@@ -188,12 +189,20 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
      * Add client to registrant list
      * @return 1:success, 0:error(other), -1:error(unique)
      */
-    fun addRegistrant(name: String, kana: String, birthday: Int, gender: Int): Int {
+
+    fun addRegistrant(viewModel: AssessmentViewModel): Int {
         var result = 1
         val dbHelper = AppDBHelpler(mContext)
         val db = dbHelper.writableDatabase
 
-        val sql = ContentValues().apply {
+        val name = viewModel.name.value.toString()
+        val kana = viewModel.kana.value.toString()
+        val birthday ="%04d".format(viewModel.year.value) +
+                "%02d".format(viewModel.month.value) +
+                "%02d".format(viewModel.day.value)
+        val gender = viewModel.gender.value.toString()
+
+        val values = ContentValues().apply {
             put(COLUMN_NAME, name)
             put(COLUMN_KANA, kana)
             put(COLUMN_BIRTHDAY, birthday)
@@ -201,12 +210,13 @@ class AppDBHelpler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         }
 
         try {
-            db.insertOrThrow(TABLE_USER, null, sql)
+            db.insertOrThrow(TABLE_USER, null, values)
         } catch (e: SQLiteConstraintException) {
             result = when {
                 e.message?.contains(SQLITE_ERROR_UNIQUE) == true -> -1
                 else -> 0
             }
+            Log.e(TAG, "Unable to insert into database: $e")
         }
         db.close()
 
