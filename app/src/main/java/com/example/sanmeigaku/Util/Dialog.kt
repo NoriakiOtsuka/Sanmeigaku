@@ -226,13 +226,9 @@ class RegistrantDialog() : DialogFragment() {
                     if (mDateFormat) {
                         if (mDateRange) {
                             val registrantArray = arrayListOf(name, kana, birthday, gender.toString())
-                            when (mAppDBHelper.checkDuplicateRegistrant(mRegistrantViewModel)) {
-                                0 -> {}
-                                -1 -> {
-                                    message = getString(com.example.sanmeigaku.R.string.dialog_failed_add_registrant_list_message_unique)
-                                    mDialog.simpleAlertDialog(mContext, mFragmentManager, title, message)
-                                }
-                                else -> {
+                            val result = mAppDBHelper.checkDuplicateRegistrant(mRegistrantViewModel)
+                            when (result) {
+                                in 1..Int.MAX_VALUE -> {
                                     mAppDBHelper.updateRegistrant(mRegistrantViewModel)
                                     mRegistrantViewModel.updateItem(position, registrantArray)
 
@@ -240,6 +236,11 @@ class RegistrantDialog() : DialogFragment() {
                                     val toast = Toast.makeText(context, message, duration)
                                     toast.show()
                                 }
+                                -1 -> {
+                                    message = getString(com.example.sanmeigaku.R.string.dialog_failed_add_registrant_list_message_unique)
+                                    mDialog.simpleAlertDialog(mContext, mFragmentManager, title, message)
+                                }
+                                else -> {}
                             }
                         } else {
                             mClientInfoInput.inputDateRangeAlertDialog(mContext, mFragmentManager)
@@ -249,17 +250,7 @@ class RegistrantDialog() : DialogFragment() {
                         mDialog.simpleAlertDialog(mContext, mFragmentManager, title, message)
                     }
                 } else {
-                    message = ""
-                    if (name == "")
-                        message += "${getString(com.example.sanmeigaku.R.string.common_name_title_text)} "
-                    if (kana == "")
-                        message += "${getString(com.example.sanmeigaku.R.string.common_kana_title_text)} "
-                    if (!mDateExist)
-                        message += "${getString(com.example.sanmeigaku.R.string.common_birthday_title_text)} "
-                    if (gender == 0)
-                        message += "${getString(com.example.sanmeigaku.R.string.common_gender_title_text)} "
-                    message += getString(com.example.sanmeigaku.R.string.dialog_input_form_not_filled_in_message)
-                    mDialog.simpleAlertDialog(mContext, mFragmentManager, title, message)
+                    mClientInfoInput.inputformNotFilledAlertDialog(mContext, mFragmentManager, name, kana, mDateExist, gender)
                 }
                 clearRegistrantInfo()
             }

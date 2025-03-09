@@ -20,6 +20,7 @@ import com.example.sanmeigaku.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private val TAG: String = "MainActivity"
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mAppDBHelper: AppDBHelpler
     private val mDialog: BaseDialog = BaseDialog()
     private val mClientInfoInput: ClientInfoInput = ClientInfoInput()
 
@@ -63,6 +64,9 @@ class MainActivity : AppCompatActivity() {
 
         mApp = application as MainApplication
         mAssessmentViewModel = ViewModelProvider(mApp).get(AssessmentViewModel::class.java)
+
+        mAppDBHelper = AppDBHelpler(this)
+        mAppDBHelper.writableDatabase
 
         checkDatabaseExist()
 
@@ -178,14 +182,7 @@ class MainActivity : AppCompatActivity() {
                     val message = getString(R.string.dialog_failed_input_date_formant_message)
                     mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
                 }
-            } else {
-                var message = ""
-                if (!mDateExist)
-                    message += "${getString(R.string.common_birthday_title_text)} "
-                if (mGender == 0)
-                    message += "${getString(R.string.common_gender_title_text)} "
-                message += getString(R.string.dialog_input_form_not_filled_in_message)
-                mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
+            } else {mClientInfoInput.inputformNotFilledAlertDialog(this, supportFragmentManager, " ", " ", mDateExist, mGender)
             }
         }
 
@@ -201,10 +198,7 @@ class MainActivity : AppCompatActivity() {
                         mAssessmentViewModel.setDay(mDay)
                         mAssessmentViewModel.setGender(mGender)
 
-                        val appDBHelper = AppDBHelpler(this)
-                        appDBHelper.writableDatabase
-
-                        val result = appDBHelper.addRegistrant(mAssessmentViewModel)
+                        val result = mAppDBHelper.addRegistrant(mAssessmentViewModel)
                         when (result) {
                             1 -> {
                                 val message = getString(R.string.toast_succeeded_add_registrant_list_message)
@@ -229,17 +223,7 @@ class MainActivity : AppCompatActivity() {
                     mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
                 }
             } else {
-                var message = ""
-                if (mName == "")
-                    message += "${getString(R.string.common_name_title_text)} "
-                if (mKana == "")
-                    message += "${getString(R.string.common_kana_title_text)} "
-                if (!mDateExist)
-                    message += "${getString(R.string.common_birthday_title_text)} "
-                if (mGender == 0)
-                    message += "${getString(R.string.common_gender_title_text)} "
-                message += getString(R.string.dialog_input_form_not_filled_in_message)
-                mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
+                mClientInfoInput.inputformNotFilledAlertDialog(this, supportFragmentManager, mName, mKana, mDateExist, mGender)
             }
         }
     }
@@ -254,10 +238,8 @@ class MainActivity : AppCompatActivity() {
         for (asset in assets!!) {
             if (asset.equals(assetsDbHelper.databaseName)) {
                 Log.i(TAG, "checkDatabaseExist: database should be created or updated")
-                val appDBHelper = AppDBHelpler(this)
-                appDBHelper.writableDatabase
                 assetsDbHelper.changeDatabase()
-                appDBHelper.setDateRange(this)
+                mAppDBHelper.setDateRange(this)
                 assetDBExist = true
 
                 break

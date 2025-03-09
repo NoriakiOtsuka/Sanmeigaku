@@ -78,6 +78,26 @@ class ClientInfoInput {
     }
 
     /**
+     * Dialog when the client information entry form is not filled out
+     */
+    fun inputformNotFilledAlertDialog(context: Context, fragmentManager: FragmentManager, name: String, kana: String, dateExist: Boolean, gender: Int) {
+        val title = context.getString(R.string.dialog_caution_title)
+        var message = ""
+        if (name == "")
+            message += "${context.getString(R.string.common_name_title_text)} "
+        if (kana == "")
+            message += "${context.getString(R.string.common_kana_title_text)} "
+        if (!dateExist)
+            message += "${context.getString(R.string.common_birthday_title_text)} "
+        if (gender == 0)
+            message += "${context.getString(R.string.common_gender_title_text)} "
+        message += context.getString(R.string.dialog_input_form_not_filled_in_message)
+
+        val dialog = BaseDialog()
+        dialog.simpleAlertDialog(context, fragmentManager, title, message)
+    }
+
+    /**
      * Dialog when date of birth is out of selection
      */
     fun inputDateRangeAlertDialog(context: Context, fragmentManager: FragmentManager) {
