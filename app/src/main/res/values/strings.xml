@@ -30,13 +30,13 @@
     <string name="tab_rokushin">六親法</string>
 
     <!--メイン画面-->
-    <string name="main_registant_button">登録者リスト</string>
+    <string name="main_registrant_button">登録者リスト</string>
     <string name="main_divine_button">鑑定</string>
     <string name="main_save_button">保存</string>
 
     <!--命式画面-->
     <string name="meishiki_save_button">保存</string>
-    <string name="meishiki_registant_button">登録者リスト</string>
+    <string name="meishiki_registrant_button">登録者リスト</string>
     <string name="meishiki_birthday_text">%1$d年%2$d月%3$d日</string>
     <string name="meishiki_age_text">%1$d歳</string>
     <string name="meishiki_gender_male_text">男性</string>
@@ -147,11 +147,14 @@
     <!--ダイアログ-->
     <string name="dialog_caution_title">注意</string>
     <string name="dialog_registrant_title">設定</string>
-    <string name="dialog_registrant_message">登録者の情報更新、または削除します。</string>
+    <string name="dialog_registrant_message_add">入力した登録者情報を追加します。</string>
+    <string name="dialog_registrant_message_update_delete">現在の登録者情報を更新、または削除します。</string>
+    <string name="dialog_registrant_message_failed">登録者情報の取得に失敗しました。</string>
     <string name="dialog_message_label_ok">OK</string>
-    <string name="dialog_registrant_label_ok">更新</string>
-    <string name="dialog_registrant_label_ng">削除</string>
-    <string name="dialog_registrant_label_nt">キャンセル</string>
+    <string name="dialog_registrant_label_add">登録</string>
+    <string name="dialog_registrant_label_update">更新</string>
+    <string name="dialog_registrant_label_delete">削除</string>
+    <string name="dialog_registrant_label_cancel">キャンセル</string>
     <string name="dialog_failed_db_setup_message">データベースの作成、更新に失敗しました。</string>
     <string name="dialog_input_form_not_filled_in_message">が未入力です。</string>
     <string name="dialog_failed_set_date_range_message">日付選択範囲の取得に失敗しました。\n日付の選択はできません。</string>

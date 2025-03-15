@@ -18,8 +18,11 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.sanmeigaku.DB.AppDBHelpler
 import com.example.sanmeigaku.MainActivity
+import com.example.sanmeigaku.MainApplication
+import com.example.sanmeigaku.ViewModel.AssessmentViewModel
 import com.example.sanmeigaku.ViewModel.RegistrantViewModel
 import com.example.sanmeigaku.databinding.RegistrantDialogBinding
 import java.text.SimpleDateFormat
@@ -153,17 +156,30 @@ class RegistrantDialog() : DialogFragment() {
     private val binding get() = _binding!!
     private lateinit var mContext: Context
     private lateinit var mFragmentManager: FragmentManager
+    private var mFragmentTag: String? = null
     private lateinit var mAppDBHelper: AppDBHelpler
     private val mDialog: BaseDialog = BaseDialog()
     private val mClientInfoInput: ClientInfoInput = ClientInfoInput()
 
+    /** Variable of application */
+    private lateinit var mApp: MainApplication
+
     /** View model for registrant */
+    private lateinit var mAssessmentViewModel: AssessmentViewModel
     private val mRegistrantViewModel: RegistrantViewModel by activityViewModels()
 
-    /** variable of birthday */
+    /** Variable of birthday */
     private var mDateExist: Boolean = true
     private var mDateFormat: Boolean = true
     private var mDateRange: Boolean = true
+
+    /** A listener for handling events when client information is registered */
+    private var clientInfoRegisteredListener: OnClientInfoRegisteredListener? = null
+
+    /** Interface for a callback when client information is registered */
+    interface OnClientInfoRegisteredListener {
+        fun onClientInfoRegistered()
+    }
 
     /**
      * Attach registrant dialog
@@ -172,6 +188,10 @@ class RegistrantDialog() : DialogFragment() {
         super.onAttach(context)
         mContext = context
         mFragmentManager = requireActivity().supportFragmentManager
+
+        if (parentFragment is OnClientInfoRegisteredListener)
+            clientInfoRegisteredListener = parentFragment as OnClientInfoRegisteredListener
+
         Log.i(TAG, "onAttach: registrant dialog attached")
     }
 
@@ -181,6 +201,7 @@ class RegistrantDialog() : DialogFragment() {
     override fun onDetach() {
         super.onDetach()
         _binding = null
+        clientInfoRegisteredListener = null
         Log.i(TAG, "onDetach: registrant dialog detached")
     }
 
@@ -191,11 +212,14 @@ class RegistrantDialog() : DialogFragment() {
         super.onCreate(savedInstanceState)
         Log.i(TAG, "onCreate: create registrant dialog")
 
+        mApp = requireActivity().application as MainApplication
+        mAssessmentViewModel = ViewModelProvider(mApp).get(AssessmentViewModel::class.java)
         mAppDBHelper = AppDBHelpler(mContext)
         mAppDBHelper.writableDatabase
         val registrantId = mRegistrantViewModel.registrantId.value
         if (registrantId == 0)
             mRegistrantViewModel.setRegistrantId(mAppDBHelper.getRegistrantId(mRegistrantViewModel))
+        mFragmentTag = tag
     }
 
     /**
@@ -205,12 +229,114 @@ class RegistrantDialog() : DialogFragment() {
         _binding = RegistrantDialogBinding.inflate(layoutInflater)
         Log.i(TAG, "onCreateDialog: create registrant dialog body")
 
+        val registrantDialog = when (mFragmentTag) {
+            "AddRegistrantTag" -> registrantAddDialog()
+            "UpdateRegistrantTag" -> registrantUpdateDialog()
+            else -> {
+                val message = getString(com.example.sanmeigaku.R.string.dialog_registrant_message_failed)
+                mClientInfoInput.creationFailedAlertDialog(mContext, message)
+            }
+        }
+        registrantDialog.setCanceledOnTouchOutside(false)
+
+        return registrantDialog
+    }
+
+    /**
+     * Create registrant dialog view
+     */
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        Log.i(TAG, "onCreateView: registrant dialog view create")
+
+        showRegistrantInfo()
+        editRegistrantInfo()
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    /**
+     * Destroy registrant dialog view
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        Log.i(TAG, "onDestroyView: registrant dialog view destroyed")
+    }
+
+    /**
+     * Create dialog to add registrant
+     */
+    private fun registrantAddDialog(): AlertDialog {
+        binding.clientInfoInputForm.let {
+            it.birthdayEdit.let { it ->
+                it.isFocusable = false
+                it.background = null
+            }
+            it.birthdayButton.visibility = View.GONE
+        }
+        binding.clientInfoInputForm.let {
+            it.genderMaleButton.isEnabled = false
+            it.genderFemaleButton.isEnabled = false
+        }
+
         val builder = AlertDialog.Builder(requireActivity())
         var title = getString(com.example.sanmeigaku.R.string.dialog_registrant_title)
-        var message = getString(com.example.sanmeigaku.R.string.dialog_registrant_message)
-        val okLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_ok)
-        val ngLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_ng)
-        val ntLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_nt)
+        var message = getString(com.example.sanmeigaku.R.string.dialog_registrant_message_add)
+        val okLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_add)
+        val ntLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_cancel)
+        val duration = Toast.LENGTH_SHORT
+        builder.setView(binding.root)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(okLabel) { _, _ ->
+                val name = mAssessmentViewModel.name.value!!
+                val kana = mAssessmentViewModel.kana.value!!
+                val gender = mAssessmentViewModel.gender.value!!
+                title = getString(com.example.sanmeigaku.R.string.dialog_caution_title)
+                if ((name != "") && (kana != "")) {
+                    val result = mAppDBHelper.addRegistrant(mAssessmentViewModel)
+                    when (result) {
+                        1 -> {
+                            clientInfoRegisteredListener?.onClientInfoRegistered()
+                            message = getString(com.example.sanmeigaku.R.string.toast_succeeded_add_registrant_list_message)
+                            val toast = Toast.makeText(mContext, message, duration)
+                            toast.show()
+                        }
+                        -1 -> {
+                            message = getString(com.example.sanmeigaku.R.string.dialog_failed_add_registrant_list_message_unique)
+                            mDialog.simpleAlertDialog(mContext, mFragmentManager, title, message)
+                        }
+                        else -> {
+                            message = getString(com.example.sanmeigaku.R.string.dialog_failed_add_registrant_list_message)
+                            mDialog.simpleAlertDialog(mContext, mFragmentManager, title, message)
+                        }
+                    }
+                } else {
+                    mClientInfoInput.inputformNotFilledAlertDialog(mContext, mFragmentManager, name, kana, mDateExist, gender)
+                }
+                clearRegistrantInfo()
+            }
+            .setNeutralButton(ntLabel) { dialog, _ ->
+                clearRegistrantInfo()
+                dialog.cancel()
+            }
+
+        return builder.create()
+    }
+
+    /**
+     * Create dialog to update registrant info
+     */
+    private fun registrantUpdateDialog(): AlertDialog {
+        val builder = AlertDialog.Builder(requireActivity())
+        var title = getString(com.example.sanmeigaku.R.string.dialog_registrant_title)
+        var message = getString(com.example.sanmeigaku.R.string.dialog_registrant_message_update_delete)
+        val okLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_update)
+        val ngLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_delete)
+        val ntLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_cancel)
         val position = mRegistrantViewModel.itemPosition.value!!
         val duration = Toast.LENGTH_SHORT
         builder.setView(binding.root)
@@ -268,56 +394,54 @@ class RegistrantDialog() : DialogFragment() {
                 dialog.cancel()
             }
 
-        val registrantDialog = builder.create()
-        registrantDialog.setCanceledOnTouchOutside(false)
-
-        return registrantDialog
-    }
-
-    /**
-     * Create registrant dialog view
-     */
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.i(TAG, "onCreateView: registrant dialog view create")
-
-        showRegistrantInfo()
-        editRegistrantInfo()
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    /**
-     * Destroy registrant dialog view
-     */
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        Log.i(TAG, "onDestroyView: registrant dialog view destroyed")
+        return builder.create()
     }
 
     /**
      * Show saved registration information in dialog
      */
     private fun showRegistrantInfo() {
-        binding.clientInfoInputForm.nameEdit.setText(mRegistrantViewModel.name.value.toString())
+        val name = when (mFragmentTag) {
+            "AddRegistrantTag" -> mAssessmentViewModel.name.value.toString()
+            "UpdateRegistrantTag" -> mRegistrantViewModel.name.value.toString()
+            else -> ""
+        }
 
-        binding.clientInfoInputForm.kanaEdit.setText(mRegistrantViewModel.kana.value.toString())
+        val kana = when (mFragmentTag) {
+            "AddRegistrantTag" -> mAssessmentViewModel.kana.value.toString()
+            "UpdateRegistrantTag" -> mRegistrantViewModel.kana.value.toString()
+            else -> ""
+        }
 
-        val birthday =
-            when (val param = mRegistrantViewModel.birthday.value!!) {
-                0 -> ""
-                else -> {
-                    "${param.div(10000)}/" +
-                            "${param.div(100).mod(100)}/" +
-                            "${param.mod(100)}"
+        val birthday = when (mFragmentTag) {
+            "AddRegistrantTag" -> {
+                "${mAssessmentViewModel.year.value}/" +
+                        "${mAssessmentViewModel.month.value}/" +
+                        "${mAssessmentViewModel.day.value}"
+            }
+            "UpdateRegistrantTag" -> {
+                when (val param = mRegistrantViewModel.birthday.value!!) {
+                    0 -> ""
+                    else -> {
+                        "${param.div(10000)}/" +
+                                "${param.div(100).mod(100)}/" +
+                                "${param.mod(100)}"
+                    }
                 }
             }
-        binding.clientInfoInputForm.birthdayEdit.setText(birthday)
+            else -> ""
+        }
 
-        when (mRegistrantViewModel.gender.value) {
+        val gender = when (mFragmentTag) {
+            "AddRegistrantTag" -> mAssessmentViewModel.gender.value
+            "UpdateRegistrantTag" -> mRegistrantViewModel.gender.value
+            else -> 0
+        }
+
+        binding.clientInfoInputForm.nameEdit.setText(name)
+        binding.clientInfoInputForm.kanaEdit.setText(kana)
+        binding.clientInfoInputForm.birthdayEdit.setText(birthday)
+        when (gender) {
             1 -> binding.clientInfoInputForm.genderMaleButton.isChecked = true
             2 -> binding.clientInfoInputForm.genderFemaleButton.isChecked = true
         }
@@ -328,13 +452,19 @@ class RegistrantDialog() : DialogFragment() {
      */
     private fun editRegistrantInfo() {
         binding.clientInfoInputForm.nameEdit.doAfterTextChanged { name ->
-            mRegistrantViewModel.setName(name.toString())
+            when (mFragmentTag) {
+                "AddRegistrantTag" -> mAssessmentViewModel.setName(name.toString())
+                "UpdateRegistrantTag" -> mRegistrantViewModel.setName(name.toString())
+            }
         }
 
         binding.clientInfoInputForm.kanaEdit.also {
             it.filters = arrayOf(mClientInfoInput.kanaInputFilter)
             it.doAfterTextChanged { kana ->
-                mRegistrantViewModel.setKana(kana.toString())
+                when (mFragmentTag) {
+                    "AddRegistrantTag" -> mAssessmentViewModel.setKana(kana.toString())
+                    "UpdateRegistrantTag" -> mRegistrantViewModel.setKana(kana.toString())
+                }
             }
         }
 

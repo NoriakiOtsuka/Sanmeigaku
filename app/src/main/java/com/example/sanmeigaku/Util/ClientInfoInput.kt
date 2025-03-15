@@ -1,5 +1,6 @@
 package com.example.sanmeigaku.Util
 
+import android.app.AlertDialog
 import android.content.Context
 import android.text.InputFilter
 import android.util.Log
@@ -109,5 +110,21 @@ class ClientInfoInput {
         val title = context.getString(R.string.dialog_caution_title)
         val message = "${context.getString(R.string.dialog_failed_input_date_range_message)}\n $startDateText ～ $endDateText"
         dialog.simpleAlertDialog(context, fragmentManager, title, message)
+    }
+
+    /**
+     * Dialog when dialog creation failed
+     */
+    fun creationFailedAlertDialog(context: Context, message: String): AlertDialog {
+        val title = context.getString(R.string.dialog_caution_title)
+        val okLabel = context.getString(R.string.dialog_message_label_ok)
+        val dialog = AlertDialog.Builder(context)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(okLabel) { _, _ ->
+            }
+            .show()
+
+        return dialog
     }
 }

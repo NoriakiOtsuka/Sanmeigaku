@@ -1,6 +1,7 @@
 package com.example.sanmeigaku
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -15,12 +16,13 @@ import com.example.sanmeigaku.Enum.KanShi
 import com.example.sanmeigaku.Enum.MainStar
 import com.example.sanmeigaku.Enum.SecondStar
 import com.example.sanmeigaku.Enum.ZouKan
+import com.example.sanmeigaku.Util.RegistrantDialog
 import com.example.sanmeigaku.Util.Utility
 import com.example.sanmeigaku.ViewModel.AssessmentViewModel
 import com.example.sanmeigaku.databinding.FragmentMeishikiBinding
 import kotlin.math.abs
 
-class MeishikiFragment : Fragment() {
+class MeishikiFragment : Fragment(), RegistrantDialog.OnClientInfoRegisteredListener {
     private val TAG: String = "MeishikiFragment"
     private var _binding: FragmentMeishikiBinding? = null
     private val binding get() = _binding!!
@@ -122,6 +124,18 @@ class MeishikiFragment : Fragment() {
             else -> ""
         }
 
+        binding.registeredButton.setOnClickListener{
+            val intent = Intent(context, RegistrantActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.saveButton.setOnClickListener {
+            mAssessmentViewModel.setName(mName)
+            mAssessmentViewModel.setKana(mKana)
+            val dialog = RegistrantDialog()
+            dialog.show(childFragmentManager, "AddRegistrantTag")
+        }
+
         setZoukanNo()
         setMeishikiTable()
         setSeizuTable()
@@ -135,6 +149,15 @@ class MeishikiFragment : Fragment() {
         super.onDestroyView()
         _binding = null
         Log.i(TAG, "onDestroyView: meishiki fragment view destroyed")
+    }
+
+    /**
+     * Called when client information has been successfully registered
+     */
+    override fun onClientInfoRegistered() {
+        mName = mAssessmentViewModel.name.value.toString()
+        binding.nameText.text = mName
+        Log.i(TAG, "onClientInfoRegistered name: $mName")
     }
 
     /**

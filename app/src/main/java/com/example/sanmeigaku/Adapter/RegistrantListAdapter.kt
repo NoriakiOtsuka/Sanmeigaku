@@ -63,7 +63,7 @@ class RegistrantListAdapter(
             viewModel.setBirthday(dataSet[position][2].toInt())
             viewModel.setGender(dataSet[position][3].toInt())
             val dialog = RegistrantDialog()
-            dialog.show(fragmentManager, "RegistrantFragmentTag")
+            dialog.show(fragmentManager, "UpdateRegistrantTag")
             Log.i(TAG, "onBindViewHolder: tap select button on line $position")
         }
     }
