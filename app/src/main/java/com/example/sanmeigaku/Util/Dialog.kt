@@ -213,7 +213,7 @@ class RegistrantDialog() : DialogFragment() {
         Log.i(TAG, "onCreate: create registrant dialog")
 
         mApp = requireActivity().application as MainApplication
-        mAssessmentViewModel = ViewModelProvider(mApp).get(AssessmentViewModel::class.java)
+        mAssessmentViewModel = ViewModelProvider(mApp)[AssessmentViewModel::class.java]
         mAppDBHelper = AppDBHelpler(mContext)
         mAppDBHelper.writableDatabase
         val registrantId = mRegistrantViewModel.registrantId.value

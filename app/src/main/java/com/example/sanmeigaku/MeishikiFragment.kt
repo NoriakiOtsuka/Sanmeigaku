@@ -89,7 +89,7 @@ class MeishikiFragment : Fragment(), RegistrantDialog.OnClientInfoRegisteredList
         Log.i(TAG, "onCreate: create meishiki fragment")
 
         val app = requireActivity().application as MainApplication
-        mAssessmentViewModel = ViewModelProvider(app).get(AssessmentViewModel::class.java)
+        mAssessmentViewModel = ViewModelProvider(app)[AssessmentViewModel::class.java]
         mName = mAssessmentViewModel.name.value.toString()
         mKana = mAssessmentViewModel.kana.value.toString()
     }
@@ -156,6 +156,7 @@ class MeishikiFragment : Fragment(), RegistrantDialog.OnClientInfoRegisteredList
      */
     override fun onClientInfoRegistered() {
         mName = mAssessmentViewModel.name.value.toString()
+        mKana = mAssessmentViewModel.kana.value.toString()
         binding.nameText.text = mName
         Log.i(TAG, "onClientInfoRegistered name: $mName")
     }

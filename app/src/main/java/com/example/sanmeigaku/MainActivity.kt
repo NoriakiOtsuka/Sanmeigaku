@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         Log.i(TAG, "onCreate: create main activity")
 
         mApp = application as MainApplication
-        mAssessmentViewModel = ViewModelProvider(mApp).get(AssessmentViewModel::class.java)
+        mAssessmentViewModel = ViewModelProvider(mApp)[AssessmentViewModel::class.java]
 
         mAppDBHelper = AppDBHelpler(this)
         mAppDBHelper.writableDatabase

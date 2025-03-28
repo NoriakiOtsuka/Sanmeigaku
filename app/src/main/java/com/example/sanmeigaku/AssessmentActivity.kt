@@ -89,7 +89,7 @@ class AssessmentActivity : AppCompatActivity() {
         Log.i(TAG, "onCreate: create assessment activity")
 
         mApp = application as MainApplication
-        mAssessmentViewModel = ViewModelProvider(mApp).get(AssessmentViewModel::class.java)
+        mAssessmentViewModel = ViewModelProvider(mApp)[AssessmentViewModel::class.java]
 
         pagerAdapter = PagerAdapter(this)
         viewPager = binding.viewPager

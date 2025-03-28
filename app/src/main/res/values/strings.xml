@@ -133,7 +133,8 @@
     <string name="registrant_gender_text">性別</string>
     <string name="registrant_gender_male_text">男性</string>
     <string name="registrant_gender_female_text">女性</string>
-    <string name="registrant_select_button">選択</string>
+    <string name="registrant_setting_button">設定</string>
+    <string name="registrant_divine_button">鑑定</string>
 
     <!--依頼人情報入力フォーム-->
     <string name="client_info_name_title_text">"名前　　："</string>

@@ -35,19 +35,12 @@ class RegistrantActivity : AppCompatActivity() {
         Log.i(TAG, "onCreate: create registrant activity")
 
         mAppDBHelper = AppDBHelpler(this)
-        if (mRegistrantViewModel.itemsList.value == null) {
-            val registrantList = mAppDBHelper.makeRegistrantList(mSearchWord)
-            mRegistrantViewModel.setItemsList(registrantList)
-        }
-        setRegistrantList()
 
         binding.searchEdit.doAfterTextChanged { word ->
             mSearchWord = word.toString()
         }
 
         binding.searchButton.setOnClickListener {
-            val registrantList = mAppDBHelper.makeRegistrantList(mSearchWord)
-            mRegistrantViewModel.setItemsList(registrantList)
             setRegistrantList()
             binding.searchEdit.clearFocus()
         }
@@ -55,6 +48,16 @@ class RegistrantActivity : AppCompatActivity() {
         binding.backButton.setOnClickListener {
             finish()
         }
+    }
+
+    /**
+     * Resume registrant activity
+     */
+    override fun onResume() {
+        super.onResume()
+        Log.i(TAG, "onResume: resume assessment activity")
+
+        setRegistrantList()
     }
 
     /**
@@ -72,6 +75,9 @@ class RegistrantActivity : AppCompatActivity() {
      * Set a list of registrants
      */
     private fun setRegistrantList() {
+        val registrantList = mAppDBHelper.makeRegistrantList(mSearchWord)
+        mRegistrantViewModel.setItemsList(registrantList)
+
         mRegistrantViewModel.itemsList.observe(this) { newList ->
             if (newList != null)
                 sortRegistrantList(newList)

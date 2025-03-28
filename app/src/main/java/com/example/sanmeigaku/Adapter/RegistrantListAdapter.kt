@@ -1,13 +1,18 @@
 package com.example.sanmeigaku.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sanmeigaku.AssessmentActivity
+import com.example.sanmeigaku.MainApplication
 import com.example.sanmeigaku.R
 import com.example.sanmeigaku.Util.RegistrantDialog
+import com.example.sanmeigaku.ViewModel.AssessmentViewModel
 import com.example.sanmeigaku.ViewModel.RegistrantViewModel
 import com.example.sanmeigaku.databinding.RegistrantListRowsBinding
 
@@ -42,10 +47,10 @@ class RegistrantListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val name = dataSet[position][0]
         val kana = dataSet[position][1]
-        val birthday =
-            "${dataSet[position][2].substring(0, 4)}年" +
-                    "${dataSet[position][2].substring(4, 6)}月" +
-                    "${dataSet[position][2].substring(6, 8)}日"
+        val year = dataSet[position][2].substring(0, 4)
+        val month = dataSet[position][2].substring(4, 6)
+        val day = dataSet[position][2].substring(6, 8)
+        val birthday = "${year}年${month}月${day}日"
         val gender = when (dataSet[position][3]) {
             "1" -> context.getString(R.string.registrant_gender_male_text)
             "2" -> context.getString(R.string.registrant_gender_female_text)
@@ -56,15 +61,31 @@ class RegistrantListAdapter(
         holder.binding.registrantBirthdayText.text = birthday
         holder.binding.registrantGenderText.text = gender
 
-        holder.binding.registrantSelectButton.setOnClickListener {
+        holder.binding.registrantSettingButton.setOnClickListener {
             viewModel.setItemPosition(position)
             viewModel.setName(name)
             viewModel.setKana(kana)
             viewModel.setBirthday(dataSet[position][2].toInt())
             viewModel.setGender(dataSet[position][3].toInt())
+
             val dialog = RegistrantDialog()
             dialog.show(fragmentManager, "UpdateRegistrantTag")
             Log.i(TAG, "onBindViewHolder: tap select button on line $position")
+        }
+
+        holder.binding.registrantDivineButton.setOnClickListener {
+            val app = context.applicationContext as MainApplication
+            val assessmentViewModel = ViewModelProvider(app)[AssessmentViewModel::class.java]
+            assessmentViewModel.setName(name)
+            assessmentViewModel.setKana(kana)
+            assessmentViewModel.setYear(year.toInt())
+            assessmentViewModel.setMonth(month.toInt())
+            assessmentViewModel.setDay(day.toInt())
+            assessmentViewModel.setGender(dataSet[position][3].toInt())
+
+            val intent = Intent(context, AssessmentActivity::class.java)
+            context.startActivity(intent)
+            Log.i(TAG, "onBindViewHolder: tap divine button on line $position")
         }
     }
 
