@@ -146,12 +146,14 @@
     <string name="client_info_gender_female_text">女性</string>
 
     <!--ダイアログ-->
-    <string name="dialog_caution_title">注意</string>
+    <string name="dialog_title_caution">注意</string>
+    <string name="dialog_title_confirm">確認</string>
     <string name="dialog_registrant_title">設定</string>
     <string name="dialog_registrant_message_add">入力した登録者情報を追加します。</string>
     <string name="dialog_registrant_message_update_delete">現在の登録者情報を更新、または削除します。</string>
     <string name="dialog_registrant_message_failed">登録者情報の取得に失敗しました。</string>
-    <string name="dialog_message_label_ok">OK</string>
+    <string name="dialog_registrant_message_confirm_update">%s の登録情報をを更新しますか？</string>
+    <string name="dialog_registrant_message_confirm_delete">%s の登録情報を削除しますか？</string>
     <string name="dialog_registrant_label_add">登録</string>
     <string name="dialog_registrant_label_update">更新</string>
     <string name="dialog_registrant_label_delete">削除</string>
@@ -163,6 +165,9 @@
     <string name="dialog_failed_input_date_range_message">生年月日は下記の範囲内で入力してください。</string>
     <string name="dialog_failed_add_registrant_list_message">登録者リストへの登録に失敗しました。</string>
     <string name="dialog_failed_add_registrant_list_message_unique">入力した情報は、すでに登録されてます。</string>
+    <string name="dialog_label_ok">OK</string>
+    <string name="dialog_label_yes">はい</string>
+    <string name="dialog_label_no">いいえ</string>
 
     <!--トースト-->
     <string name="toast_succeeded_add_registrant_list_message">登録しました。</string>

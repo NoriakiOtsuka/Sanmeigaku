@@ -35,7 +35,7 @@ class BaseDialog : DialogFragment() {
      * Alert dialog with simple OK button
      */
     fun simpleAlertDialog(context: Context, fragmentManager: FragmentManager, title: String, message: String) {
-        val okLabbel = context.getString(com.example.sanmeigaku.R.string.dialog_message_label_ok)
+        val okLabbel = context.getString(com.example.sanmeigaku.R.string.dialog_label_ok)
         val dialog = MessageDialog.newInstance(title, message, okLabbel, "")
         dialog.isCancelable = false
         dialog.show(fragmentManager, "")
@@ -295,7 +295,7 @@ class RegistrantDialog() : DialogFragment() {
                 val name = mAssessmentViewModel.name.value!!
                 val kana = mAssessmentViewModel.kana.value!!
                 val gender = mAssessmentViewModel.gender.value!!
-                title = getString(com.example.sanmeigaku.R.string.dialog_caution_title)
+                title = getString(com.example.sanmeigaku.R.string.dialog_title_caution)
                 if ((name != "") && (kana != "")) {
                     val result = mAppDBHelper.addRegistrant(mAssessmentViewModel)
                     when (result) {
@@ -338,16 +338,16 @@ class RegistrantDialog() : DialogFragment() {
         val ngLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_delete)
         val ntLabel = getString(com.example.sanmeigaku.R.string.dialog_registrant_label_cancel)
         val position = mRegistrantViewModel.itemPosition.value!!
-        val duration = Toast.LENGTH_SHORT
         builder.setView(binding.root)
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton(okLabel) { _, _ ->
+                var isUpdatable = false
                 val name = mRegistrantViewModel.name.value!!
                 val kana = mRegistrantViewModel.kana.value!!
                 val birthday = mRegistrantViewModel.birthday.value.toString()
                 val gender = mRegistrantViewModel.gender.value!!
-                title = getString(com.example.sanmeigaku.R.string.dialog_caution_title)
+                title = getString(com.example.sanmeigaku.R.string.dialog_title_caution)
                 if ((name != "") && (kana != "") && (mDateExist) && (gender > 0)) {
                     if (mDateFormat) {
                         if (mDateRange) {
@@ -355,12 +355,8 @@ class RegistrantDialog() : DialogFragment() {
                             val result = mAppDBHelper.checkDuplicateRegistrant(mRegistrantViewModel)
                             when (result) {
                                 in 1..Int.MAX_VALUE -> {
-                                    mAppDBHelper.updateRegistrant(mRegistrantViewModel)
-                                    mRegistrantViewModel.updateItem(position, registrantArray)
-
-                                    message = getString(com.example.sanmeigaku.R.string.toast_succeeded_update_registrant_list_message)
-                                    val toast = Toast.makeText(context, message, duration)
-                                    toast.show()
+                                    isUpdatable = true
+                                    confirmUpdateDialog(position, registrantArray)
                                 }
                                 -1 -> {
                                     message = getString(com.example.sanmeigaku.R.string.dialog_failed_add_registrant_list_message_unique)
@@ -378,16 +374,12 @@ class RegistrantDialog() : DialogFragment() {
                 } else {
                     mClientInfoInput.inputformNotFilledAlertDialog(mContext, mFragmentManager, name, kana, mDateExist, gender)
                 }
-                clearRegistrantInfo()
+
+                if (!isUpdatable)
+                    clearRegistrantInfo()
             }
             .setNegativeButton(ngLabel) { _, _ ->
-                mAppDBHelper.deleteRegistrant(mRegistrantViewModel)
-                mRegistrantViewModel.deleteItem(position)
-                clearRegistrantInfo()
-
-                message = getString(com.example.sanmeigaku.R.string.toast_succeeded_delete_registrant_list_message)
-                val toast = Toast.makeText(context, message, duration)
-                toast.show()
+                confirmDeleteDialog(position)
             }
             .setNeutralButton(ntLabel) { dialog, _ ->
                 clearRegistrantInfo()
@@ -490,7 +482,7 @@ class RegistrantDialog() : DialogFragment() {
 
         binding.clientInfoInputForm.birthdayEdit.setOnEditorActionListener() { _, keyCode, _ ->
             if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                val title = getString(com.example.sanmeigaku.R.string.dialog_caution_title)
+                val title = getString(com.example.sanmeigaku.R.string.dialog_title_caution)
                 Log.i(TAG, "editRegistrantInfo: In birthday input field, enter key is tapped")
                 if (mDateExist) {
                     if (mDateFormat) {
@@ -547,5 +539,63 @@ class RegistrantDialog() : DialogFragment() {
         mRegistrantViewModel.setKana("")
         mRegistrantViewModel.setBirthday(0)
         mRegistrantViewModel.setGender(0)
+    }
+
+    /**
+     * Confirmation dialog that registrant information can be updated
+     */
+    private fun confirmUpdateDialog(position: Int, registrantArray: ArrayList<String>) {
+        AlertDialog.Builder(mContext).apply {
+            val title = getString(com.example.sanmeigaku.R.string.dialog_title_confirm)
+            val message =
+                getString(com.example.sanmeigaku.R.string.dialog_registrant_message_confirm_update, mRegistrantViewModel.name.value)
+            val okLabel = getString(com.example.sanmeigaku.R.string.dialog_label_yes)
+            val ngLabel = getString(com.example.sanmeigaku.R.string.dialog_label_no)
+            val duration = Toast.LENGTH_SHORT
+            val toastMessage = getString(com.example.sanmeigaku.R.string.toast_succeeded_update_registrant_list_message)
+            setTitle(title)
+            setMessage(message)
+            setPositiveButton(okLabel) { _, _ ->
+                mAppDBHelper.updateRegistrant(mRegistrantViewModel)
+                mRegistrantViewModel.updateItem(position, registrantArray)
+                clearRegistrantInfo()
+
+                val toast = Toast.makeText(context, toastMessage, duration)
+                toast.show()
+            }
+            setNegativeButton(ngLabel) { dialog, _ ->
+                clearRegistrantInfo()
+                dialog.cancel()
+            }
+        }.show()
+    }
+
+    /**
+     * Confirmation dialog that registrant information can be deleted
+     */
+    private fun confirmDeleteDialog(position: Int) {
+        AlertDialog.Builder(mContext).apply {
+            val title = getString(com.example.sanmeigaku.R.string.dialog_title_confirm)
+            val message =
+                getString(com.example.sanmeigaku.R.string.dialog_registrant_message_confirm_delete, mRegistrantViewModel.name.value)
+            val okLabel = getString(com.example.sanmeigaku.R.string.dialog_label_yes)
+            val ngLabel = getString(com.example.sanmeigaku.R.string.dialog_label_no)
+            val duration = Toast.LENGTH_SHORT
+            val toastMessage = getString(com.example.sanmeigaku.R.string.toast_succeeded_delete_registrant_list_message)
+            setTitle(title)
+            setMessage(message)
+            setPositiveButton(okLabel) { _, _ ->
+                mAppDBHelper.deleteRegistrant(mRegistrantViewModel)
+                mRegistrantViewModel.deleteItem(position)
+                clearRegistrantInfo()
+
+                val toast = Toast.makeText(context, toastMessage, duration)
+                toast.show()
+            }
+            setNegativeButton(ngLabel) { dialog, _ ->
+                clearRegistrantInfo()
+                dialog.cancel()
+            }
+        }.show()
     }
 }

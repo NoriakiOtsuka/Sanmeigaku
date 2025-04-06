@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             binding.clientInfoInputForm.birthdayEdit.isEnabled = false
             binding.clientInfoInputForm.birthdayButton.isEnabled = false
 
-            val title = getString(R.string.dialog_caution_title)
+            val title = getString(R.string.dialog_title_caution)
             val message = getString(R.string.dialog_failed_set_date_range_message)
             mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
         }
@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.clientInfoInputForm.birthdayEdit.setOnEditorActionListener() { _, keyCode, _ ->
             if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                val title = getString(R.string.dialog_caution_title)
+                val title = getString(R.string.dialog_title_caution)
                 Log.i(TAG, "onCreate: In birthday input field, enter key is tapped")
                 if (mDateExist) {
                     if (mDateFormat) {
@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.divineButton.setOnClickListener {
-            val title = getString(R.string.dialog_caution_title)
+            val title = getString(R.string.dialog_title_caution)
             if ((mDateExist) && (mGender > 0)) {
                 if (mDateFormat) {
                     if (mDateRange) {
@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.saveButton.setOnClickListener {
-            val title = getString(R.string.dialog_caution_title)
+            val title = getString(R.string.dialog_title_caution)
             if ((mName != "") && (mKana != "") && (mDateExist) && (mGender > 0)) {
                 if (mDateFormat) {
                     if (mDateRange) {
@@ -247,7 +247,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (!assetDBExist) {
-            val title = getString(R.string.dialog_caution_title)
+            val title = getString(R.string.dialog_title_caution)
             val message = getString(R.string.dialog_failed_db_setup_message)
             mDialog.simpleAlertDialog(this, supportFragmentManager, title, message)
         }

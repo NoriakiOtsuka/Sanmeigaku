@@ -82,7 +82,7 @@ class ClientInfoInput {
      * Dialog when the client information entry form is not filled out
      */
     fun inputformNotFilledAlertDialog(context: Context, fragmentManager: FragmentManager, name: String, kana: String, dateExist: Boolean, gender: Int) {
-        val title = context.getString(R.string.dialog_caution_title)
+        val title = context.getString(R.string.dialog_title_caution)
         var message = ""
         if (name == "")
             message += "${context.getString(R.string.common_name_title_text)} "
@@ -107,7 +107,7 @@ class ClientInfoInput {
         val endDateText = "${activity.mEndDate.toString().substring(0, 4)}/${activity.mEndDate.toString().substring(4, 6)}/${activity.mEndDate.toString().substring(6, 8)}"
 
         val dialog = BaseDialog()
-        val title = context.getString(R.string.dialog_caution_title)
+        val title = context.getString(R.string.dialog_title_caution)
         val message = "${context.getString(R.string.dialog_failed_input_date_range_message)}\n $startDateText ～ $endDateText"
         dialog.simpleAlertDialog(context, fragmentManager, title, message)
     }
@@ -116,8 +116,8 @@ class ClientInfoInput {
      * Dialog when dialog creation failed
      */
     fun creationFailedAlertDialog(context: Context, message: String): AlertDialog {
-        val title = context.getString(R.string.dialog_caution_title)
-        val okLabel = context.getString(R.string.dialog_message_label_ok)
+        val title = context.getString(R.string.dialog_title_caution)
+        val okLabel = context.getString(R.string.dialog_label_ok)
         val dialog = AlertDialog.Builder(context)
             .setTitle(title)
             .setMessage(message)
